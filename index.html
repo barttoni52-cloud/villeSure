@@ -4,360 +4,332 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VilleSûre — Libreville</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
-.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane > svg,.leaflet-pane > canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer{position:absolute;left:0;top:0}.leaflet-container{overflow:hidden}.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-user-drag:none}.leaflet-tile::selection{background:transparent}.leaflet-safari .leaflet-tile{image-rendering:crisp-edges}.leaflet-safari .leaflet-tile-container{width:1600px;height:1600px;-webkit-transform-origin:0 0}.leaflet-marker-icon,.leaflet-marker-shadow{display:block}.leaflet-container .leaflet-overlay-pane svg{max-width:none!important;max-height:none!important}.leaflet-container.leaflet-touch-zoom{-ms-touch-action:pan-x pan-y;touch-action:pan-x pan-y}.leaflet-container.leaflet-touch-drag{-ms-touch-action:pinch-zoom;touch-action:none;touch-action:pinch-zoom}.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom{-ms-touch-action:none;touch-action:none}.leaflet-container{-webkit-tap-highlight-color:transparent}.leaflet-container a{-webkit-tap-highlight-color:rgba(51,181,229,.4)}.leaflet-tile{filter:inherit;visibility:hidden}.leaflet-tile-loaded{visibility:inherit}.leaflet-zoom-box{width:0;height:0;-moz-box-sizing:border-box;box-sizing:border-box;z-index:800}.leaflet-overlay-pane svg{-moz-user-select:none}.leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}.leaflet-map-pane canvas{z-index:100}.leaflet-map-pane svg{z-index:200}.leaflet-vml-shape{width:1px;height:1px}.lvml{behavior:url(#default#VML);display:inline-block;position:absolute}.leaflet-control{position:relative;z-index:800;pointer-events:visiblePainted;pointer-events:auto}.leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none}.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}.leaflet-control{float:left;clear:both}.leaflet-right .leaflet-control{float:right}.leaflet-top .leaflet-control{margin-top:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}.leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}.leaflet-fade-anim .leaflet-popup{opacity:0;-webkit-transition:opacity .2s linear;-moz-transition:opacity .2s linear;transition:opacity .2s linear}.leaflet-fade-anim .leaflet-map-pane .leaflet-popup{opacity:1}.leaflet-zoom-animated{-webkit-transform-origin:0 0;-ms-transform-origin:0 0;transform-origin:0 0}.leaflet-zoom-anim .leaflet-zoom-animated{will-change:transform}.leaflet-zoom-anim .leaflet-zoom-animated{-webkit-transition:-webkit-transform .25s cubic-bezier(0,0,.25,1);-moz-transition:-moz-transform .25s cubic-bezier(0,0,.25,1);transition:transform .25s cubic-bezier(0,0,.25,1)}.leaflet-zoom-anim .leaflet-tile,.leaflet-pan-anim .leaflet-tile{-webkit-transition:none;-moz-transition:none;transition:none}.leaflet-zoom-anim .leaflet-zoom-animated.leaflet-zoom-hide{visibility:hidden}.leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:-webkit-grab;cursor:-moz-grab;cursor:grab}.leaflet-crosshair,.leaflet-crosshair .leaflet-interactive{cursor:crosshair}.leaflet-popup-pane,.leaflet-control{cursor:auto}.leaflet-dragging .leaflet-grab,.leaflet-dragging .leaflet-grab .leaflet-interactive,.leaflet-dragging .leaflet-marker-draggable{cursor:move;cursor:-webkit-grabbing;cursor:-moz-grabbing;cursor:grabbing}.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-image-layer,.leaflet-pane > svg path,.leaflet-tile-container{pointer-events:none}.leaflet-marker-icon.leaflet-interactive,.leaflet-image-layer.leaflet-interactive,.leaflet-pane > svg path.leaflet-interactive,svg.leaflet-image-layer.leaflet-interactive path{pointer-events:visiblePainted;pointer-events:auto}.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#fff;color:#333;box-shadow:0 3px 14px rgba(0,0,0,.4)}.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:12px}.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-left:-20px;overflow:hidden;pointer-events:none}.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#fff}.leaflet-popup-content{margin:0;line-height:1.5}.leaflet-popup-content p{margin:17px 0}.leaflet-popup-close-button{position:absolute;top:0;right:0;padding:4px 4px 0 0;border:none;text-align:center;width:18px;height:14px;font:16px/14px Tahoma,Verdana,sans-serif;color:#c3c3c3;text-decoration:none;background:transparent}.leaflet-popup-close-button:hover,.leaflet-popup-close-button:focus{color:#999}.leaflet-popup-scrolled{overflow:auto}.leaflet-oldie .leaflet-popup-content-wrapper{-ms-zoom:1}.leaflet-oldie .leaflet-popup-tip{width:24px;-ms-filter:"progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";filter:progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)}.leaflet-oldie .leaflet-control-zoom,.leaflet-oldie .leaflet-control-layers,.leaflet-oldie .leaflet-control-attribution{border:1px solid #999}.leaflet-div-icon{background:#fff;border:1px solid #666}.leaflet-tooltip{position:absolute;padding:6px;background-color:#fff;border:1px solid #fff;border-radius:3px;color:#222;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;user-select:none;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.4)}.leaflet-tooltip.leaflet-interactive{cursor:pointer;pointer-events:auto}.leaflet-tooltip-top:before,.leaflet-tooltip-bottom:before,.leaflet-tooltip-left:before,.leaflet-tooltip-right:before{position:absolute;pointer-events:none;border:6px solid transparent;background:transparent;content:""}.leaflet-tooltip-bottom:before{top:0;left:50%;margin-left:-6px;margin-top:-12px;border-bottom-color:#fff}.leaflet-tooltip-top:before{bottom:0;left:50%;margin-left:-6px;margin-bottom:-12px;border-top-color:#fff}.leaflet-tooltip-left:before{top:50%;right:0;margin-top:-6px;margin-right:-12px;border-left-color:#fff}.leaflet-tooltip-right:before{top:50%;left:0;margin-top:-6px;margin-left:-12px;border-right-color:#fff}.leaflet-control-zoom-in,.leaflet-control-zoom-out{font:bold 18px "Lucida Console",Monaco,monospace;text-indent:1px}.leaflet-touch .leaflet-control-zoom-in{font-size:22px}.leaflet-touch .leaflet-control-zoom-out{font-size:20px}.leaflet-control-layers,.leaflet-control-zoom{border:2px solid rgba(0,0,0,.2);background-clip:padding-box}.leaflet-control-zoom-in,.leaflet-control-zoom-out{width:26px;height:26px;line-height:26px;display:block;text-align:center;text-decoration:none;color:#444}.leaflet-touch .leaflet-control-zoom-in,.leaflet-touch .leaflet-control-zoom-out{width:30px;height:30px;line-height:30px}.leaflet-control-zoom-in:hover,.leaflet-control-zoom-out:hover{background-color:#f4f4f4;color:#444}.leaflet-control-zoom-disabled,.leaflet-disabled{cursor:default;background-color:#f4f4f4;color:#bbb;pointer-events:none}.leaflet-touch .leaflet-control-zoom{border:none}.leaflet-bar a,.leaflet-bar a:hover,.leaflet-bar a:focus{background-color:#fff;border-bottom:1px solid #ccc;width:26px;height:26px;line-height:26px;display:block;text-align:center;text-decoration:none;color:#444}.leaflet-touch .leaflet-bar a{width:30px;height:30px;line-height:30px}.leaflet-bar a,.leaflet-control-layers-toggle{background-position:50% 50%;background-repeat:no-repeat;display:block}.leaflet-bar a:hover,.leaflet-bar a:focus{background-color:#f4f4f4}.leaflet-bar a:first-child{border-top-left-radius:4px;border-top-right-radius:4px}.leaflet-bar a:last-child{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-bottom:none}.leaflet-bar a.leaflet-disabled{cursor:default;background-color:#f4f4f4;color:#bbb}.leaflet-touch .leaflet-bar a:first-child{border-top-left-radius:2px;border-top-right-radius:2px}.leaflet-touch .leaflet-bar a:last-child{border-bottom-left-radius:2px;border-bottom-right-radius:2px}.leaflet-control-attribution{background:#fff;background:rgba(255,255,255,.8);margin:0}.leaflet-control-attribution a{text-decoration:none}.leaflet-control-attribution a:hover,.leaflet-control-attribution a:focus{text-decoration:underline}.leaflet-left .leaflet-control-attribution{border-radius:0 4px 0 0}.leaflet-right .leaflet-control-attribution{border-radius:4px 0 0 0}.leaflet-container .leaflet-control-attribution,.leaflet-container .leaflet-control-scale{font-size:11px}.leaflet-left .leaflet-control-scale{border-radius:0 4px 4px 0}.leaflet-bottom .leaflet-control-scale{margin-bottom:5px}.leaflet-control-scale-line{border:2px solid #777;border-top:none;line-height:1.1;padding:2px 5px 1px;font-size:11px;white-space:nowrap;overflow:hidden;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;background:rgba(255,255,255,.5)}.leaflet-control-scale-line:not(:first-child){border-top:2px solid #777;border-bottom:none;margin-top:-2px}.leaflet-control-scale-line:not(:first-child):not(:last-child){border-bottom:2px solid #777}.leaflet-touch .leaflet-control-attribution,.leaflet-touch .leaflet-control-layers,.leaflet-touch .leaflet-control-zoom{box-shadow:none}.leaflet-touch .leaflet-control-layers,.leaflet-touch .leaflet-control-zoom{border:2px solid rgba(0,0,0,.2);background-clip:padding-box}.leaflet-control-layers{box-shadow:0 1px 5px rgba(0,0,0,.4);background:#fff;border-radius:5px}.leaflet-control-layers-toggle{background-image:url(https://unpkg.com/leaflet@1.9.4/dist/images/layers.png);width:36px;height:36px}.leaflet-retina .leaflet-control-layers-toggle{background-image:url(https://unpkg.com/leaflet@1.9.4/dist/images/layers-2x.png);background-size:26px 26px}.leaflet-touch .leaflet-control-layers-toggle{width:44px;height:44px}.leaflet-control-layers .leaflet-control-layers-list,.leaflet-control-layers-expanded .leaflet-control-layers-toggle{display:none}.leaflet-control-layers-expanded .leaflet-control-layers-list{display:block;position:relative}.leaflet-control-layers-expanded{padding:6px 10px 6px 6px;color:#333;background:#fff}.leaflet-control-layers-scrollbar{overflow-y:scroll;overflow-x:hidden;padding-right:5px}.leaflet-control-layers-selector{margin-top:2px;position:relative;top:1px}.leaflet-control-layers label{display:block;font-size:13px;font-size:1.08333em}.leaflet-control-layers-separator{height:0;border-top:1px solid #ddd;margin:5px -10px 5px -6px}.leaflet-default-icon-path{background-image:url(https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png)}
-</style>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --red: #E03E3E; --red-dark: #B52E2E; --red-light: #FEF0F0; --red-mid: #F7C1C1;
-  --orange: #F0960A; --orange-light: #FEF5E7;
-  --blue: #1B6FC8; --blue-light: #EBF3FC;
-  --green: #2D8A5E; --green-light: #E8F6EF;
-  --gray-50: #F8F7F5; --gray-100: #F0EEE9; --gray-200: #E2DED7;
-  --gray-300: #C8C3BA; --gray-400: #9C9790; --gray-600: #5A5651; --gray-900: #1A1917;
-  --sidebar-w: 320px;
-  --font-display: 'Sora', sans-serif; --font-body: 'DM Sans', sans-serif;
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06); --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
-  --radius: 12px; --radius-lg: 18px;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E03E3E;--red-d:#B52E2E;--red-l:#FEF0F0;--red-m:#F7C1C1;
+  --ora:#F0960A;--ora-l:#FEF5E7;
+  --blu:#1B6FC8;--blu-l:#EBF3FC;
+  --grn:#2D8A5E;--grn-l:#E8F6EF;
+  --g50:#F8F7F5;--g100:#F0EEE9;--g200:#E2DED7;--g300:#C8C3BA;
+  --g400:#9C9790;--g600:#5A5651;--g900:#1A1917;
+  --fd:'Sora',sans-serif;--fb:'DM Sans',sans-serif;
+  --r:12px;--rl:18px;
 }
-html, body { height: 100%; overflow: hidden; background: var(--gray-50); font-family: var(--font-body); color: var(--gray-900); }
-.app { display: flex; height: 100vh; overflow: hidden; }
+html,body{height:100%;overflow:hidden;background:var(--g50);font-family:var(--fb);color:var(--g900)}
+.app{display:flex;height:100vh}
 
 /* SIDEBAR */
-.sidebar { width: var(--sidebar-w); flex-shrink: 0; height: 100vh; background: white; border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; z-index: 50; overflow: hidden; }
-.sidebar-logo { padding: 20px 22px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--gray-100); }
-.logo-mark { display: flex; align-items: center; gap: 10px; }
-.logo-icon { width: 36px; height: 36px; background: var(--red); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-.logo-icon svg { width: 20px; height: 20px; fill: white; }
-.logo-name { font-family: var(--font-display); font-size: 19px; font-weight: 700; color: var(--gray-900); }
-.logo-name span { color: var(--red); }
-.logo-city { font-size: 11px; font-weight: 500; color: var(--gray-400); background: var(--gray-100); padding: 3px 8px; border-radius: 20px; font-family: var(--font-display); }
-.sidebar-nav { padding: 14px 14px 0; display: flex; flex-direction: column; gap: 2px; }
-.nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; border: none; background: transparent; width: 100%; text-align: left; font-family: var(--font-display); font-size: 13px; font-weight: 500; color: var(--gray-600); }
-.nav-item:hover { background: var(--gray-50); color: var(--gray-900); }
-.nav-item.active { background: var(--red-light); color: var(--red-dark); }
-.nav-icon-wrap { width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--gray-100); }
-.nav-item.active .nav-icon-wrap { background: var(--red-mid); }
-.nav-badge { margin-left: auto; background: var(--red); color: white; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px; font-family: var(--font-display); }
-.period-section { padding: 14px 14px 0; }
-.period-label { font-size: 10px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-display); margin-bottom: 8px; padding: 0 4px; }
-.period-pills { display: flex; gap: 6px; flex-wrap: wrap; }
-.period-pill { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--gray-200); background: white; color: var(--gray-600); font-family: var(--font-display); transition: all 0.15s; }
-.period-pill:hover { border-color: var(--red-mid); color: var(--red-dark); }
-.period-pill.active { background: var(--red); color: white; border-color: var(--red); }
-.incidents-section { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
-.incidents-header { display: flex; align-items: center; justify-content: space-between; }
-.incidents-title { font-size: 10px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-display); }
-.incidents-count { font-size: 11px; font-weight: 600; color: var(--red); font-family: var(--font-display); }
-.incident-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 12px; cursor: pointer; transition: all 0.15s; }
-.incident-card:hover { border-color: var(--red-mid); box-shadow: var(--shadow-sm); transform: translateX(2px); }
-.incident-card.urgent { border-left: 3px solid var(--red); }
-.ic-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-.ic-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-.ic-icon.red { background: var(--red-light); } .ic-icon.orange { background: var(--orange-light); }
-.ic-body { flex: 1; }
-.ic-title { font-size: 13px; font-weight: 600; color: var(--gray-900); font-family: var(--font-display); }
-.ic-loc { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
-.ic-time { font-size: 11px; color: var(--gray-400); font-family: var(--font-display); white-space: nowrap; }
-.ic-tags { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
-.tag { padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; font-family: var(--font-display); }
-.tag.red { background: var(--red-light); color: var(--red-dark); }
-.tag.orange { background: var(--orange-light); color: #8B5A00; }
-.tag.gray { background: var(--gray-100); color: var(--gray-600); }
-.ic-desc { font-size: 11px; color: var(--gray-600); line-height: 1.5; font-style: italic; margin-top: 6px; }
-.empty-state { text-align: center; padding: 30px 16px; color: var(--gray-400); font-size: 13px; font-family: var(--font-display); }
-.empty-state .es-icon { font-size: 32px; margin-bottom: 8px; }
-.sidebar-bottom { padding: 14px; border-top: 1px solid var(--gray-100); }
-.report-btn { width: 100%; height: 46px; border-radius: var(--radius); background: var(--red); border: none; cursor: pointer; font-family: var(--font-display); font-size: 14px; font-weight: 600; color: white; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; box-shadow: 0 4px 14px rgba(224,62,62,0.35); }
-.report-btn:hover { background: var(--red-dark); transform: translateY(-1px); }
+.sb{width:320px;flex-shrink:0;height:100vh;background:white;border-right:1px solid var(--g200);display:flex;flex-direction:column;overflow:hidden}
+.sb-logo{padding:20px 22px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--g100)}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-ic{width:36px;height:36px;background:var(--red);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-ic svg{width:20px;height:20px;fill:white}
+.logo-tx{font-family:var(--fd);font-size:19px;font-weight:700;color:var(--g900)}
+.logo-tx span{color:var(--red)}
+.logo-city{font-size:11px;font-weight:500;color:var(--g400);background:var(--g100);padding:3px 8px;border-radius:20px;font-family:var(--fd)}
+.sb-nav{padding:14px 14px 0;display:flex;flex-direction:column;gap:2px}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);cursor:pointer;border:none;background:transparent;width:100%;text-align:left;font-family:var(--fd);font-size:13px;font-weight:500;color:var(--g600);transition:all .15s}
+.ni:hover{background:var(--g50);color:var(--g900)}
+.ni.active{background:var(--red-l);color:var(--red-d)}
+.ni-ic{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--g100)}
+.ni.active .ni-ic{background:var(--red-m)}
+.nb{margin-left:auto;background:var(--red);color:white;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;font-family:var(--fd)}
+.period-sec{padding:14px 14px 0}
+.period-lbl{font-size:10px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fd);margin-bottom:8px;padding:0 4px}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--g200);background:white;color:var(--g600);font-family:var(--fd);transition:all .15s}
+.pill:hover{border-color:var(--red-m);color:var(--red-d)}
+.pill.active{background:var(--red);color:white;border-color:var(--red)}
+.inc-sec{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:0}
+.inc-hdr{display:flex;align-items:center;justify-content:space-between}
+.inc-ttl{font-size:10px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fd)}
+.inc-cnt{font-size:11px;font-weight:600;color:var(--red);font-family:var(--fd)}
+.ic{background:white;border:1px solid var(--g200);border-radius:var(--r);padding:12px;cursor:pointer;transition:all .15s}
+.ic:hover{border-color:var(--red-m);transform:translateX(2px)}
+.ic.urg{border-left:3px solid var(--red)}
+.ic-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.ic-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ic-icon.r{background:var(--red-l)}.ic-icon.o{background:var(--ora-l)}
+.ic-body{flex:1}
+.ic-title{font-size:13px;font-weight:600;color:var(--g900);font-family:var(--fd)}
+.ic-loc{font-size:11px;color:var(--g400);margin-top:2px}
+.ic-time{font-size:11px;color:var(--g400);font-family:var(--fd);white-space:nowrap}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;font-family:var(--fd)}
+.tag.r{background:var(--red-l);color:var(--red-d)}
+.tag.o{background:var(--ora-l);color:#8B5A00}
+.tag.g{background:var(--g100);color:var(--g600)}
+.empty{text-align:center;padding:30px 16px;color:var(--g400);font-size:13px;font-family:var(--fd)}
+.sb-bot{padding:14px;border-top:1px solid var(--g100)}
+.rep-btn{width:100%;height:46px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:14px;font-weight:600;color:white;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;box-shadow:0 4px 14px rgba(224,62,62,.35)}
+.rep-btn:hover{background:var(--red-d);transform:translateY(-1px)}
 
 /* MAIN */
-.main { flex: 1; display: flex; flex-direction: column; min-width: 0; position: relative; }
-.topbar { height: 56px; background: white; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; gap: 12px; padding: 0 20px; z-index: 40; flex-shrink: 0; }
-.topbar-title { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--gray-900); }
-.topbar-sub { font-size: 12px; color: var(--gray-400); }
-.topbar-sep { flex: 1; }
-.alert-badge { display: flex; align-items: center; gap: 7px; background: var(--red-light); border: 1px solid var(--red-mid); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--red-dark); font-family: var(--font-display); cursor: pointer; }
-.pulse-dot { width: 8px; height: 8px; background: var(--red); border-radius: 50%; animation: pulseDot 1.5s ease-in-out infinite; }
-@keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.7)} }
-.topbar-btn { width: 36px; height: 36px; border-radius: 10px; background: var(--gray-50); border: 1px solid var(--gray-200); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.topbar-btn:hover { background: var(--gray-100); }
-.conn-status { display: flex; align-items: center; gap: 5px; font-size: 11px; font-family: var(--font-display); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--gray-200); }
-.conn-dot { width: 7px; height: 7px; border-radius: 50%; }
-.conn-dot.online { background: #22c55e; }
-.conn-dot.offline { background: var(--gray-300); }
-.conn-dot.connecting { background: var(--orange); animation: pulseDot 1s infinite; }
+.main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
+.topbar{height:56px;background:white;border-bottom:1px solid var(--g200);display:flex;align-items:center;gap:12px;padding:0 20px;z-index:40;flex-shrink:0}
+.tb-title{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--g900)}
+.tb-sub{font-size:12px;color:var(--g400)}
+.tb-sep{flex:1}
+.conn-st{display:flex;align-items:center;gap:5px;font-size:11px;font-family:var(--fd);padding:4px 10px;border-radius:20px;border:1px solid var(--g200)}
+.cd{width:7px;height:7px;border-radius:50%}
+.cd.on{background:#22c55e}.cd.off{background:var(--g300)}.cd.cn{background:var(--ora);animation:pd 1s infinite}
+@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.ab{display:flex;align-items:center;gap:7px;background:var(--red-l);border:1px solid var(--red-m);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;color:var(--red-d);font-family:var(--fd);cursor:pointer}
+.pd{width:8px;height:8px;background:var(--red);border-radius:50%;animation:pd 1.5s infinite}
 
-/* PANELS */
-.content { flex: 1; position: relative; overflow: hidden; }
-.panel { position: absolute; inset: 0; display: none; }
-.panel.active { display: flex; flex-direction: column; }
-#panel-map { flex-direction: column; }
-#map { flex: 1; width: 100%; z-index: 1; }
+/* CONTENT */
+.content{flex:1;position:relative;overflow:hidden}
+.panel{position:absolute;inset:0;display:none}
+.panel.active{display:flex;flex-direction:column}
+#panel-map{flex-direction:column}
+#map{flex:1;width:100%;z-index:1}
 
 /* MAP WIDGETS */
-.map-widget-stats { position: absolute; top: 14px; right: 14px; z-index: 500; background: white; border-radius: var(--radius-lg); border: 1px solid var(--gray-200); padding: 14px 16px; box-shadow: var(--shadow-md); display: flex; flex-direction: column; gap: 10px; min-width: 168px; pointer-events: none; }
-.msw-title { font-size: 10px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-display); }
-.msw-row { display: flex; align-items: center; justify-content: space-between; }
-.msw-label { font-size: 12px; color: var(--gray-600); }
-.msw-val { font-size: 14px; font-weight: 700; font-family: var(--font-display); }
-.msw-val.red { color: var(--red); } .msw-val.orange { color: var(--orange); } .msw-val.green { color: var(--green); }
-.map-widget-legend { position: absolute; bottom: 14px; right: 14px; z-index: 500; background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 10px 14px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 7px; pointer-events: none; }
-.legend-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--gray-600); }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.map-widget-search { position: absolute; top: 14px; left: 14px; z-index: 500; background: white; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 10px 14px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray-500); }
+.mw-stats{position:absolute;top:14px;right:14px;z-index:500;background:white;border-radius:var(--rl);border:1px solid var(--g200);padding:14px 16px;box-shadow:0 4px 16px rgba(0,0,0,.08);display:flex;flex-direction:column;gap:10px;min-width:168px;pointer-events:none}
+.mw-title{font-size:10px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fd)}
+.mw-row{display:flex;align-items:center;justify-content:space-between}
+.mw-lbl{font-size:12px;color:var(--g600)}
+.mw-val{font-size:14px;font-weight:700;font-family:var(--fd)}
+.mw-val.r{color:var(--red)}.mw-val.o{color:var(--ora)}.mw-val.g{color:var(--grn)}
+.mw-leg{position:absolute;bottom:14px;right:14px;z-index:500;background:white;border-radius:var(--r);border:1px solid var(--g200);padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.leg-i{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--g600)}
+.leg-d{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.mw-srch{position:absolute;top:14px;left:14px;z-index:500;background:white;border-radius:var(--r);border:1px solid var(--g200);padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;align-items:center;gap:8px;font-size:13px;color:var(--g400)}
 
-/* Leaflet custom */
-.vs-marker { background: white; border-radius: 10px; padding: 5px 10px; display: flex; align-items: center; gap: 5px; box-shadow: 0 3px 12px rgba(0,0,0,0.15); border: 2px solid; font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; position: relative; }
-.vs-marker::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: white; }
-.vs-marker.urgent { border-color: #E03E3E; color: #B52E2E; animation: markerPulse 2s ease-in-out infinite; }
-.vs-marker.warning { border-color: #F0960A; color: #8B5A00; }
-.vs-marker.info { border-color: #1B6FC8; color: #1B4A8A; }
-@keyframes markerPulse { 0%{box-shadow:0 0 0 0 rgba(224,62,62,0.5),0 3px 12px rgba(0,0,0,0.15)} 70%{box-shadow:0 0 0 10px rgba(224,62,62,0),0 3px 12px rgba(0,0,0,0.15)} 100%{box-shadow:0 0 0 0 rgba(224,62,62,0),0 3px 12px rgba(0,0,0,0.15)} }
-.leaflet-popup-content-wrapper { border-radius: 14px !important; box-shadow: var(--shadow-lg) !important; border: 1px solid var(--gray-200) !important; padding: 0 !important; font-family: 'DM Sans', sans-serif !important; overflow: hidden; }
-.leaflet-popup-content { margin: 0 !important; }
-.leaflet-popup-tip-container { display: none; }
-.popup-inner { padding: 14px 16px; min-width: 200px; }
-.popup-type { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; font-family: 'Sora',sans-serif; }
-.popup-title { font-size: 14px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; font-family: 'Sora',sans-serif; }
-.popup-loc { font-size: 11px; color: var(--gray-400); margin-bottom: 8px; }
-.popup-desc { font-size: 12px; color: var(--gray-600); line-height: 1.5; font-style: italic; margin-bottom: 10px; border-top: 1px solid var(--gray-100); padding-top: 8px; }
-.popup-footer { display: flex; align-items: center; justify-content: space-between; }
-.popup-time { font-size: 11px; color: var(--gray-400); font-family: 'Sora',sans-serif; }
-.popup-tag { padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; font-family: 'Sora',sans-serif; }
+/* Leaflet popup */
+.leaflet-popup-content-wrapper{border-radius:14px!important;box-shadow:0 8px 32px rgba(0,0,0,.14)!important;border:1px solid var(--g200)!important;padding:0!important;overflow:hidden}
+.leaflet-popup-content{margin:0!important}
+.leaflet-popup-tip-container{display:none}
+.pu{padding:14px 16px;min-width:200px}
+.pu-type{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;font-family:'Sora',sans-serif}
+.pu-title{font-size:14px;font-weight:600;color:var(--g900);margin-bottom:4px;font-family:'Sora',sans-serif}
+.pu-loc{font-size:11px;color:var(--g400);margin-bottom:8px}
+.pu-desc{font-size:12px;color:var(--g600);line-height:1.5;font-style:italic;margin-bottom:10px;border-top:1px solid var(--g100);padding-top:8px}
+.pu-ft{display:flex;align-items:center;justify-content:space-between}
+.pu-time{font-size:11px;color:var(--g400);font-family:'Sora',sans-serif}
+.pu-tag{padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;font-family:'Sora',sans-serif}
+.vs-marker{background:white;border-radius:10px;padding:5px 10px;display:flex;align-items:center;gap:5px;box-shadow:0 3px 12px rgba(0,0,0,.15);border:2px solid;font-family:'Sora',sans-serif;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;position:relative}
+.vs-marker::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:white}
+.vs-marker.urg{border-color:#E03E3E;color:#B52E2E;animation:mp 2s ease-in-out infinite}
+.vs-marker.war{border-color:#F0960A;color:#8B5A00}
+.vs-marker.inf{border-color:#1B6FC8;color:#1B4A8A}
+@keyframes mp{0%{box-shadow:0 0 0 0 rgba(224,62,62,.5),0 3px 12px rgba(0,0,0,.15)}70%{box-shadow:0 0 0 10px rgba(224,62,62,0),0 3px 12px rgba(0,0,0,.15)}100%{box-shadow:0 0 0 0 rgba(224,62,62,0),0 3px 12px rgba(0,0,0,.15)}}
+.leaflet-top,.leaflet-bottom{z-index:400!important}
 
 /* STATS */
-#panel-stats { background: var(--gray-50); overflow-y: auto; padding: 24px; flex-direction: column; gap: 20px; }
-.stats-grid-top { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
-.stat-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 18px 20px; }
-.stat-card.accent { background: var(--red-light); border-color: var(--red-mid); }
-.stat-num { font-size: 30px; font-weight: 700; font-family: var(--font-display); color: var(--gray-900); }
-.stat-card.accent .stat-num { color: var(--red-dark); }
-.stat-lbl { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
-.stat-delta { font-size: 11px; font-weight: 600; margin-top: 8px; font-family: var(--font-display); }
-.stat-delta.up { color: var(--red); } .stat-delta.down { color: var(--green); }
-.stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.chart-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; }
-.chart-title { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
-.chart-sub { font-size: 11px; color: var(--gray-400); margin-bottom: 16px; }
-.bar-chart-wrap { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
-.bc-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
-.bc-bar { width: 100%; border-radius: 6px 6px 0 0; min-height: 4px; background: #F09595; transition: height 0.5s ease; }
-.bc-bar.peak { background: var(--red); }
-.bc-lbl { font-size: 9px; color: var(--gray-400); font-family: var(--font-display); }
-.type-rows { display: flex; flex-direction: column; gap: 12px; }
-.type-row-s { display: flex; align-items: center; gap: 10px; }
-.type-emoji { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
-.type-name { font-size: 12px; color: var(--gray-900); width: 140px; flex-shrink: 0; }
-.type-bar-bg { flex: 1; height: 8px; background: var(--gray-100); border-radius: 4px; overflow: hidden; }
-.type-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
-.type-count-s { font-size: 12px; font-weight: 600; color: var(--gray-600); font-family: var(--font-display); width: 24px; text-align: right; }
-.zones-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; }
-.zone-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
-.zone-row:last-child { border-bottom: none; padding-bottom: 0; }
-.zone-rank { font-size: 18px; font-weight: 700; font-family: var(--font-display); color: var(--gray-300); width: 24px; }
-.zone-rank.top { color: var(--red); }
-.zone-info { flex: 1; }
-.zone-name { font-size: 13px; font-weight: 600; color: var(--gray-900); font-family: var(--font-display); }
-.zone-detail { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
-.zone-bar-wrap { width: 100px; }
-.zone-bar-bg2 { height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
-.zone-bar-fill2 { height: 100%; background: var(--red); border-radius: 3px; }
-.zone-count { font-size: 13px; font-weight: 700; color: var(--red-dark); font-family: var(--font-display); }
+#panel-stats{background:var(--g50);overflow-y:auto;padding:24px;flex-direction:column;gap:20px}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sc{background:white;border:1px solid var(--g200);border-radius:var(--rl);padding:18px 20px}
+.sc.acc{background:var(--red-l);border-color:var(--red-m)}
+.sn{font-size:30px;font-weight:700;font-family:var(--fd);color:var(--g900)}
+.sc.acc .sn{color:var(--red-d)}
+.sl{font-size:12px;color:var(--g400);margin-top:4px}
+.sr{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cc{background:white;border:1px solid var(--g200);border-radius:var(--rl);padding:20px}
+.ct{font-family:var(--fd);font-size:14px;font-weight:600;color:var(--g900);margin-bottom:4px}
+.cs2{font-size:11px;color:var(--g400);margin-bottom:16px}
+.bc{display:flex;align-items:flex-end;gap:8px;height:120px}
+.bc-c{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.bc-b{width:100%;border-radius:6px 6px 0 0;min-height:4px;background:#F09595}
+.bc-b.pk{background:var(--red)}
+.bc-l{font-size:9px;color:var(--g400);font-family:var(--fd)}
+.tr{display:flex;flex-direction:column;gap:12px}
+.tr-r{display:flex;align-items:center;gap:10px}
+.tr-e{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+.tr-n{font-size:12px;color:var(--g900);width:140px;flex-shrink:0}
+.tr-bg{flex:1;height:8px;background:var(--g100);border-radius:4px;overflow:hidden}
+.tr-f{height:100%;border-radius:4px}
+.tr-c{font-size:12px;font-weight:600;color:var(--g600);font-family:var(--fd);width:24px;text-align:right}
+.zc{background:white;border:1px solid var(--g200);border-radius:var(--rl);padding:20px}
+.zr{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--g100)}
+.zr:last-child{border-bottom:none;padding-bottom:0}
+.zrk{font-size:18px;font-weight:700;font-family:var(--fd);color:var(--g300);width:24px}
+.zrk.top{color:var(--red)}
+.zi{flex:1}
+.zn{font-size:13px;font-weight:600;color:var(--g900);font-family:var(--fd)}
+.zd{font-size:11px;color:var(--g400);margin-top:2px}
+.zb{width:100px}
+.zbg{height:6px;background:var(--g100);border-radius:3px;overflow:hidden}
+.zbf{height:100%;background:var(--red);border-radius:3px}
+.zct{font-size:13px;font-weight:700;color:var(--red-d);font-family:var(--fd)}
 
 /* AUTH */
-#panel-auth { background: var(--gray-50); overflow-y: auto; justify-content: center; align-items: center; }
-.auth-wrap { width: 100%; max-width: 420px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
-.auth-logo { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px 0 6px; }
-.auth-logo-icon { width: 56px; height: 56px; background: var(--red); border-radius: 18px; display: flex; align-items: center; justify-content: center; }
-.auth-logo-icon svg { width: 30px; height: 30px; fill: white; }
-.auth-logo-name { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--gray-900); }
-.auth-logo-name span { color: var(--red); }
-.auth-logo-sub { font-size: 13px; color: var(--gray-400); }
-.auth-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-.auth-tabs { display: flex; gap: 0; background: var(--gray-100); border-radius: 10px; padding: 3px; }
-.auth-tab { flex: 1; height: 34px; border-radius: 8px; border: none; background: transparent; font-family: var(--font-display); font-size: 13px; font-weight: 500; cursor: pointer; color: var(--gray-400); transition: all 0.15s; }
-.auth-tab.active { background: white; color: var(--gray-900); box-shadow: var(--shadow-sm); }
-.auth-field { display: flex; flex-direction: column; gap: 6px; }
-.auth-label { font-size: 11px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-display); }
-.auth-input { border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 11px 14px; font-size: 13px; font-family: var(--font-body); color: var(--gray-900); background: white; outline: none; transition: border-color 0.15s; }
-.auth-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(224,62,62,0.08); }
-.auth-input::placeholder { color: var(--gray-300); }
-.auth-btn { height: 46px; border-radius: var(--radius); background: var(--red); border: none; cursor: pointer; font-family: var(--font-display); font-size: 14px; font-weight: 600; color: white; transition: all 0.15s; box-shadow: 0 4px 14px rgba(224,62,62,0.3); }
-.auth-btn:hover { background: var(--red-dark); }
-.auth-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.auth-divider { display: flex; align-items: center; gap: 10px; }
-.auth-divider-line { flex: 1; height: 1px; background: var(--gray-200); }
-.auth-divider-text { font-size: 11px; color: var(--gray-400); font-family: var(--font-display); }
-.auth-anon-btn { height: 42px; border-radius: var(--radius); background: white; border: 1px solid var(--gray-200); cursor: pointer; font-family: var(--font-display); font-size: 13px; font-weight: 500; color: var(--gray-600); transition: all 0.15s; }
-.auth-anon-btn:hover { background: var(--gray-50); border-color: var(--gray-300); }
-.auth-error { font-size: 12px; color: var(--red-dark); background: var(--red-light); border: 1px solid var(--red-mid); border-radius: 8px; padding: 8px 12px; display: none; }
-.auth-error.show { display: block; }
+#panel-auth{background:var(--g50);overflow-y:auto;justify-content:center;align-items:center}
+.aw{width:100%;max-width:420px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:20px}
+.al{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 0 6px}
+.al-ic{width:56px;height:56px;background:var(--red);border-radius:18px;display:flex;align-items:center;justify-content:center}
+.al-ic svg{width:30px;height:30px;fill:white}
+.al-n{font-family:var(--fd);font-size:24px;font-weight:700;color:var(--g900)}
+.al-n span{color:var(--red)}
+.al-s{font-size:13px;color:var(--g400)}
+.ac{background:white;border:1px solid var(--g200);border-radius:var(--rl);padding:24px;display:flex;flex-direction:column;gap:16px}
+.at{display:flex;gap:0;background:var(--g100);border-radius:10px;padding:3px}
+.atb{flex:1;height:34px;border-radius:8px;border:none;background:transparent;font-family:var(--fd);font-size:13px;font-weight:500;cursor:pointer;color:var(--g400);transition:all .15s}
+.atb.active{background:white;color:var(--g900);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.af{display:flex;flex-direction:column;gap:6px}
+.afl{font-size:11px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;font-family:var(--fd)}
+.ai{border:1px solid var(--g200);border-radius:var(--r);padding:11px 14px;font-size:13px;font-family:var(--fb);color:var(--g900);background:white;outline:none;transition:border-color .15s;width:100%}
+.ai:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(224,62,62,.08)}
+.ai::placeholder{color:var(--g300)}
+.abtn{height:46px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:14px;font-weight:600;color:white;transition:all .15s;box-shadow:0 4px 14px rgba(224,62,62,.3)}
+.abtn:hover{background:var(--red-d)}
+.abtn:disabled{opacity:.6;cursor:not-allowed}
+.adiv{display:flex;align-items:center;gap:10px}
+.adiv-l{flex:1;height:1px;background:var(--g200)}
+.adiv-t{font-size:11px;color:var(--g400);font-family:var(--fd)}
+.aanon{height:42px;border-radius:var(--r);background:white;border:1px solid var(--g200);cursor:pointer;font-family:var(--fd);font-size:13px;font-weight:500;color:var(--g600);transition:all .15s}
+.aanon:hover{background:var(--g50)}
+.aerr{font-size:12px;color:var(--red-d);background:var(--red-l);border:1px solid var(--red-m);border-radius:8px;padding:8px 12px;display:none}
+.aerr.show{display:block}
 
 /* SIGNALER */
-#panel-signaler { background: var(--gray-50); overflow-y: auto; justify-content: flex-start; align-items: center; }
-.signaler-wrap { width: 100%; max-width: 680px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
-.signaler-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--gray-900); }
-.signaler-sub { font-size: 13px; color: var(--gray-400); margin-top: 4px; }
-.form-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 22px; display: flex; flex-direction: column; gap: 18px; }
-.field-group { display: flex; flex-direction: column; gap: 7px; }
-.field-label { font-size: 11px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-display); }
-.loc-display { display: flex; align-items: center; gap: 10px; background: var(--green-light); border: 1px solid #A8D5BC; border-radius: var(--radius); padding: 12px 16px; font-size: 13px; color: var(--green); font-weight: 500; }
-.type-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
-.type-chip { padding: 12px 10px; border-radius: var(--radius); border: 1.5px solid var(--gray-200); background: var(--gray-50); display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: var(--font-display); color: var(--gray-700); }
-.type-chip:hover { border-color: var(--red-mid); background: var(--red-light); color: var(--red-dark); }
-.type-chip.selected { border-color: var(--red); background: var(--red-light); color: var(--red-dark); }
-.type-emoji-chip { font-size: 18px; }
-textarea.field-input, input.field-input { border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 12px 14px; font-size: 13px; font-family: var(--font-body); color: var(--gray-900); background: white; width: 100%; transition: border-color 0.15s; outline: none; resize: none; line-height: 1.6; }
-textarea.field-input:focus, input.field-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(224,62,62,0.08); }
-textarea.field-input::placeholder, input.field-input::placeholder { color: var(--gray-300); }
-.photo-zone { border: 2px dashed var(--gray-200); border-radius: var(--radius); padding: 24px; text-align: center; cursor: pointer; transition: all 0.15s; background: white; }
-.photo-zone:hover { border-color: var(--red-mid); background: var(--red-light); }
-.photo-zone.has-photo { border-color: var(--green); background: var(--green-light); }
-.photo-zone-icon { font-size: 26px; margin-bottom: 4px; }
-.photo-zone-text { font-size: 12px; color: var(--gray-400); }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.submit-btn { height: 52px; border-radius: var(--radius); background: var(--red); border: none; cursor: pointer; font-family: var(--font-display); font-size: 15px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.15s; box-shadow: 0 4px 16px rgba(224,62,62,0.3); }
-.submit-btn:hover:not(:disabled) { background: var(--red-dark); transform: translateY(-1px); }
-.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+#panel-signaler{background:var(--g50);overflow-y:auto;justify-content:flex-start;align-items:center}
+.sw{width:100%;max-width:680px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:20px}
+.s-title{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--g900)}
+.s-sub{font-size:13px;color:var(--g400);margin-top:4px}
+.fc{background:white;border:1px solid var(--g200);border-radius:var(--rl);padding:22px;display:flex;flex-direction:column;gap:18px}
+.fg{display:flex;flex-direction:column;gap:7px}
+.fl{font-size:11px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;font-family:var(--fd)}
+.ld{display:flex;align-items:center;gap:10px;background:var(--grn-l);border:1px solid #A8D5BC;border-radius:var(--r);padding:12px 16px;font-size:13px;color:var(--grn);font-weight:500}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tc{padding:12px 10px;border-radius:var(--r);border:1.5px solid var(--g200);background:var(--g50);display:flex;align-items:center;gap:7px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;font-family:var(--fd);color:var(--g700)}
+.tc:hover{border-color:var(--red-m);background:var(--red-l);color:var(--red-d)}
+.tc.sel{border-color:var(--red);background:var(--red-l);color:var(--red-d)}
+.te{font-size:18px}
+textarea.fi,input.fi{border:1px solid var(--g200);border-radius:var(--r);padding:12px 14px;font-size:13px;font-family:var(--fb);color:var(--g900);background:white;width:100%;transition:border-color .15s;outline:none;resize:none;line-height:1.6}
+textarea.fi:focus,input.fi:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(224,62,62,.08)}
+textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
+.pz{border:2px dashed var(--g200);border-radius:var(--r);padding:24px;text-align:center;cursor:pointer;transition:all .15s;background:white}
+.pz:hover{border-color:var(--red-m);background:var(--red-l)}
+.pz.has{border-color:var(--grn);background:var(--grn-l)}
+.pz-ic{font-size:26px;margin-bottom:4px}
+.pz-tx{font-size:12px;color:var(--g400)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.anon-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--g50);border-radius:var(--r);border:1px solid var(--g200);margin-top:10px}
+.anon-lbl{font-size:12px;font-weight:500;color:var(--g700);font-family:var(--fd)}
+.tog{width:44px;height:24px;border-radius:12px;background:var(--red);position:relative;cursor:pointer;flex-shrink:0;transition:background .2s}
+.tog::after{content:'';position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:white;transition:all .2s}
+.tog.off{background:var(--g300)}
+.tog.off::after{right:auto;left:2px}
+.sbtn{height:52px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:15px;font-weight:700;color:white;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .15s;box-shadow:0 4px 16px rgba(224,62,62,.3);width:100%}
+.sbtn:hover:not(:disabled){background:var(--red-d);transform:translateY(-1px)}
+.sbtn:disabled{opacity:.6;cursor:not-allowed}
 
 /* PROFIL */
-#panel-profil { background: var(--gray-50); overflow-y: auto; justify-content: flex-start; align-items: center; }
-.profil-wrap { width: 100%; max-width: 680px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 18px; }
-.profil-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; }
-.profil-hero { padding: 28px 24px; display: flex; align-items: center; gap: 18px; border-bottom: 1px solid var(--gray-100); }
-.profil-avatar { width: 64px; height: 64px; border-radius: 20px; background: var(--red-light); border: 2px solid var(--red-mid); display: flex; align-items: center; justify-content: center; font-size: 28px; }
-.profil-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--gray-900); }
-.profil-sub { font-size: 12px; color: var(--gray-400); margin-top: 3px; }
-.profil-row { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--gray-100); cursor: pointer; transition: background 0.12s; }
-.profil-row:last-child { border-bottom: none; }
-.profil-row:hover { background: var(--gray-50); }
-.profil-row-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
-.profil-row-info { flex: 1; }
-.profil-row-label { font-size: 13px; font-weight: 500; color: var(--gray-900); font-family: var(--font-display); }
-.profil-row-value { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
-.profil-stat { font-size: 16px; font-weight: 700; color: var(--red); font-family: var(--font-display); }
-.toggle-switch { width: 44px; height: 24px; border-radius: 12px; background: var(--red); position: relative; cursor: pointer; flex-shrink: 0; transition: background 0.2s; }
-.toggle-switch::after { content: ''; position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; border-radius: 50%; background: white; transition: all 0.2s; }
-.toggle-switch.off { background: var(--gray-300); }
-.toggle-switch.off::after { right: auto; left: 2px; }
-.logout-btn { width: 100%; height: 42px; border-radius: var(--radius); background: white; border: 1px solid var(--red-mid); cursor: pointer; font-family: var(--font-display); font-size: 13px; font-weight: 500; color: var(--red-dark); transition: all 0.15s; }
-.logout-btn:hover { background: var(--red-light); }
+#panel-profil{background:var(--g50);overflow-y:auto;justify-content:flex-start;align-items:center}
+.pw{width:100%;max-width:680px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:18px}
+.pc{background:white;border:1px solid var(--g200);border-radius:var(--rl);overflow:hidden}
+.ph{padding:28px 24px;display:flex;align-items:center;gap:18px;border-bottom:1px solid var(--g100)}
+.pav{width:64px;height:64px;border-radius:20px;background:var(--red-l);border:2px solid var(--red-m);display:flex;align-items:center;justify-content:center;font-size:28px}
+.pn{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--g900)}
+.ps{font-size:12px;color:var(--g400);margin-top:3px}
+.pr{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--g100);cursor:pointer;transition:background .12s}
+.pr:last-child{border-bottom:none}
+.pr:hover{background:var(--g50)}
+.pr-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.pr-info{flex:1}
+.pr-lbl{font-size:13px;font-weight:500;color:var(--g900);font-family:var(--fd)}
+.pr-val{font-size:12px;color:var(--g400);margin-top:2px}
+.pr-stat{font-size:16px;font-weight:700;color:var(--red);font-family:var(--fd)}
+.lo-btn{width:100%;height:42px;border-radius:var(--r);background:white;border:1px solid var(--red-m);cursor:pointer;font-family:var(--fd);font-size:13px;font-weight:500;color:var(--red-d);transition:all .15s;margin:16px}
+.lo-btn:hover{background:var(--red-l)}
 
 /* CONFIRM */
-.confirm-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(26,25,23,0.55); display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-.confirm-overlay.show { display: flex; }
-.confirm-modal { background: white; border-radius: 24px; padding: 36px 32px; max-width: 420px; width: 90%; display: flex; flex-direction: column; align-items: center; gap: 14px; box-shadow: var(--shadow-lg); animation: modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1); }
-@keyframes modalIn { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
-.confirm-icon { width: 72px; height: 72px; border-radius: 22px; background: var(--red-light); display: flex; align-items: center; justify-content: center; font-size: 32px; border: 2px solid var(--red-mid); }
-.confirm-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--gray-900); text-align: center; }
-.confirm-sub { font-size: 13px; color: var(--gray-600); text-align: center; line-height: 1.6; }
-.confirm-info { background: var(--gray-50); border-radius: var(--radius); padding: 12px 16px; width: 100%; display: flex; gap: 10px; align-items: flex-start; }
-.confirm-info-icon { font-size: 20px; }
-.confirm-info-text { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
-.confirm-info-text strong { color: var(--gray-900); }
-.confirm-back { width: 100%; height: 48px; border-radius: var(--radius); background: var(--red); border: none; cursor: pointer; font-family: var(--font-display); font-size: 14px; font-weight: 600; color: white; transition: all 0.15s; margin-top: 4px; }
-.confirm-back:hover { background: var(--red-dark); }
-.confirm-close { width: 100%; height: 40px; border-radius: var(--radius); background: white; border: 1px solid var(--gray-200); cursor: pointer; font-family: var(--font-display); font-size: 13px; color: var(--gray-600); }
+.ov{position:fixed;inset:0;z-index:9999;background:rgba(26,25,23,.55);display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.ov.show{display:flex}
+.om{background:white;border-radius:24px;padding:36px 32px;max-width:420px;width:90%;display:flex;flex-direction:column;align-items:center;gap:14px;box-shadow:0 8px 32px rgba(0,0,0,.14);animation:mi .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes mi{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.om-ic{width:72px;height:72px;border-radius:22px;background:var(--red-l);display:flex;align-items:center;justify-content:center;font-size:32px;border:2px solid var(--red-m)}
+.om-t{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--g900);text-align:center}
+.om-s{font-size:13px;color:var(--g600);text-align:center;line-height:1.6}
+.om-i{background:var(--g50);border-radius:var(--r);padding:12px 16px;width:100%;display:flex;gap:10px;align-items:flex-start}
+.om-i-ic{font-size:20px}
+.om-i-tx{font-size:12px;color:var(--g600);line-height:1.5}
+.om-i-tx strong{color:var(--g900)}
+.om-ok{width:100%;height:48px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:14px;font-weight:600;color:white;transition:all .15s;margin-top:4px}
+.om-ok:hover{background:var(--red-d)}
+.om-cl{width:100%;height:40px;border-radius:var(--r);background:white;border:1px solid var(--g200);cursor:pointer;font-family:var(--fd);font-size:13px;color:var(--g600)}
 
 /* TOAST */
-.toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-.toast { background: var(--gray-900); color: white; border-radius: var(--radius); padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-size: 13px; box-shadow: var(--shadow-lg); opacity: 0; transform: translateY(-16px); transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); pointer-events: auto; min-width: 280px; }
-.toast.show { opacity: 1; transform: translateY(0); }
-.toast.alert { background: var(--red); }
-.toast.success { background: #16a34a; }
-.toast-icon { font-size: 18px; flex-shrink: 0; }
-.toast-body { flex: 1; }
-.toast-title { font-weight: 600; font-family: var(--font-display); }
-.toast-sub { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+.tc{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--g900);color:white;border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;box-shadow:0 8px 32px rgba(0,0,0,.14);opacity:0;transform:translateY(-16px);transition:all .3s cubic-bezier(.34,1.56,.64,1);min-width:280px}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.alert{background:var(--red)}
+.toast.success{background:#16a34a}
+.t-ic{font-size:18px;flex-shrink:0}
+.t-title{font-weight:600;font-family:var(--fd)}
+.t-sub{font-size:11px;opacity:.8;margin-top:2px}
 
-.leaflet-top, .leaflet-bottom { z-index: 400 !important; }
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 10px; }
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--g200);border-radius:10px}
 </style>
 </head>
 <body>
 
-<div class="toast-container" id="toastContainer"></div>
+<div class="tc" id="tc"></div>
 
-<div class="confirm-overlay" id="confirmOverlay">
-  <div class="confirm-modal">
-    <div class="confirm-icon">✅</div>
-    <div class="confirm-title">Signalement envoyé !</div>
-    <div class="confirm-sub">Votre alerte a été enregistrée dans la base de données et transmise en temps réel.</div>
-    <div class="confirm-info">
-      <div class="confirm-info-icon">🔔</div>
-      <div class="confirm-info-text">Les utilisateurs de VilleSûre à proximité ont été <strong>notifiés instantanément</strong>.</div>
-    </div>
-    <div class="confirm-info">
-      <div class="confirm-info-icon">📍</div>
-      <div class="confirm-info-text">L'incident est maintenant <strong>visible sur la carte</strong> en temps réel.</div>
-    </div>
-    <button class="confirm-back" onclick="closeConfirm()">Voir sur la carte</button>
-    <button class="confirm-close" onclick="closeConfirm()">Fermer</button>
+<div class="ov" id="ov">
+  <div class="om">
+    <div class="om-ic">✅</div>
+    <div class="om-t">Signalement envoyé !</div>
+    <div class="om-s">Votre alerte a été enregistrée et transmise en temps réel aux utilisateurs proches.</div>
+    <div class="om-i"><div class="om-i-ic">🔔</div><div class="om-i-tx">Les utilisateurs VilleSûre à proximité ont été <strong>notifiés instantanément</strong>.</div></div>
+    <div class="om-i"><div class="om-i-ic">📍</div><div class="om-i-tx">L'incident est <strong>visible sur la carte</strong> en temps réel.</div></div>
+    <button class="om-ok" onclick="closeConfirm()">Voir sur la carte</button>
+    <button class="om-cl" onclick="closeConfirm()">Fermer</button>
   </div>
 </div>
 
 <div class="app">
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-mark">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        </div>
-        <span class="logo-name">Ville<span>Sûre</span></span>
+  <aside class="sb">
+    <div class="sb-logo">
+      <div class="logo-wrap">
+        <div class="logo-ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <span class="logo-tx">Ville<span>Sûre</span></span>
       </div>
       <span class="logo-city">Libreville</span>
     </div>
-
-    <nav class="sidebar-nav">
-      <button class="nav-item active" id="nav-map" onclick="showPanel('map',this)">
-        <div class="nav-icon-wrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--red)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
-        Carte en direct
-        <span class="nav-badge" id="navBadge">0</span>
+    <nav class="sb-nav">
+      <button class="ni active" id="nav-map" onclick="showPanel('map',this)">
+        <div class="ni-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="#E03E3E"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        Carte en direct <span class="nb" id="navBadge">0</span>
       </button>
-      <button class="nav-item" onclick="showPanel('stats',this)">
-        <div class="nav-icon-wrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <button class="ni" onclick="showPanel('stats',this)">
+        <div class="ni-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9C9790" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
         Statistiques
       </button>
-      <button class="nav-item" onclick="showPanel('signaler',this)">
-        <div class="nav-icon-wrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+      <button class="ni" onclick="showPanel('signaler',this)">
+        <div class="ni-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9C9790" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
         Signaler un incident
       </button>
-      <button class="nav-item" id="nav-auth-profil" onclick="handleAuthNav()">
-        <div class="nav-icon-wrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <span id="navAuthLabel">Connexion</span>
+      <button class="ni" id="nav-auth" onclick="handleAuthNav()">
+        <div class="ni-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9C9790" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span id="navAuthLbl">Connexion</span>
       </button>
     </nav>
-
-    <div class="period-section">
-      <div class="period-label">Période d'affichage</div>
-      <div class="period-pills">
-        <div class="period-pill active" onclick="selectPeriod(this,7)">7 jours</div>
-        <div class="period-pill" onclick="selectPeriod(this,30)">1 mois</div>
-        <div class="period-pill" onclick="selectPeriod(this,365)">1 an</div>
-        <div class="period-pill" onclick="selectPeriod(this,9999)">Tout</div>
+    <div class="period-sec">
+      <div class="period-lbl">Période</div>
+      <div class="pills">
+        <div class="pill active" onclick="setPeriod(this,7)">7 jours</div>
+        <div class="pill" onclick="setPeriod(this,30)">1 mois</div>
+        <div class="pill" onclick="setPeriod(this,365)">1 an</div>
+        <div class="pill" onclick="setPeriod(this,9999)">Tout</div>
       </div>
     </div>
-
-    <div class="incidents-section">
-      <div class="incidents-header">
-        <span class="incidents-title">Incidents récents</span>
-        <span class="incidents-count" id="incCount">—</span>
+    <div class="inc-sec">
+      <div class="inc-hdr">
+        <span class="inc-ttl">Incidents récents</span>
+        <span class="inc-cnt" id="incCnt">—</span>
       </div>
-      <div id="incidentsList">
-        <div class="empty-state">
-          <div class="es-icon">🔄</div>
-          Chargement des incidents...
-        </div>
-      </div>
+      <div id="incList"><div class="empty">🔄 Chargement...</div></div>
     </div>
-
-    <div class="sidebar-bottom">
-      <button class="report-btn" onclick="showPanel('signaler', document.querySelectorAll('.nav-item')[2])">
+    <div class="sb-bot">
+      <button class="rep-btn" onclick="showPanel('signaler',document.querySelectorAll('.ni')[2])">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
         + SIGNALER UN INCIDENT
       </button>
@@ -367,21 +339,12 @@ textarea.field-input::placeholder, input.field-input::placeholder { color: var(-
   <main class="main">
     <div class="topbar">
       <div>
-        <div class="topbar-title" id="topbarTitle">Carte en direct</div>
-        <div class="topbar-sub" id="topbarSub">Libreville, Gabon</div>
+        <div class="tb-title" id="tbTitle">Carte en direct</div>
+        <div class="tb-sub" id="tbSub">Libreville, Gabon</div>
       </div>
-      <div class="topbar-sep"></div>
-      <div class="conn-status" id="connStatus">
-        <div class="conn-dot connecting" id="connDot"></div>
-        <span id="connLabel">Connexion...</span>
-      </div>
-      <div class="alert-badge" id="alertBadge">
-        <div class="pulse-dot"></div>
-        <span id="alertCount">0</span> alertes actives
-      </div>
-      <button class="topbar-btn" onclick="showToast('🔔 Notifications','Vous recevrez des alertes en temps réel','')">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-600)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      </button>
+      <div class="tb-sep"></div>
+      <div class="conn-st" id="cs"><div class="cd cn" id="cd"></div><span id="cl">Connexion...</span></div>
+      <div class="ab"><div class="pd"></div><span id="alertCnt">0</span> alertes</div>
     </div>
 
     <div class="content">
@@ -389,138 +352,97 @@ textarea.field-input::placeholder, input.field-input::placeholder { color: var(-
       <!-- MAP -->
       <div class="panel active" id="panel-map">
         <div id="map"></div>
-        <div class="map-widget-search">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gray-400)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          Libreville, Gabon
+        <div class="mw-srch"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9C9790" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Libreville, Gabon</div>
+        <div class="mw-stats">
+          <div class="mw-title">En direct</div>
+          <div class="mw-row"><span class="mw-lbl">Incidents actifs</span><span class="mw-val r" id="mwT">—</span></div>
+          <div class="mw-row"><span class="mw-lbl">Cette semaine</span><span class="mw-val o" id="mwW">—</span></div>
+          <div class="mw-row"><span class="mw-lbl">Zone</span><span class="mw-val g">Libreville</span></div>
         </div>
-        <div class="map-widget-stats">
-          <div class="msw-title">En direct</div>
-          <div class="msw-row"><span class="msw-label">Incidents actifs</span><span class="msw-val red" id="mswTotal">—</span></div>
-          <div class="msw-row"><span class="msw-label">Cette semaine</span><span class="msw-val orange" id="mswWeek">—</span></div>
-          <div class="msw-row"><span class="msw-label">Zones surveillées</span><span class="msw-val green">Libreville</span></div>
-        </div>
-        <div class="map-widget-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--red);"></div>Agression physique</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--orange);"></div>Vol / Braquage</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--blue);"></div>Harcèlement</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--blue);opacity:0.5;"></div>Votre position</div>
+        <div class="mw-leg">
+          <div class="leg-i"><div class="leg-d" style="background:#E03E3E"></div>Agression physique</div>
+          <div class="leg-i"><div class="leg-d" style="background:#F0960A"></div>Vol / Braquage</div>
+          <div class="leg-i"><div class="leg-d" style="background:#1B6FC8"></div>Harcèlement</div>
+          <div class="leg-i"><div class="leg-d" style="background:#1B6FC8;opacity:.5"></div>Votre position</div>
         </div>
       </div>
 
       <!-- STATS -->
       <div class="panel" id="panel-stats">
-        <div class="stats-grid-top">
-          <div class="stat-card accent"><div class="stat-num" id="sn1">—</div><div class="stat-lbl">Incidents signalés</div><div class="stat-delta up">Données en direct</div></div>
-          <div class="stat-card"><div class="stat-num" id="sn2">—</div><div class="stat-lbl">Cette semaine</div></div>
-          <div class="stat-card"><div class="stat-num" id="sn3">—</div><div class="stat-lbl">Ce mois</div></div>
-          <div class="stat-card"><div class="stat-num" id="sn4">—</div><div class="stat-lbl">Signalements anonymes</div></div>
+        <div class="sg">
+          <div class="sc acc"><div class="sn" id="sn1">—</div><div class="sl">Total incidents</div></div>
+          <div class="sc"><div class="sn" id="sn2">—</div><div class="sl">Cette semaine</div></div>
+          <div class="sc"><div class="sn" id="sn3">—</div><div class="sl">Ce mois</div></div>
+          <div class="sc"><div class="sn" id="sn4">—</div><div class="sl">Anonymes</div></div>
         </div>
-        <div class="stats-row">
-          <div class="chart-card">
-            <div class="chart-title">Incidents par jour</div>
-            <div class="chart-sub" id="chartSub">7 derniers jours — Libreville</div>
-            <div class="bar-chart-wrap" id="barChart">
-              <div class="bc-col"><div class="bc-bar" style="height:10%;"></div><div class="bc-lbl">...</div></div>
-            </div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-title">Répartition par type</div>
-            <div class="chart-sub">Données réelles Supabase</div>
-            <div class="type-rows" id="typeChart">
-              <div style="color:var(--gray-400);font-size:12px;text-align:center;padding:20px;">Chargement...</div>
-            </div>
-          </div>
+        <div class="sr">
+          <div class="cc"><div class="ct">Incidents par jour</div><div class="cs2" id="cSub">7 derniers jours</div><div class="bc" id="bc"><div class="bc-c"><div class="bc-b" style="height:10%"></div><div class="bc-l">...</div></div></div></div>
+          <div class="cc"><div class="ct">Par type</div><div class="cs2">Données réelles</div><div class="tr" id="typeC"><div style="color:#9C9790;font-size:12px;text-align:center;padding:20px">Chargement...</div></div></div>
         </div>
-        <div class="zones-card">
-          <div class="chart-title" style="margin-bottom:4px;">Zones les plus signalées</div>
-          <div class="chart-sub" style="margin-bottom:12px;">Données réelles de la base</div>
-          <div id="zonesChart"><div style="color:var(--gray-400);font-size:12px;text-align:center;padding:20px;">Chargement...</div></div>
-        </div>
+        <div class="zc"><div class="ct" style="margin-bottom:4px">Zones les plus signalées</div><div class="cs2" style="margin-bottom:12px">Données réelles</div><div id="zonesC"><div style="color:#9C9790;font-size:12px;text-align:center;padding:20px">Chargement...</div></div></div>
       </div>
 
       <!-- AUTH -->
       <div class="panel" id="panel-auth">
-        <div class="auth-wrap">
-          <div class="auth-logo">
-            <div class="auth-logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
-            <div class="auth-logo-name">Ville<span>Sûre</span></div>
-            <div class="auth-logo-sub">Libreville, Gabon</div>
+        <div class="aw">
+          <div class="al">
+            <div class="al-ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+            <div class="al-n">Ville<span>Sûre</span></div>
+            <div class="al-s">Libreville, Gabon</div>
           </div>
-          <div class="auth-card">
-            <div class="auth-tabs">
-              <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Connexion</button>
-              <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Inscription</button>
+          <div class="ac">
+            <div class="at">
+              <button class="atb active" id="tabL" onclick="switchTab('login')">Connexion</button>
+              <button class="atb" id="tabS" onclick="switchTab('signup')">Inscription</button>
             </div>
-            <div id="authError" class="auth-error"></div>
-            <div class="auth-field">
-              <div class="auth-label">Email</div>
-              <input class="auth-input" type="email" id="authEmail" placeholder="votre@email.com">
-            </div>
-            <div class="auth-field">
-              <div class="auth-label">Mot de passe</div>
-              <input class="auth-input" type="password" id="authPassword" placeholder="••••••••">
-            </div>
-            <div class="auth-field" id="ageField" style="display:none;">
-              <div class="auth-label">Votre âge (optionnel)</div>
-              <input class="auth-input" type="number" id="authAge" placeholder="Ex: 28" min="10" max="100">
-            </div>
-            <button class="auth-btn" id="authSubmitBtn" onclick="handleAuth()">Se connecter</button>
-            <div class="auth-divider"><div class="auth-divider-line"></div><div class="auth-divider-text">ou</div><div class="auth-divider-line"></div></div>
-            <button class="auth-anon-btn" onclick="signInAnonymous()">🕵️ Continuer en anonyme</button>
+            <div class="aerr" id="aerr"></div>
+            <div class="af"><div class="afl">Email</div><input class="ai" type="email" id="aEmail" placeholder="votre@email.com"></div>
+            <div class="af"><div class="afl">Mot de passe</div><input class="ai" type="password" id="aPwd" placeholder="••••••••"></div>
+            <div class="af" id="ageF" style="display:none"><div class="afl">Âge (optionnel)</div><input class="ai" type="number" id="aAge" placeholder="Ex: 28" min="10" max="100"></div>
+            <button class="abtn" id="aBtn" onclick="handleAuth()">Se connecter</button>
+            <div class="adiv"><div class="adiv-l"></div><div class="adiv-t">ou</div><div class="adiv-l"></div></div>
+            <button class="aanon" onclick="signInAnon()">🕵️ Continuer en anonyme</button>
           </div>
         </div>
       </div>
 
       <!-- SIGNALER -->
       <div class="panel" id="panel-signaler">
-        <div class="signaler-wrap">
-          <div>
-            <div class="signaler-title">Signaler un incident</div>
-            <div class="signaler-sub">Votre signalement est enregistré en temps réel dans la base de données.</div>
-          </div>
-          <div class="form-card">
-            <div class="field-group">
-              <div class="field-label">Localisation</div>
-              <div class="loc-display" id="locDisplay">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--green)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                <span id="locText">Détection en cours...</span>
-                <button onclick="getLocation()" style="margin-left:auto;font-size:11px;background:none;border:none;cursor:pointer;color:var(--green);font-weight:600;">Actualiser</button>
+        <div class="sw">
+          <div><div class="s-title">Signaler un incident</div><div class="s-sub">Votre signalement est enregistré en temps réel dans la base de données.</div></div>
+          <div class="fc">
+            <div class="fg">
+              <div class="fl">Localisation</div>
+              <div class="ld"><svg width="16" height="16" viewBox="0 0 24 24" fill="#2D8A5E"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span id="locTxt">Libreville, Gabon</span></div>
+            </div>
+            <div class="fg">
+              <div class="fl">Type d'incident</div>
+              <div class="tg">
+                <div class="tc sel" onclick="selType(this)" data-type="Agression physique"><span class="te">⚠️</span>Agression physique</div>
+                <div class="tc" onclick="selType(this)" data-type="Harcèlement verbal"><span class="te">💬</span>Harcèlement verbal</div>
+                <div class="tc" onclick="selType(this)" data-type="Vol / tentative"><span class="te">🏃</span>Vol / tentative</div>
+                <div class="tc" onclick="selType(this)" data-type="Braquage"><span class="te">🔫</span>Braquage</div>
+                <div class="tc" onclick="selType(this)" data-type="Agression avec véhicule"><span class="te">🚗</span>Avec véhicule</div>
+                <div class="tc" onclick="selType(this)" data-type="Situation suspecte"><span class="te">❗</span>Situation suspecte</div>
               </div>
             </div>
-            <div class="field-group">
-              <div class="field-label">Type d'incident</div>
-              <div class="type-grid">
-                <div class="type-chip selected" onclick="selectType(this)" data-type="Agression physique"><span class="type-emoji-chip">⚠️</span>Agression physique</div>
-                <div class="type-chip" onclick="selectType(this)" data-type="Harcèlement verbal"><span class="type-emoji-chip">💬</span>Harcèlement verbal</div>
-                <div class="type-chip" onclick="selectType(this)" data-type="Vol / tentative"><span class="type-emoji-chip">🏃</span>Vol / tentative</div>
-                <div class="type-chip" onclick="selectType(this)" data-type="Braquage"><span class="type-emoji-chip">🔫</span>Braquage</div>
-                <div class="type-chip" onclick="selectType(this)" data-type="Agression avec véhicule"><span class="type-emoji-chip">🚗</span>Agression avec véhicule</div>
-                <div class="type-chip" onclick="selectType(this)" data-type="Situation suspecte"><span class="type-emoji-chip">❗</span>Situation suspecte</div>
-              </div>
-            </div>
-            <div class="field-group">
-              <div class="field-label">Description</div>
-              <textarea class="field-input" id="incidentDesc" rows="3" placeholder="Décrivez brièvement ce qui se passe…"></textarea>
-            </div>
-            <div class="form-row">
-              <div class="field-group">
-                <div class="field-label">Photo (optionnel)</div>
-                <div class="photo-zone" id="photoZone" onclick="document.getElementById('photoInput').click()">
-                  <div class="photo-zone-icon">📷</div>
-                  <div class="photo-zone-text" id="photoText"><strong>Cliquez</strong> pour ajouter une photo</div>
+            <div class="fg"><div class="fl">Description</div><textarea class="fi" id="iDesc" rows="3" placeholder="Décrivez brièvement ce qui se passe…"></textarea></div>
+            <div class="fr">
+              <div class="fg">
+                <div class="fl">Photo (optionnel)</div>
+                <div class="pz" id="pz" onclick="document.getElementById('pInput').click()">
+                  <div class="pz-ic">📷</div>
+                  <div class="pz-tx" id="pzTx"><strong>Cliquez</strong> pour ajouter</div>
                 </div>
-                <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)">
+                <input type="file" id="pInput" accept="image/*" style="display:none" onchange="handlePhoto(this)">
               </div>
-              <div class="field-group">
-                <div class="field-label">Votre âge (optionnel)</div>
-                <input type="number" class="field-input" id="reporterAge" placeholder="Ex: 28" min="10" max="100" style="height:48px;">
-                <div style="margin-top:10px;display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--gray-50);border-radius:var(--radius);border:1px solid var(--gray-200);">
-                  <span style="font-size:12px;font-family:var(--font-display);color:var(--gray-700);flex:1;">Mode anonyme</span>
-                  <div class="toggle-switch" id="anonToggle" onclick="this.classList.toggle('off')"></div>
-                </div>
+              <div class="fg">
+                <div class="fl">Votre âge (optionnel)</div>
+                <input type="number" class="fi" id="rAge" placeholder="Ex: 28" min="10" max="100" style="height:48px">
+                <div class="anon-row"><span class="anon-lbl">Mode anonyme</span><div class="tog" id="anonTog" onclick="this.classList.toggle('off')"></div></div>
               </div>
             </div>
-            <button class="submit-btn" id="submitBtn" onclick="submitReport()">
+            <button class="sbtn" id="sBtn" onclick="submitReport()">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
               SIGNALER MAINTENANT
             </button>
@@ -530,22 +452,16 @@ textarea.field-input::placeholder, input.field-input::placeholder { color: var(-
 
       <!-- PROFIL -->
       <div class="panel" id="panel-profil">
-        <div class="profil-wrap">
-          <div class="profil-card">
-            <div class="profil-hero">
-              <div class="profil-avatar">👤</div>
-              <div>
-                <div class="profil-name" id="profilName">Chargement...</div>
-                <div class="profil-sub" id="profilSub">Libreville, Gabon</div>
-              </div>
-            </div>
-            <div class="profil-row"><div class="profil-row-icon" style="background:var(--blue-light);">🎂</div><div class="profil-row-info"><div class="profil-row-label">Âge</div><div class="profil-row-value" id="profilAge">Non renseigné</div></div></div>
-            <div class="profil-row"><div class="profil-row-icon" style="background:var(--green-light);">📍</div><div class="profil-row-info"><div class="profil-row-label">Ville</div><div class="profil-row-value">Libreville, Gabon</div></div></div>
-            <div class="profil-row"><div class="profil-row-icon" style="background:var(--red-light);">🔔</div><div class="profil-row-info"><div class="profil-row-label">Alertes de proximité</div><div class="profil-row-value">Activées · Rayon 500m</div></div><div class="toggle-switch" onclick="this.classList.toggle('off')"></div></div>
-            <div class="profil-row"><div class="profil-row-icon" style="background:var(--orange-light);">📊</div><div class="profil-row-info"><div class="profil-row-label">Mes signalements</div><div class="profil-row-value">Historique personnel</div></div><div style="display:flex;align-items:center;gap:6px;"><span class="profil-stat" id="myReportCount">—</span></div></div>
+        <div class="pw">
+          <div class="pc">
+            <div class="ph"><div class="pav">👤</div><div><div class="pn" id="pName">Chargement...</div><div class="ps" id="pSub">Libreville, Gabon</div></div></div>
+            <div class="pr"><div class="pr-ic" style="background:#EBF3FC">🎂</div><div class="pr-info"><div class="pr-lbl">Âge</div><div class="pr-val" id="pAge">Non renseigné</div></div></div>
+            <div class="pr"><div class="pr-ic" style="background:#E8F6EF">📍</div><div class="pr-info"><div class="pr-lbl">Ville</div><div class="pr-val">Libreville, Gabon</div></div></div>
+            <div class="pr"><div class="pr-ic" style="background:#FEF0F0">🔔</div><div class="pr-info"><div class="pr-lbl">Alertes proximité</div><div class="pr-val">Activées · Rayon 500m</div></div><div class="tog" onclick="this.classList.toggle('off')"></div></div>
+            <div class="pr"><div class="pr-ic" style="background:#FEF5E7">📊</div><div class="pr-info"><div class="pr-lbl">Mes signalements</div><div class="pr-val">Historique personnel</div></div><span class="pr-stat" id="myRep">—</span></div>
           </div>
-          <div class="profil-card" style="padding:16px;">
-            <button class="logout-btn" onclick="handleLogout()">🚪 Se déconnecter</button>
+          <div class="pc" style="padding:16px">
+            <button class="lo-btn" onclick="doLogout()">🚪 Se déconnecter</button>
           </div>
         </div>
       </div>
@@ -554,438 +470,270 @@ textarea.field-input::placeholder, input.field-input::placeholder { color: var(-
   </main>
 </div>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+// ─── INIT ───
+const SUPA_URL = 'https://dzmgqcpxcdaloguuuhgp.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6bWdxY3B4Y2RhbG9ndXV1aGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjYyNzQsImV4cCI6MjA4OTEwMjI3NH0.a00OQPcrEC52NB-klE_UeX-SitgnAdrfkVRRaZ2Joio';
+const db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 
-// ─── CONFIG SUPABASE ───
-const SUPABASE_URL = 'https://dzmgqcpxcdaloguuuhgp.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6bWdxY3B4Y2RhbG9ndXV1aGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjYyNzQsImV4cCI6MjA4OTEwMjI3NH0.a00OQPcrEC52NB-klE_UeX-SitgnAdrfkVRRaZ2Joio';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let user = null, markers = {}, incidents = [], days = 7;
+let lat = 0.3962, lng = 9.4558, currentType = 'Agression physique', photoFile = null;
 
-// ─── STATE ───
-let currentUser = null;
-let mapMarkers = {};
-let userLat = 0.3962, userLng = 9.4558;
-let selectedType = 'Agression physique';
-let photoFile = null;
-let currentPeriodDays = 7;
-let allIncidents = [];
+// ─── MAP ───
+const map = L.map('map', {center:[0.394,9.455],zoom:14});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
 
-// ─── MAP INIT ───
-const map = L.map('map', { center: [0.3940, 9.4550], zoom: 14, zoomControl: true });
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap', maxZoom: 19
-}).addTo(map);
+const uIcon = L.divIcon({className:'',html:'<div style="width:16px;height:16px;background:#1B6FC8;border-radius:50%;border:3px solid white;box-shadow:0 0 0 5px rgba(27,111,200,.25)"></div>',iconSize:[16,16],iconAnchor:[8,8]});
+const uMarker = L.marker([lat,lng],{icon:uIcon}).addTo(map);
 
-const userIcon = L.divIcon({
-  className: '',
-  html: `<div style="width:16px;height:16px;background:#1B6FC8;border-radius:50%;border:3px solid white;box-shadow:0 0 0 5px rgba(27,111,200,0.25),0 2px 8px rgba(0,0,0,0.2);"></div>`,
-  iconSize: [16,16], iconAnchor: [8,8]
-});
-const userMarker = L.marker([userLat, userLng], {icon: userIcon}).addTo(map)
-  .bindPopup('<div class="popup-inner"><div class="popup-type" style="color:#1B6FC8">Votre position</div><div class="popup-title">Quartier Louis</div></div>');
-
-// ─── GEOLOCATION ───
-function getLocation() {
-  document.getElementById('locText').textContent = 'Libreville, Gabon (position par défaut)';
-  if (!navigator.geolocation) return;
-  navigator.geolocation.getCurrentPosition(pos => {
-    userLat = pos.coords.latitude;
-    userLng = pos.coords.longitude;
-    userMarker.setLatLng([userLat, userLng]);
-    map.setView([userLat, userLng], 15);
-    document.getElementById('locText').textContent = `Position GPS détectée — ${userLat.toFixed(4)}, ${userLng.toFixed(4)}`;
-    showToast('📍 Localisation','Position GPS détectée','success');
-  }, () => {
-    userLat = 0.3962;
-    userLng = 9.4558;
-    document.getElementById('locText').textContent = 'Libreville, Gabon (position par défaut)';
-  }, { timeout: 5000 });
-}
-getLocation();
-
-// ─── SUPABASE AUTH ───
-supabase.auth.onAuthStateChange(async (event, session) => {
-  currentUser = session?.user || null;
-  updateAuthUI();
-  if (currentUser) await loadProfile();
-});
-
-function updateAuthUI() {
-  const label = document.getElementById('navAuthLabel');
-  if (currentUser) {
-    label.textContent = 'Mon profil';
-    document.getElementById('profilName').textContent = currentUser.email || 'Utilisateur anonyme';
-    document.getElementById('profilSub').textContent = currentUser.is_anonymous ? 'Mode anonyme · Libreville' : `Membre · Libreville`;
-  } else {
-    label.textContent = 'Connexion';
-  }
+// GPS
+if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(p=>{
+    lat=p.coords.latitude; lng=p.coords.longitude;
+    uMarker.setLatLng([lat,lng]);
+    document.getElementById('locTxt').textContent=`GPS: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+  },()=>{
+    document.getElementById('locTxt').textContent='Libreville, Gabon (défaut)';
+  },{timeout:8000});
 }
 
-function handleAuthNav() {
-  if (currentUser) {
-    showPanel('profil', document.querySelectorAll('.nav-item')[3]);
-  } else {
-    showPanel('auth', document.querySelectorAll('.nav-item')[3]);
-  }
+// ─── HELPERS ───
+function typeStyle(t){
+  const m={'Agression physique':{cls:'urg',e:'⚠️',c:'#E03E3E',tc:'r',tt:'Urgent'},
+    'Harcèlement verbal':{cls:'inf',e:'💬',c:'#1B6FC8',tc:'g',tt:'Signalé'},
+    'Vol / tentative':{cls:'war',e:'🏃',c:'#F0960A',tc:'o',tt:'Récent'},
+    'Braquage':{cls:'war',e:'🔫',c:'#F0960A',tc:'o',tt:'Urgent'},
+    'Agression avec véhicule':{cls:'urg',e:'🚗',c:'#E03E3E',tc:'r',tt:'Urgent'},
+    'Situation suspecte':{cls:'inf',e:'❗',c:'#1B6FC8',tc:'g',tt:'Signalé'}};
+  return m[t]||{cls:'inf',e:'❗',c:'#1B6FC8',tc:'g',tt:'Signalé'};
+}
+function ago(d){
+  const s=(Date.now()-new Date(d))/1000;
+  if(s<60)return"à l'instant";
+  if(s<3600)return`${Math.floor(s/60)} min`;
+  if(s<86400)return`${Math.floor(s/3600)}h`;
+  return`${Math.floor(s/86400)}j`;
+}
+function toast(title,sub,type){
+  const c=document.getElementById('tc');
+  const t=document.createElement('div');
+  const ic=title.split(' ')[0], tx=title.replace(/^\S+\s/,'');
+  t.className='toast'+(type==='alert'?' alert':type==='success'?' success':'');
+  t.innerHTML=`<div class="t-ic">${ic}</div><div><div class="t-title">${tx}</div><div class="t-sub">${sub}</div></div>`;
+  c.appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400)},4000);
 }
 
-function switchTab(tab) {
-  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
-  document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
-  document.getElementById('authSubmitBtn').textContent = tab === 'login' ? 'Se connecter' : "S'inscrire";
-  document.getElementById('ageField').style.display = tab === 'signup' ? 'flex' : 'none';
-  document.getElementById('authError').classList.remove('show');
+// ─── MARKERS ───
+function addMarker(inc){
+  if(markers[inc.id])map.removeLayer(markers[inc.id]);
+  const s=typeStyle(inc.type);
+  const icon=L.divIcon({className:'',html:`<div class="vs-marker ${s.cls}">${s.e} ${inc.type}</div>`,iconSize:null,iconAnchor:[70,36]});
+  const bg=s.tc==='r'?'#FEF0F0':s.tc==='o'?'#FEF5E7':'#F0EEE9';
+  const tx=s.tc==='r'?'#B52E2E':s.tc==='o'?'#8B5A00':'#5A5651';
+  markers[inc.id]=L.marker([inc.latitude,inc.longitude],{icon}).addTo(map)
+    .bindPopup(`<div class="pu"><div class="pu-type" style="color:${s.c}">${s.e} ${s.tt}</div><div class="pu-title">${inc.type}</div><div class="pu-loc">📍 ${inc.zone||'Libreville'}</div>${inc.description?`<div class="pu-desc">"${inc.description}"</div>`:''}<div class="pu-ft"><span class="pu-time">${ago(inc.created_at)}</span><span class="pu-tag" style="background:${bg};color:${tx}">${s.tt}</span></div></div>`,{maxWidth:260,minWidth:220,closeButton:false,offset:[0,-8]});
 }
 
-async function handleAuth() {
-  const email = document.getElementById('authEmail').value.trim();
-  const password = document.getElementById('authPassword').value;
-  const isLogin = document.getElementById('tabLogin').classList.contains('active');
-  const btn = document.getElementById('authSubmitBtn');
-  const errEl = document.getElementById('authError');
-  if (!email || !password) { errEl.textContent = 'Veuillez remplir tous les champs.'; errEl.classList.add('show'); return; }
-  btn.disabled = true;
-  btn.textContent = 'Chargement...';
-  errEl.classList.remove('show');
-  try {
-    let result;
-    if (isLogin) {
-      result = await supabase.auth.signInWithPassword({ email, password });
-    } else {
-      result = await supabase.auth.signUp({ email, password });
-    }
-    if (result.error) throw result.error;
-    showToast('✅ Connexion réussie', `Bienvenue sur VilleSûre !`, 'success');
-    showPanel('map', document.getElementById('nav-map'));
-  } catch(e) {
-    errEl.textContent = e.message || 'Une erreur est survenue.';
-    errEl.classList.add('show');
-  }
-  btn.disabled = false;
-  btn.textContent = isLogin ? 'Se connecter' : "S'inscrire";
-}
-
-async function signInAnonymous() {
-  const { error } = await supabase.auth.signInAnonymously();
-  if (error) { showToast('❌ Erreur', error.message, 'alert'); return; }
-  showToast('🕵️ Mode anonyme', 'Vous pouvez signaler des incidents', 'success');
-  showPanel('map', document.getElementById('nav-map'));
-}
-
-async function handleLogout() {
-  await supabase.auth.signOut();
-  showToast('👋 Déconnexion', 'À bientôt sur VilleSûre', '');
-  showPanel('map', document.getElementById('nav-map'));
-}
-
-async function loadProfile() {
-  if (!currentUser) return;
-  const { data } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
-  if (data?.age) document.getElementById('profilAge').textContent = `${data.age} ans`;
-  const { count } = await supabase.from('incidents').select('*', {count:'exact',head:true}).eq('user_id', currentUser.id);
-  document.getElementById('myReportCount').textContent = count || 0;
-}
-
-// ─── INCIDENTS ───
-function getTypeStyle(type) {
-  const map = {
-    'Agression physique': { cls: 'urgent', emoji: '⚠️', color: '#E03E3E', tagCls: 'red', tagText: 'Urgent' },
-    'Harcèlement verbal': { cls: 'info', emoji: '💬', color: '#1B6FC8', tagCls: 'gray', tagText: 'Signalé' },
-    'Vol / tentative': { cls: 'warning', emoji: '🏃', color: '#F0960A', tagCls: 'orange', tagText: 'Récent' },
-    'Braquage': { cls: 'warning', emoji: '🔫', color: '#F0960A', tagCls: 'orange', tagText: 'Urgent' },
-    'Agression avec véhicule': { cls: 'urgent', emoji: '🚗', color: '#E03E3E', tagCls: 'red', tagText: 'Urgent' },
-    'Situation suspecte': { cls: 'info', emoji: '❗', color: '#1B6FC8', tagCls: 'gray', tagText: 'Signalé' },
-  };
-  return map[type] || { cls: 'info', emoji: '❗', color: '#1B6FC8', tagCls: 'gray', tagText: 'Signalé' };
-}
-
-function timeAgo(dateStr) {
-  const diff = (Date.now() - new Date(dateStr)) / 1000;
-  if (diff < 60) return "à l'instant";
-  if (diff < 3600) return `il y a ${Math.floor(diff/60)} min`;
-  if (diff < 86400) return `il y a ${Math.floor(diff/3600)}h`;
-  return `il y a ${Math.floor(diff/86400)}j`;
-}
-
-function addMarkerToMap(inc) {
-  if (mapMarkers[inc.id]) { map.removeLayer(mapMarkers[inc.id]); }
-  const s = getTypeStyle(inc.type);
-  const icon = L.divIcon({
-    className: '',
-    html: `<div class="vs-marker ${s.cls}">${s.emoji} ${inc.type}</div>`,
-    iconSize: null, iconAnchor: [70, 36]
-  });
-  const tagBg = s.tagCls === 'red' ? '#FEF0F0' : s.tagCls === 'orange' ? '#FEF5E7' : '#F0EEE9';
-  const tagTxt = s.tagCls === 'red' ? '#B52E2E' : s.tagCls === 'orange' ? '#8B5A00' : '#5A5651';
-  const marker = L.marker([inc.latitude, inc.longitude], {icon})
-    .addTo(map)
-    .bindPopup(`<div class="popup-inner">
-      <div class="popup-type" style="color:${s.color}">${s.emoji} ${s.tagText.toUpperCase()}</div>
-      <div class="popup-title">${inc.type}</div>
-      <div class="popup-loc">📍 ${inc.zone || 'Libreville'}</div>
-      ${inc.description ? `<div class="popup-desc">"${inc.description}"</div>` : ''}
-      <div class="popup-footer">
-        <span class="popup-time">${timeAgo(inc.created_at)}</span>
-        <span class="popup-tag" style="background:${tagBg};color:${tagTxt}">${s.tagText}</span>
-      </div>
-    </div>`, {maxWidth:260, minWidth:220, closeButton:false, offset:[0,-8]});
-  mapMarkers[inc.id] = marker;
-}
-
-function renderIncidentCard(inc) {
-  const s = getTypeStyle(inc.type);
-  const iconCls = s.cls === 'urgent' ? 'red' : s.cls === 'warning' ? 'orange' : 'red';
-  return `<div class="incident-card ${s.cls === 'urgent' ? 'urgent' : ''}" onclick="flyTo(${inc.latitude},${inc.longitude},'${inc.id}')">
-    <div class="ic-top">
-      <div class="ic-icon ${iconCls}">${s.emoji}</div>
-      <div class="ic-body">
-        <div class="ic-title">${inc.type}</div>
-        <div class="ic-loc">📍 ${inc.zone || 'Libreville'}</div>
-      </div>
-      <div class="ic-time">${timeAgo(inc.created_at)}</div>
-    </div>
-    <div class="ic-tags"><span class="tag ${s.tagCls}">${s.tagText}</span>${inc.is_anonymous ? '<span class="tag gray">Anonyme</span>' : ''}</div>
-    ${inc.description ? `<div class="ic-desc">"${inc.description}"</div>` : ''}
+function incCard(inc){
+  const s=typeStyle(inc.type);
+  return`<div class="ic${s.cls==='urg'?' urg':''}" onclick="flyTo(${inc.latitude},${inc.longitude},'${inc.id}')">
+    <div class="ic-top"><div class="ic-icon ${s.tc==='r'?'r':'o'}">${s.e}</div>
+    <div class="ic-body"><div class="ic-title">${inc.type}</div><div class="ic-loc">📍 ${inc.zone||'Libreville'}</div></div>
+    <div class="ic-time">${ago(inc.created_at)}</div></div>
+    <div class="tags"><span class="tag ${s.tc}">${s.tt}</span>${inc.is_anonymous?'<span class="tag g">Anonyme</span>':''}</div>
+    ${inc.description?`<div style="font-size:11px;color:#5A5651;font-style:italic;margin-top:6px">"${inc.description}"</div>`:''}
   </div>`;
 }
 
-async function loadIncidents() {
-  const since = new Date();
-  if (currentPeriodDays < 9999) since.setDate(since.getDate() - currentPeriodDays);
-  const query = supabase.from('incidents').select('*').order('created_at', {ascending: false});
-  if (currentPeriodDays < 9999) query.gte('created_at', since.toISOString());
-  const { data, error } = await query;
-  if (error) { console.error(error); return; }
-  allIncidents = data || [];
+// ─── LOAD DATA ───
+async function loadData(){
+  let q=db.from('incidents').select('*').order('created_at',{ascending:false});
+  if(days<9999){const d=new Date();d.setDate(d.getDate()-days);q=q.gte('created_at',d.toISOString());}
+  const{data,error}=await q;
+  if(error){console.error('Load error:',error);document.getElementById('incList').innerHTML='<div class="empty">❌ Erreur de connexion</div>';return;}
+  incidents=data||[];
   renderAll();
 }
 
-function renderAll() {
-  const list = document.getElementById('incidentsList');
-  const count = allIncidents.length;
-  document.getElementById('incCount').textContent = `${count} incident${count > 1 ? 's' : ''}`;
-  document.getElementById('navBadge').textContent = count;
-  document.getElementById('alertCount').textContent = count;
-  document.getElementById('mswTotal').textContent = count;
-  document.getElementById('sn1').textContent = count;
-
-  if (count === 0) {
-    list.innerHTML = `<div class="empty-state"><div class="es-icon">✅</div>Aucun incident signalé<br>sur cette période</div>`;
-  } else {
-    list.innerHTML = allIncidents.map(renderIncidentCard).join('');
-  }
-
-  Object.values(mapMarkers).forEach(m => map.removeLayer(m));
-  mapMarkers = {};
-  allIncidents.forEach(addMarkerToMap);
-  updateStats();
+function renderAll(){
+  const n=incidents.length;
+  document.getElementById('incCnt').textContent=`${n} incident${n>1?'s':''}`;
+  document.getElementById('navBadge').textContent=n;
+  document.getElementById('alertCnt').textContent=n;
+  document.getElementById('mwT').textContent=n;
+  document.getElementById('sn1').textContent=n;
+  document.getElementById('incList').innerHTML=n?incidents.map(incCard).join(''):'<div class="empty">✅ Aucun incident sur cette période</div>';
+  Object.values(markers).forEach(m=>map.removeLayer(m));
+  markers={};
+  incidents.forEach(addMarker);
+  renderStats();
 }
 
-function updateStats() {
-  const now = Date.now();
-  const week = allIncidents.filter(i => now - new Date(i.created_at) < 7*86400000).length;
-  const month = allIncidents.filter(i => now - new Date(i.created_at) < 30*86400000).length;
-  const anon = allIncidents.filter(i => i.is_anonymous).length;
-  document.getElementById('sn2').textContent = week;
-  document.getElementById('sn3').textContent = month;
-  document.getElementById('sn4').textContent = anon;
-  document.getElementById('mswWeek').textContent = week;
-
-  // Bar chart - last 7 days
-  const days = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-  const counts = Array(7).fill(0);
-  allIncidents.filter(i => now - new Date(i.created_at) < 7*86400000).forEach(i => {
-    const d = new Date(i.created_at).getDay();
-    counts[d]++;
-  });
-  const maxC = Math.max(...counts, 1);
-  document.getElementById('barChart').innerHTML = counts.map((c,i) =>
-    `<div class="bc-col"><div class="bc-bar ${c===maxC&&c>0?'peak':''}" style="height:${Math.max(c/maxC*100,4)}%;"></div><div class="bc-lbl">${days[i]}</div></div>`
-  ).join('');
-
+function renderStats(){
+  const now=Date.now();
+  const w=incidents.filter(i=>now-new Date(i.created_at)<7*86400000).length;
+  const mo=incidents.filter(i=>now-new Date(i.created_at)<30*86400000).length;
+  const an=incidents.filter(i=>i.is_anonymous).length;
+  document.getElementById('sn2').textContent=w;
+  document.getElementById('sn3').textContent=mo;
+  document.getElementById('sn4').textContent=an;
+  document.getElementById('mwW').textContent=w;
+  // Bar chart
+  const dy=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],cs=Array(7).fill(0);
+  incidents.filter(i=>now-new Date(i.created_at)<7*86400000).forEach(i=>{cs[new Date(i.created_at).getDay()]++;});
+  const mx=Math.max(...cs,1);
+  document.getElementById('bc').innerHTML=cs.map((c,i)=>`<div class="bc-c"><div class="bc-b${c===mx&&c>0?' pk':''}" style="height:${Math.max(c/mx*100,4)}%"></div><div class="bc-l">${dy[i]}</div></div>`).join('');
   // Type chart
-  const typeCounts = {};
-  allIncidents.forEach(i => { typeCounts[i.type] = (typeCounts[i.type]||0)+1; });
-  const typeColors = { 'Agression physique':'var(--red)', 'Vol / tentative':'var(--orange)', 'Harcèlement verbal':'var(--blue)', 'Braquage':'#888', 'Agression avec véhicule':'var(--red-dark)', 'Situation suspecte':'var(--gray-400)' };
-  const typeEmojis = { 'Agression physique':'⚠️', 'Vol / tentative':'🏃', 'Harcèlement verbal':'💬', 'Braquage':'🔫', 'Agression avec véhicule':'🚗', 'Situation suspecte':'❗' };
-  const maxT = Math.max(...Object.values(typeCounts), 1);
-  document.getElementById('typeChart').innerHTML = Object.entries(typeCounts).sort((a,b)=>b[1]-a[1]).map(([t,c]) =>
-    `<div class="type-row-s">
-      <div class="type-emoji">${typeEmojis[t]||'❗'}</div>
-      <div class="type-name">${t}</div>
-      <div class="type-bar-bg"><div class="type-bar-fill" style="width:${c/maxT*100}%;background:${typeColors[t]||'#888'};"></div></div>
-      <div class="type-count-s">${c}</div>
-    </div>`
-  ).join('') || '<div style="color:var(--gray-400);font-size:12px;text-align:center;padding:20px;">Aucune donnée</div>';
-
-  // Zones chart
-  const zoneCounts = {};
-  allIncidents.forEach(i => { const z = i.zone||'Libreville'; zoneCounts[z]=(zoneCounts[z]||0)+1; });
-  const zonesSorted = Object.entries(zoneCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const maxZ = zonesSorted[0]?.[1] || 1;
-  document.getElementById('zonesChart').innerHTML = zonesSorted.map(([z,c],i) =>
-    `<div class="zone-row">
-      <div class="zone-rank ${i===0?'top':''}">${String(i+1).padStart(2,'0')}</div>
-      <div class="zone-info"><div class="zone-name">${z}</div><div class="zone-detail">${c} incident${c>1?'s':''}</div></div>
-      <div class="zone-bar-wrap"><div class="zone-bar-bg2"><div class="zone-bar-fill2" style="width:${c/maxZ*100}%;"></div></div></div>
-      <div class="zone-count">${c}</div>
-    </div>`
-  ).join('') || '<div style="color:var(--gray-400);font-size:12px;text-align:center;padding:20px;">Aucune donnée</div>';
+  const tc={};incidents.forEach(i=>{tc[i.type]=(tc[i.type]||0)+1;});
+  const tcol={'Agression physique':'#E03E3E','Vol / tentative':'#F0960A','Harcèlement verbal':'#1B6FC8','Braquage':'#888','Agression avec véhicule':'#B52E2E','Situation suspecte':'#9C9790'};
+  const te={'Agression physique':'⚠️','Vol / tentative':'🏃','Harcèlement verbal':'💬','Braquage':'🔫','Agression avec véhicule':'🚗','Situation suspecte':'❗'};
+  const mtc=Math.max(...Object.values(tc),1);
+  document.getElementById('typeC').innerHTML=Object.entries(tc).sort((a,b)=>b[1]-a[1]).map(([t,c])=>`<div class="tr-r"><div class="tr-e">${te[t]||'❗'}</div><div class="tr-n">${t}</div><div class="tr-bg"><div class="tr-f" style="width:${c/mtc*100}%;background:${tcol[t]||'#888'}"></div></div><div class="tr-c">${c}</div></div>`).join('')||'<div style="color:#9C9790;font-size:12px;text-align:center;padding:20px">Aucune donnée</div>';
+  // Zones
+  const zc={};incidents.forEach(i=>{const z=i.zone||'Libreville';zc[z]=(zc[z]||0)+1;});
+  const zs=Object.entries(zc).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const mz=zs[0]?.[1]||1;
+  document.getElementById('zonesC').innerHTML=zs.map(([z,c],i)=>`<div class="zr"><div class="zrk${i===0?' top':''}">${String(i+1).padStart(2,'0')}</div><div class="zi"><div class="zn">${z}</div><div class="zd">${c} incident${c>1?'s':''}</div></div><div class="zb"><div class="zbg"><div class="zbf" style="width:${c/mz*100}%"></div></div></div><div class="zct">${c}</div></div>`).join('')||'<div style="color:#9C9790;font-size:12px;text-align:center;padding:20px">Aucune donnée</div>';
 }
 
-function flyTo(lat, lng, id) {
-  showPanel('map', document.getElementById('nav-map'));
-  setTimeout(() => {
-    map.flyTo([lat, lng], 16, {duration: 1.2});
-    if (id && mapMarkers[id]) setTimeout(() => mapMarkers[id].openPopup(), 1300);
-  }, 100);
+function flyTo(la,ln,id){
+  showPanel('map',document.getElementById('nav-map'));
+  setTimeout(()=>{map.flyTo([la,ln],16,{duration:1.2});if(markers[id])setTimeout(()=>markers[id].openPopup(),1300);},100);
 }
 
 // ─── REALTIME ───
-function setConnStatus(status) {
-  const dot = document.getElementById('connDot');
-  const label = document.getElementById('connLabel');
-  dot.className = 'conn-dot ' + status;
-  label.textContent = status === 'online' ? 'En direct' : status === 'connecting' ? 'Connexion...' : 'Hors ligne';
+function setConn(s){
+  document.getElementById('cd').className='cd '+s;
+  document.getElementById('cl').textContent=s==='on'?'En direct':s==='cn'?'Connexion...':'Hors ligne';
 }
-
-supabase.channel('incidents-realtime')
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'incidents' }, payload => {
-    const inc = payload.new;
-    allIncidents.unshift(inc);
-    renderAll();
-    addMarkerToMap(inc);
-    showToast(`🔔 Nouvel incident`, `${inc.type} — ${inc.zone || 'Libreville'}`, 'alert');
-    // Fly to new incident
-    map.flyTo([inc.latitude, inc.longitude], 15, {duration: 1.5});
-  })
-  .subscribe(status => {
-    if (status === 'SUBSCRIBED') setConnStatus('online');
-    else if (status === 'CLOSED') setConnStatus('offline');
-    else setConnStatus('connecting');
-  });
-
-// ─── SUBMIT REPORT ───
-function selectType(el) {
-  document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedType = el.dataset.type;
-}
-
-function handlePhoto(input) {
-  if (input.files[0]) {
-    photoFile = input.files[0];
-    document.getElementById('photoZone').classList.add('has-photo');
-    document.getElementById('photoText').innerHTML = `✅ Photo ajoutée : <strong>${photoFile.name}</strong>`;
-  }
-}
-
-async function submitReport() {
-  const btn = document.getElementById('submitBtn');
-  const desc = document.getElementById('incidentDesc').value.trim();
-  const age = document.getElementById('reporterAge').value;
-  const isAnon = !document.getElementById('anonToggle').classList.contains('off');
-
-  // Ensure we have coords (default to Libreville if GPS not available)
-  if (!userLat || !userLng) { userLat = 0.3962; userLng = 9.4558; }
-
-  btn.disabled = true;
-  btn.textContent = 'Envoi en cours...';
-
-  try {
-    let photoUrl = null;
-
-    // Upload photo if any
-    if (photoFile) {
-      const fname = `${Date.now()}_${photoFile.name}`;
-      const { data: upData, error: upErr } = await supabase.storage.from('photos').upload(fname, photoFile);
-      if (!upErr) {
-        const { data: urlData } = supabase.storage.from('photos').getPublicUrl(fname);
-        photoUrl = urlData.publicUrl;
-      }
-    }
-
-    const { error } = await supabase.from('incidents').insert({
-      type: selectedType,
-      description: desc || null,
-      latitude: userLat,
-      longitude: userLng,
-      zone: 'Libreville',
-      photo_url: photoUrl,
-      user_age: age ? parseInt(age) : null,
-      is_anonymous: isAnon,
-      user_id: currentUser?.id || null
-    });
-
-    if (error) throw error;
-
-    document.getElementById('confirmOverlay').classList.add('show');
-    document.getElementById('incidentDesc').value = '';
-    photoFile = null;
-    document.getElementById('photoZone').classList.remove('has-photo');
-    document.getElementById('photoText').innerHTML = '<strong>Cliquez</strong> pour ajouter une photo';
-
-  } catch(e) {
-    showToast('❌ Erreur', e.message || 'Impossible d\'envoyer le signalement', 'alert');
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> SIGNALER MAINTENANT';
-}
-
-// ─── NAV & UI ───
-const panelTitles = {
-  map: ['Carte en direct', 'Libreville, Gabon'],
-  stats: ['Statistiques', 'Données réelles — Supabase'],
-  signaler: ['Signaler un incident', 'Formulaire de signalement'],
-  auth: ['Connexion', 'Accédez à votre compte'],
-  profil: ['Mon profil', 'Vos informations personnelles']
-};
-
-function showPanel(name, btn) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  const t = panelTitles[name] || ['VilleSûre',''];
-  document.getElementById('topbarTitle').textContent = t[0];
-  document.getElementById('topbarSub').textContent = t[1];
-  if (name === 'map') setTimeout(() => map.invalidateSize(), 50);
-}
-
-function selectPeriod(el, days) {
-  document.querySelectorAll('.period-pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  currentPeriodDays = days;
-  loadIncidents();
-}
-
-function closeConfirm() {
-  document.getElementById('confirmOverlay').classList.remove('show');
-  showPanel('map', document.getElementById('nav-map'));
-}
-
-function showToast(title, sub, type) {
-  const c = document.getElementById('toastContainer');
-  const t = document.createElement('div');
-  const icon = title.split(' ')[0];
-  const text = title.replace(/^\S+\s/,'');
-  t.className = 'toast' + (type==='alert'?' alert':type==='success'?' success':'');
-  t.innerHTML = `<div class="toast-icon">${icon}</div><div class="toast-body"><div class="toast-title">${text}</div><div class="toast-sub">${sub}</div></div>`;
-  c.appendChild(t);
-  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
-  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 4000);
-}
-
-// ─── INIT ───
-setConnStatus('connecting');
-loadIncidents();
-
+setConn('cn');
+db.channel('vs-rt').on('postgres_changes',{event:'INSERT',schema:'public',table:'incidents'},p=>{
+  incidents.unshift(p.new);
+  renderAll();
+  addMarker(p.new);
+  toast(`🔔 Nouvel incident`,`${p.new.type} — ${p.new.zone||'Libreville'}`,'alert');
+  map.flyTo([p.new.latitude,p.new.longitude],15,{duration:1.5});
+}).subscribe(s=>{
+  if(s==='SUBSCRIBED')setConn('on');
+  else if(s==='CLOSED')setConn('off');
+  else setConn('cn');
 });
+
+// ─── AUTH ───
+db.auth.onAuthStateChange(async(e,ses)=>{
+  user=ses?.user||null;
+  const lbl=document.getElementById('navAuthLbl');
+  if(user){
+    lbl.textContent='Mon profil';
+    document.getElementById('pName').textContent=user.email||'Utilisateur anonyme';
+    document.getElementById('pSub').textContent=user.is_anonymous?'Mode anonyme · Libreville':'Membre · Libreville';
+    const{count}=await db.from('incidents').select('*',{count:'exact',head:true}).eq('user_id',user.id);
+    document.getElementById('myRep').textContent=count||0;
+  } else {
+    lbl.textContent='Connexion';
+  }
+});
+
+function handleAuthNav(){showPanel(user?'profil':'auth',document.getElementById('nav-auth'));}
+function switchTab(t){
+  document.getElementById('tabL').classList.toggle('active',t==='login');
+  document.getElementById('tabS').classList.toggle('active',t==='signup');
+  document.getElementById('aBtn').textContent=t==='login'?'Se connecter':"S'inscrire";
+  document.getElementById('ageF').style.display=t==='signup'?'flex':'none';
+  document.getElementById('aerr').classList.remove('show');
+}
+async function handleAuth(){
+  const em=document.getElementById('aEmail').value.trim();
+  const pw=document.getElementById('aPwd').value;
+  const isL=document.getElementById('tabL').classList.contains('active');
+  const btn=document.getElementById('aBtn');
+  const err=document.getElementById('aerr');
+  if(!em||!pw){err.textContent='Remplissez tous les champs.';err.classList.add('show');return;}
+  btn.disabled=true;btn.textContent='Chargement...';err.classList.remove('show');
+  try{
+    const r=isL?await db.auth.signInWithPassword({email:em,password:pw}):await db.auth.signUp({email:em,password:pw});
+    if(r.error)throw r.error;
+    toast('✅ Connecté','Bienvenue sur VilleSûre !','success');
+    showPanel('map',document.getElementById('nav-map'));
+  }catch(e){err.textContent=e.message||'Erreur.';err.classList.add('show');}
+  btn.disabled=false;btn.textContent=isL?'Se connecter':"S'inscrire";
+}
+async function signInAnon(){
+  const{error}=await db.auth.signInAnonymously();
+  if(error){toast('❌ Erreur',error.message,'alert');return;}
+  toast('🕵️ Mode anonyme','Vous pouvez signaler des incidents','success');
+  showPanel('map',document.getElementById('nav-map'));
+}
+async function doLogout(){
+  await db.auth.signOut();
+  toast('👋 Déconnexion','À bientôt !','');
+  showPanel('map',document.getElementById('nav-map'));
+}
+
+// ─── SIGNALER ───
+function selType(el){document.querySelectorAll('.tc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');currentType=el.dataset.type;}
+function handlePhoto(inp){
+  if(inp.files[0]){photoFile=inp.files[0];document.getElementById('pz').classList.add('has');document.getElementById('pzTx').innerHTML=`✅ <strong>${photoFile.name}</strong>`;}
+}
+async function submitReport(){
+  const btn=document.getElementById('sBtn');
+  const desc=document.getElementById('iDesc').value.trim();
+  const age=document.getElementById('rAge').value;
+  const isAnon=!document.getElementById('anonTog').classList.contains('off');
+  if(!lat||!lng){lat=0.3962;lng=9.4558;}
+  btn.disabled=true;btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Envoi...';
+  try{
+    let photoUrl=null;
+    if(photoFile){
+      const fn=`${Date.now()}_${photoFile.name}`;
+      const{error:ue}=await db.storage.from('photos').upload(fn,photoFile);
+      if(!ue){const{data:ud}=db.storage.from('photos').getPublicUrl(fn);photoUrl=ud.publicUrl;}
+    }
+    const selTypeVal=currentType||document.querySelector('.tc.sel')?.dataset?.type||'Agression physique';
+    const{error}=await db.from('incidents').insert({
+      type:selTypeVal,description:desc||null,
+      latitude:lat,longitude:lng,zone:'Libreville',
+      photo_url:photoUrl,user_age:age?parseInt(age):null,
+      is_anonymous:isAnon,user_id:user?.id||null
+    });
+    if(error)throw error;
+    document.getElementById('ov').classList.add('show');
+    document.getElementById('iDesc').value='';
+    photoFile=null;
+    document.getElementById('pz').classList.remove('has');
+    document.getElementById('pzTx').innerHTML='<strong>Cliquez</strong> pour ajouter';
+  }catch(e){
+    toast('❌ Erreur',e.message||'Impossible d\'envoyer','alert');
+    console.error(e);
+  }
+  btn.disabled=false;btn.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> SIGNALER MAINTENANT';
+}
+
+// ─── NAV ───
+const titles={map:['Carte en direct','Libreville, Gabon'],stats:['Statistiques','Données réelles'],signaler:['Signaler','Formulaire de signalement'],auth:['Connexion','Votre compte'],profil:['Mon profil','Vos informations']};
+function showPanel(n,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+n).classList.add('active');
+  document.querySelectorAll('.ni').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const t=titles[n]||['VilleSûre',''];
+  document.getElementById('tbTitle').textContent=t[0];
+  document.getElementById('tbSub').textContent=t[1];
+  if(n==='map')setTimeout(()=>map.invalidateSize(),50);
+}
+function setPeriod(el,d){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');days=d;loadData();
+}
+function closeConfirm(){
+  document.getElementById('ov').classList.remove('show');
+  showPanel('map',document.getElementById('nav-map'));
+}
+
+// START
+loadData();
 </script>
 </body>
 </html>
