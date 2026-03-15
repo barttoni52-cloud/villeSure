@@ -555,25 +555,10 @@ textarea.field-input::placeholder, input.field-input::placeholder { color: var(-
 </div>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-// Load scripts sequentially and reliably
-(function() {
-  function loadScript(src, cb) {
-    var s = document.createElement('script');
-    s.src = src;
-    s.onload = cb;
-    s.onerror = function() { console.error('Failed to load: ' + src); cb(); };
-    document.head.appendChild(s);
-  }
-  loadScript('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', function() {
-    loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js', function() {
-      document.dispatchEvent(new Event('libs-ready'));
-    });
-  });
-})();
-</script>
-<script>
-document.addEventListener('libs-ready', function() {
+document.addEventListener('DOMContentLoaded', function() {
 
 // ─── CONFIG SUPABASE ───
 const SUPABASE_URL = 'https://dzmgqcpxcdaloguuuhgp.supabase.co';
@@ -605,18 +590,20 @@ const userMarker = L.marker([userLat, userLng], {icon: userIcon}).addTo(map)
 
 // ─── GEOLOCATION ───
 function getLocation() {
+  document.getElementById('locText').textContent = 'Libreville, Gabon (position par défaut)';
   if (!navigator.geolocation) return;
-  document.getElementById('locText').textContent = 'Détection en cours...';
   navigator.geolocation.getCurrentPosition(pos => {
     userLat = pos.coords.latitude;
     userLng = pos.coords.longitude;
     userMarker.setLatLng([userLat, userLng]);
     map.setView([userLat, userLng], 15);
-    document.getElementById('locText').textContent = `Position détectée — ${userLat.toFixed(4)}, ${userLng.toFixed(4)}`;
+    document.getElementById('locText').textContent = `Position GPS détectée — ${userLat.toFixed(4)}, ${userLng.toFixed(4)}`;
     showToast('📍 Localisation','Position GPS détectée','success');
   }, () => {
+    userLat = 0.3962;
+    userLng = 9.4558;
     document.getElementById('locText').textContent = 'Libreville, Gabon (position par défaut)';
-  });
+  }, { timeout: 5000 });
 }
 getLocation();
 
@@ -902,6 +889,9 @@ async function submitReport() {
   const desc = document.getElementById('incidentDesc').value.trim();
   const age = document.getElementById('reporterAge').value;
   const isAnon = !document.getElementById('anonToggle').classList.contains('off');
+
+  // Ensure we have coords (default to Libreville if GPS not available)
+  if (!userLat || !userLng) { userLat = 0.3962; userLng = 9.4558; }
 
   btn.disabled = true;
   btn.textContent = 'Envoi en cours...';
