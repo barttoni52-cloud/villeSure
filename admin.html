@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VilleSûre — Administration</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E03E3E;--red-d:#B52E2E;--red-l:#FEF0F0;--red-m:#F7C1C1;
+  --ora:#F0960A;--ora-l:#FEF5E7;--blu:#1B6FC8;--blu-l:#EBF3FC;
+  --grn:#16a34a;--grn-l:#dcfce7;
+  --g50:#F8F7F5;--g100:#F0EEE9;--g200:#E2DED7;--g300:#C8C3BA;
+  --g400:#9C9790;--g600:#5A5651;--g800:#2E2C29;--g900:#1A1917;
+  --fd:'Sora',sans-serif;--fb:'DM Sans',sans-serif;
+  --r:10px;--rl:16px;
+}
+html,body{height:100%;overflow:hidden;background:var(--g50);font-family:var(--fb);color:var(--g900)}
+.app{display:flex;height:100vh}
+
+/* SIDEBAR */
+.sb{width:240px;flex-shrink:0;height:100vh;background:var(--g900);display:flex;flex-direction:column}
+.sb-head{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.sb-logo-ic{width:32px;height:32px;background:var(--red);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.sb-logo-ic svg{width:18px;height:18px;fill:white}
+.sb-logo-tx{font-family:var(--fd);font-size:16px;font-weight:700;color:white}
+.sb-logo-tx span{color:var(--red)}
+.sb-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(224,62,62,.2);color:var(--red-m);font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;font-family:var(--fd)}
+.sb-nav{padding:12px 10px;flex:1;display:flex;flex-direction:column;gap:2px}
+.sni{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;cursor:pointer;border:none;background:transparent;width:100%;text-align:left;font-family:var(--fd);font-size:13px;font-weight:500;color:rgba(255,255,255,.55);transition:all .15s}
+.sni:hover{background:rgba(255,255,255,.07);color:white}
+.sni.active{background:rgba(224,62,62,.18);color:var(--red-m)}
+.sni-ic{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sb-foot{padding:16px;border-top:1px solid rgba(255,255,255,.08)}
+.sb-user{display:flex;align-items:center;gap:9px}
+.sb-av{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.sb-uname{font-size:12px;font-weight:500;color:rgba(255,255,255,.7);font-family:var(--fd);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-logout{background:none;border:none;cursor:pointer;font-size:16px;opacity:.5;transition:opacity .15s}
+.sb-logout:hover{opacity:1}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.topbar{height:56px;background:white;border-bottom:1px solid var(--g200);display:flex;align-items:center;gap:12px;padding:0 24px;flex-shrink:0}
+.tb-title{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--g900)}
+.tb-sub{font-size:12px;color:var(--g400)}
+.tb-sep{flex:1}
+.tb-live{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--grn);font-family:var(--fd);background:var(--grn-l);padding:5px 12px;border-radius:20px}
+.tb-live-dot{width:7px;height:7px;background:var(--grn);border-radius:50%;animation:pd 1.5s infinite}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:20px}
+
+/* LOGIN */
+.login-wrap{flex:1;display:flex;align-items:center;justify-content:center}
+.login-card{background:white;border:1px solid var(--g200);border-radius:var(--rl);padding:36px;width:100%;max-width:400px;display:flex;flex-direction:column;gap:20px}
+.login-logo{display:flex;flex-direction:column;align-items:center;gap:8px}
+.login-logo-ic{width:52px;height:52px;background:var(--red);border-radius:16px;display:flex;align-items:center;justify-content:center}
+.login-logo-ic svg{width:28px;height:28px;fill:white}
+.login-title{font-family:var(--fd);font-size:20px;font-weight:700;color:var(--g900)}
+.login-sub{font-size:13px;color:var(--g400)}
+.login-badge{display:inline-flex;align-items:center;gap:5px;background:var(--red-l);color:var(--red-d);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;font-family:var(--fd)}
+.lf{display:flex;flex-direction:column;gap:6px}
+.ll{font-size:11px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;font-family:var(--fd)}
+.li{border:1px solid var(--g200);border-radius:var(--r);padding:11px 14px;font-size:13px;font-family:var(--fb);color:var(--g900);background:white;outline:none;width:100%;transition:border-color .15s}
+.li:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(224,62,62,.08)}
+.li::placeholder{color:var(--g300)}
+.login-btn{height:46px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:14px;font-weight:600;color:white;transition:all .15s}
+.login-btn:hover{background:var(--red-d)}
+.login-btn:disabled{opacity:.6;cursor:not-allowed}
+.login-err{font-size:12px;color:var(--red-d);background:var(--red-l);border:1px solid var(--red-m);border-radius:8px;padding:8px 12px;display:none}
+.login-err.show{display:block}
+
+/* STATS CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat-card{background:white;border:1px solid var(--g200);border-radius:var(--rl);padding:18px 20px;display:flex;flex-direction:column;gap:4px}
+.stat-card.red{border-left:3px solid var(--red)}
+.stat-card.ora{border-left:3px solid var(--ora)}
+.stat-card.blu{border-left:3px solid var(--blu)}
+.stat-card.grn{border-left:3px solid var(--grn)}
+.sc-num{font-size:28px;font-weight:700;font-family:var(--fd);color:var(--g900)}
+.sc-lbl{font-size:12px;color:var(--g400)}
+.sc-delta{font-size:11px;font-weight:600;margin-top:4px}
+.sc-delta.up{color:var(--red)}.sc-delta.ok{color:var(--grn)}
+
+/* TABLE */
+.table-card{background:white;border:1px solid var(--g200);border-radius:var(--rl);overflow:hidden}
+.table-header{padding:16px 20px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between}
+.table-title{font-family:var(--fd);font-size:14px;font-weight:600;color:var(--g900)}
+.table-actions{display:flex;gap:8px;align-items:center}
+.search-input{border:1px solid var(--g200);border-radius:8px;padding:7px 12px;font-size:12px;font-family:var(--fb);color:var(--g900);outline:none;width:200px}
+.search-input:focus{border-color:var(--blu)}
+.filter-sel{border:1px solid var(--g200);border-radius:8px;padding:7px 10px;font-size:12px;font-family:var(--fd);color:var(--g600);outline:none;background:white;cursor:pointer}
+.refresh-btn{height:32px;padding:0 12px;border-radius:8px;border:1px solid var(--g200);background:white;font-size:12px;font-family:var(--fd);cursor:pointer;color:var(--g600);transition:all .15s}
+.refresh-btn:hover{background:var(--g50)}
+
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{padding:10px 16px;text-align:left;font-size:10px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;font-family:var(--fd);background:var(--g50);border-bottom:1px solid var(--g200)}
+.data-table td{padding:12px 16px;font-size:13px;color:var(--g900);border-bottom:1px solid var(--g100)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--g50)}
+.type-badge{display:inline-flex;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;font-family:var(--fd)}
+.type-badge.r{background:var(--red-l);color:var(--red-d)}
+.type-badge.o{background:var(--ora-l);color:#8B5A00}
+.type-badge.b{background:var(--blu-l);color:#1B4A8A}
+.del-btn{height:28px;padding:0 10px;border-radius:6px;border:1px solid var(--red-m);background:var(--red-l);color:var(--red-d);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fd);transition:all .15s}
+.del-btn:hover{background:var(--red);color:white}
+.del-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* USERS TABLE */
+.user-av{width:28px;height:28px;border-radius:50%;background:var(--blu-l);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--blu);font-family:var(--fd)}
+.ban-btn{height:28px;padding:0 10px;border-radius:6px;border:1px solid var(--g200);background:white;color:var(--g600);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fd);transition:all .15s}
+.ban-btn:hover{border-color:var(--red-m);background:var(--red-l);color:var(--red-d)}
+.ban-btn.banned{border-color:var(--red-m);background:var(--red-l);color:var(--red-d)}
+
+/* CONFIRM DIALOG */
+.dialog-ov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.dialog-ov.show{display:flex}
+.dialog{background:white;border-radius:16px;padding:28px;max-width:380px;width:90%;display:flex;flex-direction:column;gap:14px;animation:di .2s ease}
+@keyframes di{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.dialog-icon{width:52px;height:52px;border-radius:16px;background:var(--red-l);display:flex;align-items:center;justify-content:center;font-size:24px}
+.dialog-title{font-family:var(--fd);font-size:17px;font-weight:700;color:var(--g900)}
+.dialog-sub{font-size:13px;color:var(--g600);line-height:1.5}
+.dialog-row{display:flex;gap:10px}
+.dialog-cancel{flex:1;height:40px;border-radius:var(--r);background:white;border:1px solid var(--g200);cursor:pointer;font-family:var(--fd);font-size:13px;font-weight:500;color:var(--g600)}
+.dialog-confirm{flex:1;height:40px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:13px;font-weight:600;color:white;transition:all .15s}
+.dialog-confirm:hover{background:var(--red-d)}
+
+/* TOAST */
+.toast-cont{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--g900);color:white;border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;box-shadow:0 8px 32px rgba(0,0,0,.2);opacity:0;transform:translateX(20px);transition:all .3s cubic-bezier(.34,1.56,.64,1);min-width:260px}
+.toast.show{opacity:1;transform:translateX(0)}
+.toast.success{background:#16a34a}
+.toast.alert{background:var(--red)}
+.t-ic{font-size:18px;flex-shrink:0}
+.t-title{font-weight:600;font-family:var(--fd)}
+.t-sub{font-size:11px;opacity:.8;margin-top:2px}
+
+/* EMPTY */
+.empty-row td{text-align:center;padding:32px;color:var(--g400);font-size:13px}
+
+.pagination{display:flex;align-items:center;justify-content:between;padding:14px 20px;border-top:1px solid var(--g100);font-size:12px;color:var(--g400);gap:10px}
+.page-info{flex:1}
+.page-btn{height:28px;padding:0 10px;border-radius:6px;border:1px solid var(--g200);background:white;font-size:12px;font-family:var(--fd);cursor:pointer;color:var(--g600)}
+.page-btn:hover{background:var(--g50)}
+.page-btn:disabled{opacity:.4;cursor:not-allowed}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--g200);border-radius:10px}
+</style>
+</head>
+<body>
+<div class="toast-cont" id="toastCont"></div>
+
+<div class="dialog-ov" id="dialogOv">
+  <div class="dialog">
+    <div class="dialog-icon" id="dialogIcon">🗑️</div>
+    <div class="dialog-title" id="dialogTitle">Supprimer l'incident ?</div>
+    <div class="dialog-sub" id="dialogSub">Cette action est irréversible.</div>
+    <div class="dialog-row">
+      <button class="dialog-cancel" onclick="closeDialog()">Annuler</button>
+      <button class="dialog-confirm" id="dialogConfirm">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="loginView" style="height:100vh;display:flex;align-items:center;justify-content:center;background:var(--g50)">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+      <div class="login-title">VilleSûre Admin</div>
+      <div class="login-sub">Accès réservé aux administrateurs</div>
+      <span class="login-badge">🔒 Interface privée</span>
+    </div>
+    <div class="login-err" id="loginErr"></div>
+    <div class="lf"><div class="ll">Email administrateur</div><input class="li" type="email" id="loginEmail" placeholder="admin@villesure.ga" autocomplete="email"></div>
+    <div class="lf"><div class="ll">Mot de passe</div><input class="li" type="password" id="loginPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">Accéder au tableau de bord</button>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div class="app" id="adminApp" style="display:none">
+  <aside class="sb">
+    <div class="sb-head">
+      <div class="sb-logo">
+        <div class="sb-logo-ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <span class="sb-logo-tx">Ville<span>Sûre</span></span>
+      </div>
+      <span class="sb-badge">⚙️ Administration</span>
+    </div>
+    <nav class="sb-nav">
+      <button class="sni active" onclick="showSection('dashboard',this)"><span class="sni-ic">📊</span>Tableau de bord</button>
+      <button class="sni" onclick="showSection('incidents',this)"><span class="sni-ic">📍</span>Incidents <span id="sb-inc-cnt" style="margin-left:auto;background:rgba(224,62,62,.25);color:#F7C1C1;font-size:10px;padding:1px 6px;border-radius:10px;font-family:var(--fd)">0</span></button>
+      <button class="sni" onclick="showSection('users',this)"><span class="sni-ic">👥</span>Utilisateurs <span id="sb-usr-cnt" style="margin-left:auto;background:rgba(27,111,200,.25);color:#B5D4F4;font-size:10px;padding:1px 6px;border-radius:10px;font-family:var(--fd)">0</span></button>
+      <button class="sni" onclick="showSection('stats',this)"><span class="sni-ic">📈</span>Statistiques</button>
+      <button class="sni" onclick="window.open('index.html','_blank')"><span class="sni-ic">🗺️</span>Voir l'application</button>
+    </nav>
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-av">👤</div>
+        <div class="sb-uname" id="sb-email">admin</div>
+        <button class="sb-logout" onclick="doLogout()" title="Déconnexion">🚪</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div><div class="tb-title" id="tb-title">Tableau de bord</div><div class="tb-sub" id="tb-sub">Vue d'ensemble — VilleSûre Libreville</div></div>
+      <div class="tb-sep"></div>
+      <div class="tb-live" id="tb-conn"><div class="tb-live-dot"></div>En direct</div>
+    </div>
+
+    <div class="content" id="mainContent">
+
+      <!-- DASHBOARD -->
+      <div id="sec-dashboard">
+        <div class="stats-row">
+          <div class="stat-card red"><div class="sc-num" id="d-total">—</div><div class="sc-lbl">Total incidents</div><div class="sc-delta up" id="d-total-d">Chargement...</div></div>
+          <div class="stat-card ora"><div class="sc-num" id="d-week">—</div><div class="sc-lbl">Cette semaine</div><div class="sc-delta up">7 derniers jours</div></div>
+          <div class="stat-card blu"><div class="sc-num" id="d-users">—</div><div class="sc-lbl">Utilisateurs</div><div class="sc-delta ok">Inscrits + anonymes</div></div>
+          <div class="stat-card grn"><div class="sc-num" id="d-anon">—</div><div class="sc-lbl">Signalements anonymes</div><div class="sc-delta ok">% du total</div></div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-header">
+            <div class="table-title">Derniers incidents signalés</div>
+            <button class="refresh-btn" onclick="loadAll()">🔄 Actualiser</button>
+          </div>
+          <table class="data-table">
+            <thead><tr><th>Type</th><th>Description</th><th>Zone</th><th>Date</th><th>Anonyme</th><th>Action</th></tr></thead>
+            <tbody id="dash-inc-tbody"><tr class="empty-row"><td colspan="6">Chargement...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- INCIDENTS -->
+      <div id="sec-incidents" style="display:none">
+        <div class="table-card">
+          <div class="table-header">
+            <div class="table-title">Tous les incidents</div>
+            <div class="table-actions">
+              <input class="search-input" type="text" id="inc-search" placeholder="🔍 Rechercher..." oninput="filterIncidents()">
+              <select class="filter-sel" id="inc-filter" onchange="filterIncidents()">
+                <option value="">Tous les types</option>
+                <option>Agression physique</option>
+                <option>Harcèlement verbal</option>
+                <option>Vol / tentative</option>
+                <option>Braquage</option>
+                <option>Agression avec véhicule</option>
+                <option>Situation suspecte</option>
+              </select>
+              <button class="refresh-btn" onclick="loadAll()">🔄</button>
+            </div>
+          </div>
+          <table class="data-table">
+            <thead><tr><th>Type</th><th>Description</th><th>Zone</th><th>Coordonnées</th><th>Âge</th><th>Date</th><th>Anonyme</th><th>Action</th></tr></thead>
+            <tbody id="inc-tbody"><tr class="empty-row"><td colspan="8">Chargement...</td></tr></tbody>
+          </table>
+          <div class="pagination"><span class="page-info" id="inc-page-info">—</span><button class="page-btn" id="inc-prev" onclick="incPage(-1)">← Préc.</button><button class="page-btn" id="inc-next" onclick="incPage(1)">Suiv. →</button></div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div id="sec-users" style="display:none">
+        <div class="table-card">
+          <div class="table-header">
+            <div class="table-title">Utilisateurs inscrits</div>
+            <div class="table-actions">
+              <input class="search-input" type="text" id="usr-search" placeholder="🔍 Email..." oninput="filterUsers()">
+              <button class="refresh-btn" onclick="loadAll()">🔄</button>
+            </div>
+          </div>
+          <table class="data-table">
+            <thead><tr><th>Utilisateur</th><th>Email</th><th>Type</th><th>Signalements</th><th>Inscrit le</th><th>Action</th></tr></thead>
+            <tbody id="usr-tbody"><tr class="empty-row"><td colspan="6">Chargement...</td></tr></tbody>
+          </table>
+          <div class="pagination"><span class="page-info" id="usr-page-info">—</span><button class="page-btn" id="usr-prev" onclick="usrPage(-1)">← Préc.</button><button class="page-btn" id="usr-next" onclick="usrPage(1)">Suiv. →</button></div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div id="sec-stats" style="display:none">
+        <div class="stats-row">
+          <div class="stat-card red"><div class="sc-num" id="s-today">—</div><div class="sc-lbl">Aujourd'hui</div></div>
+          <div class="stat-card ora"><div class="sc-num" id="s-week">—</div><div class="sc-lbl">Cette semaine</div></div>
+          <div class="stat-card blu"><div class="sc-num" id="s-month">—</div><div class="sc-lbl">Ce mois</div></div>
+          <div class="stat-card grn"><div class="sc-num" id="s-total">—</div><div class="sc-lbl">Total</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="table-card" style="padding:20px">
+            <div class="table-title" style="margin-bottom:16px">Incidents par type</div>
+            <div id="stats-types"></div>
+          </div>
+          <div class="table-card" style="padding:20px">
+            <div class="table-title" style="margin-bottom:16px">Zones les plus signalées</div>
+            <div id="stats-zones"></div>
+          </div>
+        </div>
+        <div class="table-card" style="padding:20px">
+          <div class="table-title" style="margin-bottom:16px">Incidents par jour (30 derniers jours)</div>
+          <div style="display:flex;align-items:flex-end;gap:4px;height:100px" id="stats-chart"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const SUPA_URL='https://dzmgqcpxcdaloguuuhgp.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6bWdxY3B4Y2RhbG9ndXV1aGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjYyNzQsImV4cCI6MjA4OTEwMjI3NH0.a00OQPcrEC52NB-klE_UeX-SitgnAdrfkVRRaZ2Joio';
+const db=window.supabase.createClient(SUPA_URL,SUPA_KEY);
+
+let adminUser=null,allIncidents=[],allUsers=[],bannedUsers=new Set();
+let incPage_=0,usrPage_=0;
+const PAGE_SIZE=15;
+
+// ─── TOAST ───
+function toast(title,sub,type){
+  const c=document.getElementById('toastCont');
+  const t=document.createElement('div');
+  const ic=title.split(' ')[0],tx=title.replace(/^\S+\s/,'');
+  t.className='toast'+(type==='alert'?' alert':type==='success'?' success':'');
+  t.innerHTML=`<div class="t-ic">${ic}</div><div><div class="t-title">${tx}</div><div class="t-sub">${sub}</div></div>`;
+  c.appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400)},4000);
+}
+
+// ─── AUTH ───
+async function doLogin(){
+  const em=document.getElementById('loginEmail').value.trim();
+  const pw=document.getElementById('loginPwd').value;
+  const btn=document.getElementById('loginBtn');
+  const err=document.getElementById('loginErr');
+  if(!em||!pw){err.textContent='Remplissez tous les champs.';err.classList.add('show');return;}
+  btn.disabled=true;btn.textContent='Connexion...';err.classList.remove('show');
+  try{
+    const{data,error}=await db.auth.signInWithPassword({email:em,password:pw});
+    if(error)throw error;
+    adminUser=data.user;
+    document.getElementById('loginView').style.display='none';
+    document.getElementById('adminApp').style.display='flex';
+    document.getElementById('sb-email').textContent=adminUser.email;
+    loadAll();
+    setupRealtime();
+  }catch(e){
+    err.textContent='Accès refusé : '+e.message;
+    err.classList.add('show');
+  }
+  btn.disabled=false;btn.textContent='Accéder au tableau de bord';
+}
+
+async function doLogout(){
+  await db.auth.signOut();
+  document.getElementById('adminApp').style.display='none';
+  document.getElementById('loginView').style.display='flex';
+  adminUser=null;
+}
+
+// ─── LOAD DATA ───
+async function loadAll(){
+  await Promise.all([loadIncidents(),loadUsers()]);
+  renderDashboard();
+  renderStats();
+}
+
+async function loadIncidents(){
+  const{data,error}=await db.from('incidents').select('*').order('created_at',{ascending:false});
+  if(error){toast('❌ Erreur','Impossible de charger les incidents','alert');return;}
+  allIncidents=data||[];
+  document.getElementById('sb-inc-cnt').textContent=allIncidents.length;
+  renderIncidents();
+}
+
+async function loadUsers(){
+  const{data,error}=await db.from('profiles').select('*').order('created_at',{ascending:false});
+  if(error)return;
+  allUsers=data||[];
+  document.getElementById('sb-usr-cnt').textContent=allUsers.length;
+  renderUsers();
+}
+
+// ─── HELPERS ───
+function ago(d){
+  const s=(Date.now()-new Date(d))/1000;
+  if(s<60)return"il y a quelques sec.";
+  if(s<3600)return`il y a ${Math.floor(s/60)} min`;
+  if(s<86400)return`il y a ${Math.floor(s/3600)}h`;
+  if(s<7*86400)return`il y a ${Math.floor(s/86400)}j`;
+  return new Date(d).toLocaleDateString('fr-FR');
+}
+function typeStyle(t){
+  const m={'Agression physique':'r','Harcèlement verbal':'b','Vol / tentative':'o','Braquage':'o','Agression avec véhicule':'r','Situation suspecte':'b'};
+  return m[t]||'b';
+}
+
+// ─── DASHBOARD ───
+function renderDashboard(){
+  const now=Date.now();
+  const week=allIncidents.filter(i=>now-new Date(i.created_at)<7*86400000).length;
+  const anon=allIncidents.filter(i=>i.is_anonymous).length;
+  document.getElementById('d-total').textContent=allIncidents.length;
+  document.getElementById('d-week').textContent=week;
+  document.getElementById('d-users').textContent=allUsers.length;
+  document.getElementById('d-anon').textContent=anon;
+  document.getElementById('d-total-d').textContent=`${week} cette semaine`;
+
+  const recent=allIncidents.slice(0,10);
+  document.getElementById('dash-inc-tbody').innerHTML=recent.length?recent.map(incRow).join(''):'<tr class="empty-row"><td colspan="6">Aucun incident</td></tr>';
+}
+
+function incRow(inc){
+  const tc=typeStyle(inc.type);
+  return`<tr>
+    <td><span class="type-badge ${tc}">${inc.type}</span></td>
+    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--g600)">${inc.description||'—'}</td>
+    <td style="color:var(--g600)">${inc.zone||'Libreville'}</td>
+    <td style="color:var(--g400);font-size:12px">${ago(inc.created_at)}</td>
+    <td><span style="font-size:11px;font-weight:600;font-family:var(--fd);color:${inc.is_anonymous?'var(--g400)':'var(--blu)'}">${inc.is_anonymous?'Oui':'Non'}</span></td>
+    <td><button class="del-btn" onclick="confirmDelete('${inc.id}','${inc.type.replace(/'/g,"\\'")}')">🗑️ Supprimer</button></td>
+  </tr>`;
+}
+
+// ─── INCIDENTS SECTION ───
+let filteredInc=[];
+function filterIncidents(){
+  const q=document.getElementById('inc-search').value.toLowerCase();
+  const f=document.getElementById('inc-filter').value;
+  filteredInc=allIncidents.filter(i=>{
+    const matchQ=!q||(i.type||'').toLowerCase().includes(q)||(i.description||'').toLowerCase().includes(q)||(i.zone||'').toLowerCase().includes(q);
+    const matchF=!f||i.type===f;
+    return matchQ&&matchF;
+  });
+  incPage_=0;renderIncidentsPage();
+}
+function renderIncidents(){filteredInc=[...allIncidents];renderIncidentsPage();}
+function renderIncidentsPage(){
+  const start=incPage_*PAGE_SIZE,end=start+PAGE_SIZE;
+  const page=filteredInc.slice(start,end);
+  document.getElementById('inc-tbody').innerHTML=page.length?page.map(i=>{
+    const tc=typeStyle(i.type);
+    return`<tr>
+      <td><span class="type-badge ${tc}">${i.type}</span></td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--g600);font-size:12px">${i.description||'—'}</td>
+      <td style="color:var(--g600);font-size:12px">${i.zone||'Libreville'}</td>
+      <td style="color:var(--g400);font-size:11px">${i.latitude?.toFixed(4)}, ${i.longitude?.toFixed(4)}</td>
+      <td style="color:var(--g400);font-size:12px">${i.user_age||'—'}</td>
+      <td style="color:var(--g400);font-size:12px">${ago(i.created_at)}</td>
+      <td style="font-size:11px;font-weight:600;font-family:var(--fd);color:${i.is_anonymous?'var(--g400)':'var(--blu)'}">${i.is_anonymous?'Oui':'Non'}</td>
+      <td><button class="del-btn" onclick="confirmDelete('${i.id}','${i.type.replace(/'/g,"\\'")}')">🗑️ Supprimer</button></td>
+    </tr>`;
+  }).join(''):'<tr class="empty-row"><td colspan="8">Aucun résultat</td></tr>';
+  const total=filteredInc.length;
+  const pages=Math.ceil(total/PAGE_SIZE);
+  document.getElementById('inc-page-info').textContent=`${start+1}–${Math.min(end,total)} sur ${total} incidents`;
+  document.getElementById('inc-prev').disabled=incPage_===0;
+  document.getElementById('inc-next').disabled=incPage_>=pages-1;
+}
+function incPage(dir){incPage_+=dir;renderIncidentsPage();}
+
+// ─── USERS SECTION ───
+let filteredUsr=[];
+function filterUsers(){
+  const q=document.getElementById('usr-search').value.toLowerCase();
+  filteredUsr=allUsers.filter(u=>!q||(u.id||'').toLowerCase().includes(q));
+  usrPage_=0;renderUsersPage();
+}
+function renderUsers(){filteredUsr=[...allUsers];renderUsersPage();}
+function renderUsersPage(){
+  const start=usrPage_*PAGE_SIZE,end=start+PAGE_SIZE;
+  const page=filteredUsr.slice(start,end);
+  const counts={};
+  allIncidents.forEach(i=>{if(i.user_id)counts[i.user_id]=(counts[i.user_id]||0)+1;});
+  document.getElementById('usr-tbody').innerHTML=page.length?page.map(u=>{
+    const initials=u.id.slice(0,2).toUpperCase();
+    const isBanned=bannedUsers.has(u.id);
+    return`<tr>
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="user-av">${initials}</div><span style="font-size:12px;font-family:var(--fd);color:var(--g600)">${u.id.slice(0,8)}...</span></div></td>
+      <td style="font-size:12px;color:var(--g600)">${u.city||'Libreville'}</td>
+      <td><span style="font-size:11px;font-weight:600;font-family:var(--fd);color:var(--blu)">Utilisateur</span></td>
+      <td style="font-weight:600;font-family:var(--fd);font-size:13px;color:var(--g900)">${counts[u.id]||0}</td>
+      <td style="font-size:12px;color:var(--g400)">${ago(u.created_at)}</td>
+      <td><button class="ban-btn${isBanned?' banned':''}" onclick="toggleBan('${u.id}')">${isBanned?'🔓 Débloquer':'🚫 Bloquer'}</button></td>
+    </tr>`;
+  }).join(''):'<tr class="empty-row"><td colspan="6">Aucun utilisateur</td></tr>';
+  const total=filteredUsr.length;
+  const pages=Math.ceil(total/PAGE_SIZE);
+  document.getElementById('usr-page-info').textContent=`${start+1}–${Math.min(end,total)} sur ${total} utilisateurs`;
+  document.getElementById('usr-prev').disabled=usrPage_===0;
+  document.getElementById('usr-next').disabled=usrPage_>=pages-1;
+}
+function usrPage(dir){usrPage_+=dir;renderUsersPage();}
+
+// ─── STATS ───
+function renderStats(){
+  const now=Date.now();
+  const today=allIncidents.filter(i=>now-new Date(i.created_at)<86400000).length;
+  const week=allIncidents.filter(i=>now-new Date(i.created_at)<7*86400000).length;
+  const month=allIncidents.filter(i=>now-new Date(i.created_at)<30*86400000).length;
+  document.getElementById('s-today').textContent=today;
+  document.getElementById('s-week').textContent=week;
+  document.getElementById('s-month').textContent=month;
+  document.getElementById('s-total').textContent=allIncidents.length;
+
+  const tc={};allIncidents.forEach(i=>{tc[i.type]=(tc[i.type]||0)+1;});
+  const tcol={'Agression physique':'#E03E3E','Vol / tentative':'#F0960A','Harcèlement verbal':'#1B6FC8','Braquage':'#888','Agression avec véhicule':'#B52E2E','Situation suspecte':'#9C9790'};
+  const mtc=Math.max(...Object.values(tc),1);
+  document.getElementById('stats-types').innerHTML=Object.entries(tc).sort((a,b)=>b[1]-a[1]).map(([t,c])=>`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--g900);width:160px;flex-shrink:0">${t}</div>
+      <div style="flex:1;height:8px;background:var(--g100);border-radius:4px;overflow:hidden"><div style="height:100%;border-radius:4px;background:${tcol[t]||'#888'};width:${c/mtc*100}%"></div></div>
+      <div style="font-size:12px;font-weight:600;font-family:var(--fd);color:var(--g600);width:20px;text-align:right">${c}</div>
+    </div>`).join('')||'<div style="color:var(--g400);font-size:12px;text-align:center;padding:16px">Aucune donnée</div>';
+
+  const zc={};allIncidents.forEach(i=>{const z=i.zone||'Libreville';zc[z]=(zc[z]||0)+1;});
+  const zs=Object.entries(zc).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const mz=zs[0]?.[1]||1;
+  document.getElementById('stats-zones').innerHTML=zs.map(([z,c],i)=>`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;font-family:var(--fd);color:${i===0?'var(--red)':'var(--g300)'};width:20px">${String(i+1).padStart(2,'0')}</div>
+      <div style="font-size:12px;color:var(--g900);flex:1">${z}</div>
+      <div style="width:80px;height:6px;background:var(--g100);border-radius:3px;overflow:hidden"><div style="height:100%;background:var(--red);border-radius:3px;width:${c/mz*100}%"></div></div>
+      <div style="font-size:12px;font-weight:700;font-family:var(--fd);color:var(--red-d)">${c}</div>
+    </div>`).join('')||'<div style="color:var(--g400);font-size:12px;text-align:center;padding:16px">Aucune donnée</div>';
+
+  // 30-day chart
+  const days30=Array(30).fill(0);
+  allIncidents.forEach(i=>{
+    const d=Math.floor((now-new Date(i.created_at))/86400000);
+    if(d>=0&&d<30)days30[29-d]++;
+  });
+  const mxd=Math.max(...days30,1);
+  document.getElementById('stats-chart').innerHTML=days30.map((c,i)=>`
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end">
+      <div style="width:100%;border-radius:3px 3px 0 0;min-height:2px;background:${i===29?'var(--red)':'#F09595'};height:${Math.max(c/mxd*100,2)}%" title="${c} incident${c>1?'s':''}"></div>
+    </div>`).join('');
+}
+
+// ─── ACTIONS ───
+let pendingDeleteId=null;
+function confirmDelete(id,type){
+  pendingDeleteId=id;
+  document.getElementById('dialogTitle').textContent=`Supprimer "${type}" ?`;
+  document.getElementById('dialogSub').textContent='Cette action est irréversible. L\'incident sera définitivement supprimé de la base de données.';
+  document.getElementById('dialogIcon').textContent='🗑️';
+  document.getElementById('dialogConfirm').textContent='Supprimer';
+  document.getElementById('dialogConfirm').onclick=doDelete;
+  document.getElementById('dialogOv').classList.add('show');
+}
+async function doDelete(){
+  if(!pendingDeleteId)return;
+  const btn=document.getElementById('dialogConfirm');
+  btn.disabled=true;btn.textContent='Suppression...';
+  const{error}=await db.from('incidents').delete().eq('id',pendingDeleteId);
+  if(error){toast('❌ Erreur',error.message,'alert');}
+  else{
+    toast('✅ Supprimé','L\'incident a été supprimé','success');
+    allIncidents=allIncidents.filter(i=>i.id!==pendingDeleteId);
+    renderDashboard();filterIncidents();renderStats();
+    document.getElementById('sb-inc-cnt').textContent=allIncidents.length;
+  }
+  btn.disabled=false;pendingDeleteId=null;
+  closeDialog();
+}
+
+function toggleBan(userId){
+  if(bannedUsers.has(userId)){
+    bannedUsers.delete(userId);
+    toast('🔓 Utilisateur débloqué','L\'utilisateur peut à nouveau signaler','success');
+  }else{
+    bannedUsers.add(userId);
+    toast('🚫 Utilisateur bloqué','L\'utilisateur a été bloqué','alert');
+  }
+  renderUsersPage();
+}
+
+function closeDialog(){document.getElementById('dialogOv').classList.remove('show');pendingDeleteId=null;}
+
+// ─── NAV ───
+function showSection(name,btn){
+  ['dashboard','incidents','stats','users'].forEach(s=>{
+    document.getElementById('sec-'+s).style.display=s===name?'flex':'none';
+    if(s===name)document.getElementById('sec-'+s).style.display='block';
+    else document.getElementById('sec-'+s).style.display='none';
+  });
+  document.querySelectorAll('.sni').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const titles={dashboard:['Tableau de bord','Vue d\'ensemble — VilleSûre Libreville'],incidents:['Gestion des incidents','Voir, filtrer et supprimer les signalements'],users:['Gestion des utilisateurs','Comptes et modération'],stats:['Statistiques avancées','Analyse complète des données']};
+  const t=titles[name]||['Admin',''];
+  document.getElementById('tb-title').textContent=t[0];
+  document.getElementById('tb-sub').textContent=t[1];
+}
+
+// ─── REALTIME ───
+function setupRealtime(){
+  db.channel('admin-rt').on('postgres_changes',{event:'INSERT',schema:'public',table:'incidents'},p=>{
+    allIncidents.unshift(p.new);
+    renderDashboard();filterIncidents();renderStats();
+    document.getElementById('sb-inc-cnt').textContent=allIncidents.length;
+    toast('🔔 Nouvel incident',`${p.new.type} signalé à ${p.new.zone||'Libreville'}`,'alert');
+  }).on('postgres_changes',{event:'DELETE',schema:'public',table:'incidents'},p=>{
+    allIncidents=allIncidents.filter(i=>i.id!==p.old.id);
+    renderDashboard();filterIncidents();renderStats();
+  }).subscribe(s=>{
+    document.getElementById('tb-conn').style.background=s==='SUBSCRIBED'?'var(--grn-l)':'var(--ora-l)';
+    document.getElementById('tb-conn').style.color=s==='SUBSCRIBED'?'var(--grn)':'var(--ora)';
+  });
+}
+
+// ─── INIT ───
+db.auth.getSession().then(({data})=>{
+  if(data.session){
+    adminUser=data.session.user;
+    document.getElementById('loginView').style.display='none';
+    document.getElementById('adminApp').style.display='flex';
+    document.getElementById('sb-email').textContent=adminUser.email;
+    loadAll();setupRealtime();
+  }
+});
+</script>
+</body>
+</html>
