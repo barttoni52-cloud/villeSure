@@ -4,10 +4,16 @@
   "description": "Signalez et visualisez les incidents en temps réel à Libreville",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F8F7F5",
+  "background_color": "#E03E3E",
   "theme_color": "#E03E3E",
   "orientation": "portrait-primary",
   "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
     {
       "src": "icon-192.png",
       "sizes": "192x192",
@@ -22,14 +28,5 @@
     }
   ],
   "categories": ["utilities", "navigation"],
-  "lang": "fr",
-  "shortcuts": [
-    {
-      "name": "Signaler un incident",
-      "short_name": "Signaler",
-      "description": "Signaler un incident rapidement",
-      "url": "/?action=signaler",
-      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
-    }
-  ]
+  "lang": "fr"
 }
