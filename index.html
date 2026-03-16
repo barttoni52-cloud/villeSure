@@ -538,11 +538,11 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
       <div><div class="tb-title" id="d-tb-title">Carte en direct</div><div class="tb-sub" id="d-tb-sub">Libreville, Gabon</div></div>
       <div class="tb-sep"></div>
       <button id="dark-toggle" onclick="toggleDark()" style="width:36px;height:36px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;font-size:16px;transition:all .15s" title="Mode sombre">🌙</button>
-      <button id="theme-btn" onclick="toggleTheme()" style="width:36px;height:36px;border-radius:10px;background:var(--bg2);border:1px solid var(--border);cursor:pointer;font-size:17px;transition:all .15s" title="Mode sombre">🌙</button>
       <div class="conn-st" id="d-conn"><div class="cd cn" id="d-cd"></div><span id="d-cl">Connexion...</span></div>
       <div class="alert-b"><div class="pulse-d"></div><span id="d-alert-cnt">0</span> alertes</div>
-      <button id="theme-btn-d" onclick="toggleTheme()" style="width:36px;height:36px;border-radius:10px;background:var(--g50);border:1px solid var(--g200);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s" title="Mode sombre">🌙</button>
+      
     </div>
+
     <div class="content-d">
       <!-- MAP -->
       <div class="panel active" id="panel-map">
@@ -648,9 +648,7 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
       <div class="m-logo-ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
       <span class="m-logo-tx">Ville<span>Sûre</span></span>
     </div>
-    <button onclick="toggleTheme()" style="width:32px;height:32px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);cursor:pointer;font-size:15px" id="m-theme-btn">🌙</button>
-    <button id="theme-btn-m" onclick="toggleTheme()" style="width:32px;height:32px;border-radius:9px;background:var(--g100);border:1px solid var(--g200);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center" title="Mode sombre">🌙</button>
-    <button onclick="toggleDark()" style="width:32px;height:32px;border-radius:9px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;font-size:14px" id="m-dark-btn">🌙</button>
+    <button id="m-dark-btn" onclick="toggleDark()" style="width:32px;height:32px;border-radius:9px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;font-size:15px">🌙</button>
     <div class="m-conn" id="m-conn"><div class="m-cd cn" id="m-cd"></div><span id="m-cl">Connexion...</span></div>
   </div>
 
@@ -1225,16 +1223,6 @@ function setPeriodM(el,d){
 }
 
 // ─── DARK MODE ───
-function toggleTheme(){
-  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
-  document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
-  localStorage.setItem('vs-theme',isDark?'light':'dark');
-  const icon=isDark?'🌙':'☀️';
-  const btn=document.getElementById('theme-btn');
-  const mBtn=document.getElementById('m-theme-btn');
-  if(btn)btn.textContent=icon;
-  if(mBtn)mBtn.textContent=icon;
-}
 // Apply saved theme
 (function(){
   const saved=localStorage.getItem('vs-theme');
@@ -1242,8 +1230,8 @@ function toggleTheme(){
   const theme=saved||(prefersDark?'dark':'light');
   document.documentElement.setAttribute('data-theme',theme);
   if(theme==='dark'){
-    const btn=document.getElementById('theme-btn');
-    const mBtn=document.getElementById('m-theme-btn');
+    const btn=
+    const mBtn=
     if(btn)btn.textContent='☀️';
     if(mBtn)mBtn.textContent='☀️';
   }
@@ -1315,23 +1303,14 @@ async function shareIncident(id,type,la,ln,desc){
 }
 
 // ─── DARK MODE ───
-function toggleTheme(){
-  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
-  const newTheme=isDark?'light':'dark';
-  document.documentElement.setAttribute('data-theme',newTheme);
-  localStorage.setItem('vs-theme',newTheme);
-  const emoji=newTheme==='dark'?'☀️':'🌙';
-  document.getElementById('theme-btn-d').textContent=emoji;
-  document.getElementById('theme-btn-m').textContent=emoji;
-}
 // Apply saved theme
 (function(){
   const saved=localStorage.getItem('vs-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
   document.documentElement.setAttribute('data-theme',saved);
   const emoji=saved==='dark'?'☀️':'🌙';
   setTimeout(()=>{
-    const bd=document.getElementById('theme-btn-d');
-    const bm=document.getElementById('theme-btn-m');
+    const bd=
+    const bm=
     if(bd)bd.textContent=emoji;
     if(bm)bm.textContent=emoji;
   },100);
