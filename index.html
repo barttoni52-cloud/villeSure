@@ -9,18 +9,10 @@
 <meta name="apple-mobile-web-app-title" content="VilleSûre">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="VilleSûre">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-
-/* ── THEME VARS ── */
 :root{
   --red:#E03E3E;--red-d:#B52E2E;--red-l:#FEF0F0;--red-m:#F7C1C1;
   --ora:#F0960A;--ora-l:#FEF5E7;--blu:#1B6FC8;--blu-l:#EBF3FC;
@@ -42,12 +34,11 @@
   --g400:#6B6966;--g600:#A09D99;--g900:#F0EDE8;
   --border:#2E2C2A;
 }
-
 html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--fb);color:var(--g900)}
 .desktop{display:flex;height:100vh}
 .mobile{display:none}
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sb{width:320px;flex-shrink:0;height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .sb-logo{padding:20px 22px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
 .logo-w{display:flex;align-items:center;gap:10px}
@@ -70,9 +61,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--fb)
 .pill:hover{border-color:var(--red-m);color:var(--red-d)}
 .pill.active{background:var(--red);color:white;border-color:var(--red)}
 .inc-sec{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:0}
-.inc-hdr{display:flex;align-items:center;justify-content:space-between}
+.inc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
 .inc-ttl{font-size:10px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fd)}
 .inc-cnt{font-size:11px;font-weight:600;color:var(--red);font-family:var(--fd)}
+.ref-btn{width:24px;height:24px;border-radius:7px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ref-btn:hover{background:var(--red-l);border-color:var(--red-m)}
+.ref-btn.spin{animation:spin .6s linear}
+@keyframes spin{to{transform:rotate(360deg)}}
 .icard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px;cursor:pointer;transition:all .15s}
 .icard:hover{border-color:var(--red-m);transform:translateX(2px)}
 .icard.urg{border-left:3px solid var(--red)}
@@ -91,43 +86,42 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--fb)
 .rep-btn{width:100%;height:46px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:14px;font-weight:600;color:white;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;box-shadow:0 4px 14px rgba(224,62,62,.35)}
 .rep-btn:hover{background:var(--red-d);transform:translateY(-1px)}
 
-/* ── TOPBAR ── */
-.main-d{flex:1;display:flex;flex-direction:column;min-width:0;position:relative}
+/* TOPBAR */
+.main-d{flex:1;display:flex;flex-direction:column;min-width:0}
 .topbar{height:56px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 20px;z-index:40;flex-shrink:0}
 .tb-title{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--g900)}
 .tb-sub{font-size:12px;color:var(--g400)}
 .tb-sep{flex:1}
 .icon-btn{width:36px;height:36px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s;flex-shrink:0}
 .icon-btn:hover{background:var(--g200)}
-.conn-st{display:flex;align-items:center;gap:5px;font-size:11px;font-family:var(--fd);padding:4px 10px;border-radius:20px;border:1px solid var(--border)}
+.conn-chip{display:flex;align-items:center;gap:5px;font-size:11px;font-family:var(--fd);padding:4px 10px;border-radius:20px;border:1px solid var(--border)}
 .cd{width:7px;height:7px;border-radius:50%}
 .cd.on{background:#22c55e}.cd.off{background:var(--g300)}.cd.cn{background:var(--ora);animation:pd 1s infinite}
 @keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
-.alert-b{display:flex;align-items:center;gap:7px;background:var(--red-l);border:1px solid var(--red-m);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;color:var(--red-d);font-family:var(--fd)}
+.alert-chip{display:flex;align-items:center;gap:7px;background:var(--red-l);border:1px solid var(--red-m);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;color:var(--red-d);font-family:var(--fd)}
 .pulse-d{width:8px;height:8px;background:var(--red);border-radius:50%;animation:pd 1.5s infinite}
 
-/* ── PANELS ── */
+/* PANELS */
 .content-d{flex:1;position:relative;overflow:hidden}
 .panel{position:absolute;inset:0;display:none}
 .panel.active{display:flex;flex-direction:column}
 #panel-map{flex-direction:column}
 #map-d{flex:1;width:100%;z-index:1}
 
-/* ── MAP WIDGETS ── */
+/* MAP OVERLAYS */
 .mw-stats{position:absolute;top:14px;right:14px;z-index:500;background:var(--bg2);border-radius:var(--rl);border:1px solid var(--border);padding:14px 16px;box-shadow:0 4px 16px rgba(0,0,0,.08);display:flex;flex-direction:column;gap:10px;min-width:168px;pointer-events:none}
 .mw-title{font-size:10px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fd)}
 .mw-row{display:flex;align-items:center;justify-content:space-between}
-.mw-lbl{font-size:12px;color:var(--g600)}
-.mw-val{font-size:14px;font-weight:700;font-family:var(--fd)}
+.mw-lbl{font-size:12px;color:var(--g600)}.mw-val{font-size:14px;font-weight:700;font-family:var(--fd)}
 .mw-val.r{color:var(--red)}.mw-val.o{color:var(--ora)}.mw-val.g{color:var(--grn)}
 .mw-leg{position:absolute;bottom:14px;right:14px;z-index:500;background:var(--bg2);border-radius:var(--r);border:1px solid var(--border);padding:10px 14px;display:flex;flex-direction:column;gap:7px;pointer-events:none}
 .leg-i{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--g600)}
 .leg-d{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .mw-srch{position:absolute;top:14px;left:14px;z-index:500;background:var(--bg2);border-radius:var(--r);border:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--g400)}
-.gps-chip{position:absolute;top:14px;left:220px;z-index:500;background:#dcfce7;color:#16a34a;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:var(--fd);cursor:pointer;border:1px solid #bbf7d0;transition:all .15s}
-.center-btn{position:absolute;bottom:54px;left:14px;z-index:500;width:36px;height:36px;border-radius:10px;background:var(--bg2);border:1px solid var(--border);cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.gps-chip{position:absolute;top:14px;left:200px;z-index:500;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:var(--fd);cursor:pointer;border:1px solid #bbf7d0;background:#dcfce7;color:#16a34a;transition:all .15s}
+.center-btn{position:absolute;bottom:54px;left:14px;z-index:500;width:38px;height:38px;border-radius:10px;background:var(--bg2);border:1px solid var(--border);cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center}
 
-/* ── LEAFLET ── */
+/* LEAFLET */
 .leaflet-popup-content-wrapper{border-radius:14px!important;box-shadow:0 8px 32px rgba(0,0,0,.14)!important;border:1px solid var(--border)!important;padding:0!important;overflow:hidden}
 .leaflet-popup-content{margin:0!important}
 .leaflet-popup-tip-container{display:none}
@@ -147,7 +141,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--fb)
 @keyframes gpsRing{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.8);opacity:0}}
 .leaflet-top,.leaflet-bottom{z-index:400!important}
 
-/* ── STATS ── */
+/* STATS */
 #panel-stats{background:var(--bg3);overflow-y:auto;padding:24px;flex-direction:column;gap:20px}
 .sg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .sc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:18px 20px}
@@ -176,15 +170,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--fb)
 .zr:last-child{border-bottom:none;padding-bottom:0}
 .zrk{font-size:18px;font-weight:700;font-family:var(--fd);color:var(--g300);width:24px}
 .zrk.top{color:var(--red)}
-.zi{flex:1}
-.zn{font-size:13px;font-weight:600;color:var(--g900);font-family:var(--fd)}
+.zi{flex:1}.zn{font-size:13px;font-weight:600;color:var(--g900);font-family:var(--fd)}
 .zd{font-size:11px;color:var(--g400);margin-top:2px}
-.zb{width:100px}
-.zbg{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.zb{width:100px}.zbg{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
 .zbf{height:100%;background:var(--red);border-radius:3px}
 .zct{font-size:13px;font-weight:700;color:var(--red-d);font-family:var(--fd)}
 
-/* ── AUTH ── */
+/* AUTH */
 #panel-auth{background:var(--bg3);overflow-y:auto;justify-content:center;align-items:center}
 .aw{width:100%;max-width:420px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:20px}
 .al{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 0 6px}
@@ -212,7 +204,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--fb)
 .aerr{font-size:12px;color:var(--red-d);background:var(--red-l);border:1px solid var(--red-m);border-radius:8px;padding:8px 12px;display:none}
 .aerr.show{display:block}
 
-/* ── SIGNALER ── */
+/* SIGNALER */
 #panel-signaler{background:var(--bg3);overflow-y:auto;justify-content:flex-start;align-items:center}
 .sw{width:100%;max-width:680px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:20px}
 .s-title{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--g900)}
@@ -242,7 +234,7 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
 .sbtn:hover:not(:disabled){background:var(--red-d);transform:translateY(-1px)}
 .sbtn:disabled{opacity:.6;cursor:not-allowed}
 
-/* ── PROFIL ── */
+/* PROFIL */
 #panel-profil{background:var(--bg3);overflow-y:auto;justify-content:flex-start;align-items:center}
 .pw{width:100%;max-width:680px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:18px}
 .prof-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
@@ -250,17 +242,17 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
 .pav{width:64px;height:64px;border-radius:20px;background:var(--red-l);border:2px solid var(--red-m);display:flex;align-items:center;justify-content:center;font-size:28px}
 .pn{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--g900)}
 .ps{font-size:12px;color:var(--g400);margin-top:3px}
-.pr{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.pr{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border)}
 .pr:last-child{border-bottom:none}
-.pr:hover{background:var(--bg3)}
 .pr-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
 .pr-info{flex:1}
 .pr-lbl{font-size:13px;font-weight:500;color:var(--g900);font-family:var(--fd)}
 .pr-val{font-size:12px;color:var(--g400);margin-top:2px}
 .pr-stat{font-size:16px;font-weight:700;color:var(--red);font-family:var(--fd)}
-.lo-btn{width:calc(100% - 32px);margin:16px;height:42px;border-radius:var(--r);background:var(--bg2);border:1px solid var(--red-m);cursor:pointer;font-family:var(--fd);font-size:13px;font-weight:500;color:var(--red-d);display:block}
+.lo-btn{width:calc(100% - 32px);margin:16px;height:46px;border-radius:var(--r);background:var(--red-l);border:1.5px solid var(--red-m);cursor:pointer;font-family:var(--fd);font-size:14px;font-weight:600;color:var(--red-d);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+.lo-btn:hover{background:var(--red);color:white}
 
-/* ── CONFIRM ── */
+/* CONFIRM */
 .ov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
 .ov.show{display:flex}
 .om{background:var(--bg2);border-radius:24px;padding:36px 32px;max-width:420px;width:90%;display:flex;flex-direction:column;align-items:center;gap:14px;animation:mi .35s cubic-bezier(.34,1.56,.64,1)}
@@ -271,12 +263,13 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
 .om-info{background:var(--bg3);border-radius:var(--r);padding:12px 16px;width:100%;display:flex;gap:10px}
 .om-info-tx{font-size:12px;color:var(--g600);line-height:1.5}
 .om-info-tx strong{color:var(--g900)}
-.om-ok{width:100%;height:48px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:14px;font-weight:600;color:white;margin-top:4px}
+.om-ok{width:100%;height:48px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:14px;font-weight:600;color:white;margin-top:4px;transition:all .15s}
+.om-ok:hover{background:var(--red-d)}
 .om-cl{width:100%;height:40px;border-radius:var(--r);background:var(--bg2);border:1px solid var(--border);cursor:pointer;font-family:var(--fd);font-size:13px;color:var(--g600)}
 
-/* ── TOAST ── */
+/* TOAST */
 .toast-cont{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.toast{background:var(--g900);color:white;border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;opacity:0;transform:translateY(-16px);transition:all .3s cubic-bezier(.34,1.56,.64,1);min-width:280px}
+.toast{background:var(--g900);color:white;border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;opacity:0;transform:translateY(-16px);transition:all .3s cubic-bezier(.34,1.56,.64,1);min-width:280px;pointer-events:auto}
 .toast.show{opacity:1;transform:translateY(0)}
 .toast.alert{background:var(--red)}
 .toast.success{background:#16a34a}
@@ -294,7 +287,7 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
   .m-logo-ic svg{width:17px;height:17px;fill:white}
   .m-logo-tx{font-family:var(--fd);font-size:17px;font-weight:700;color:var(--g900)}
   .m-logo-tx span{color:var(--red)}
-  .m-header-right{display:flex;align-items:center;gap:8px}
+  .m-hdr-r{display:flex;align-items:center;gap:8px}
   .m-icon-btn{width:32px;height:32px;border-radius:9px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
   .m-conn{display:flex;align-items:center;gap:5px;font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);font-family:var(--fd)}
   .m-cd{width:6px;height:6px;border-radius:50%}
@@ -306,14 +299,15 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
   .m-map-fab{position:absolute;bottom:80px;right:16px;z-index:500;width:56px;height:56px;border-radius:18px;background:var(--red);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(224,62,62,.4)}
   .m-map-fab svg{width:24px;height:24px;fill:white}
   .m-center-btn{position:absolute;bottom:148px;right:16px;z-index:500;width:44px;height:44px;border-radius:14px;background:var(--bg2);border:1px solid var(--border);cursor:pointer;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center}
-  .m-alert-chip{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:500;background:var(--red);color:white;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:var(--fd);display:flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(224,62,62,.4)}
+  .m-alert-chip{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:500;background:var(--red);color:white;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:var(--fd);display:flex;align-items:center;gap:6px}
   .m-leg{position:absolute;bottom:80px;left:12px;z-index:500;background:var(--bg2);border-radius:var(--r);border:1px solid var(--border);padding:8px 12px;display:flex;flex-direction:column;gap:5px}
   .m-leg-i{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--g600)}
   .m-leg-d{width:8px;height:8px;border-radius:50%;flex-shrink:0}
   #m-panel-list{background:var(--bg2);overflow:hidden}
-  .m-list-header{padding:14px 16px 10px;border-bottom:1px solid var(--border)}
+  .m-list-hdr{padding:14px 16px 10px;border-bottom:1px solid var(--border)}
+  .m-list-hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
   .m-list-title{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--g900)}
-  .m-list-sub{font-size:12px;color:var(--g400);margin-top:2px}
+  .m-list-sub{font-size:12px;color:var(--g400)}
   .m-pills{display:flex;gap:6px;padding:10px 16px;overflow-x:auto;border-bottom:1px solid var(--border)}
   .m-pills::-webkit-scrollbar{display:none}
   .m-pill{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--bg2);color:var(--g600);font-family:var(--fd);white-space:nowrap;flex-shrink:0}
@@ -327,7 +321,6 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
   .m-ic-title{font-size:14px;font-weight:600;color:var(--g900);font-family:var(--fd)}
   .m-ic-loc{font-size:11px;color:var(--g400);margin-top:2px}
   .m-ic-time{font-size:11px;color:var(--g400);font-family:var(--fd)}
-  .m-ic-desc{font-size:12px;color:var(--g600);font-style:italic;line-height:1.4}
   #m-panel-signaler{background:var(--bg3);overflow-y:auto}
   .m-form-wrap{padding:16px;display:flex;flex-direction:column;gap:14px}
   .m-form-title{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--g900)}
@@ -345,7 +338,6 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
   .m-pz.has{border-color:var(--grn);background:var(--grn-l)}
   .m-anon-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg3);border-radius:var(--r);border:1px solid var(--border)}
   .m-sbtn{height:52px;border-radius:var(--r);background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:15px;font-weight:700;color:white;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
-  .m-sbtn:active{transform:scale(.98)}
   #m-panel-auth{background:var(--bg3);overflow-y:auto;justify-content:center;align-items:center}
   .m-auth-wrap{width:100%;padding:24px 16px;display:flex;flex-direction:column;gap:16px}
   #m-panel-stats{background:var(--bg3);overflow-y:auto}
@@ -392,12 +384,12 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
   </div>
 </div>
 
-<!-- DESKTOP -->
+<!-- ══ DESKTOP ══ -->
 <div class="desktop">
   <aside class="sb">
     <div class="sb-logo">
       <div class="logo-w"><div class="logo-ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><span class="logo-tx">Ville<span>Sûre</span></span></div>
-      <span class="logo-city">Libreville</span>
+      <span class="logo-city" id="d-city-lbl">Libreville</span>
     </div>
     <nav class="sb-nav">
       <button class="ni active" id="d-nav-map" onclick="dShow('map',this)"><div class="ni-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="#E03E3E"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>Carte en direct<span class="nbadge" id="d-badge">0</span></button>
@@ -416,7 +408,13 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
       </div>
     </div>
     <div class="inc-sec">
-      <div class="inc-hdr"><span class="inc-ttl">Incidents récents</span><span class="inc-cnt" id="d-inc-cnt">—</span></div>
+      <div class="inc-hdr">
+        <span class="inc-ttl">Incidents récents</span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="inc-cnt" id="d-inc-cnt">—</span>
+          <button class="ref-btn" id="d-ref-btn" onclick="refreshData()" title="Actualiser">🔄</button>
+        </div>
+      </div>
       <div id="d-inc-list"><div class="empty-state">🔄 Chargement...</div></div>
     </div>
     <div class="sb-bot"><button class="rep-btn" onclick="dShow('signaler',document.querySelectorAll('.ni')[2])"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>+ SIGNALER UN INCIDENT</button></div>
@@ -426,16 +424,16 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
       <div><div class="tb-title" id="d-tb-title">Carte en direct</div><div class="tb-sub" id="d-tb-sub">Libreville, Gabon</div></div>
       <div class="tb-sep"></div>
       <button class="icon-btn" id="d-dark-btn" onclick="toggleDark()" title="Mode sombre">🌙</button>
-      <div class="conn-st"><div class="cd cn" id="d-cd"></div><span id="d-cl">Connexion...</span></div>
-      <div class="alert-b"><div class="pulse-d"></div><span id="d-alert-cnt">0</span> alertes</div>
+      <div class="conn-chip"><div class="cd cn" id="d-cd"></div><span id="d-cl">Connexion...</span></div>
+      <div class="alert-chip"><div class="pulse-d"></div><span id="d-alert-cnt">0</span> alertes</div>
     </div>
     <div class="content-d">
       <div class="panel active" id="panel-map">
         <div id="map-d"></div>
-        <div class="mw-srch"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Libreville, Gabon</div>
-        <div class="gps-chip" id="d-gps-chip" onclick="centerOnMe()">📍 Détection GPS...</div>
+        <div class="mw-srch"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span id="d-city-search">Libreville, Gabon</span></div>
+        <div class="gps-chip" id="d-gps-chip" onclick="centerOnMe()">📍 Détection...</div>
         <button class="center-btn" onclick="centerOnMe()" title="Centrer sur ma position">🎯</button>
-        <div class="mw-stats"><div class="mw-title">En direct</div><div class="mw-row"><span class="mw-lbl">Incidents</span><span class="mw-val r" id="d-mw-t">—</span></div><div class="mw-row"><span class="mw-lbl">Cette semaine</span><span class="mw-val o" id="d-mw-w">—</span></div><div class="mw-row"><span class="mw-lbl">Zone</span><span class="mw-val g">Libreville</span></div></div>
+        <div class="mw-stats"><div class="mw-title">En direct</div><div class="mw-row"><span class="mw-lbl">Incidents</span><span class="mw-val r" id="d-mw-t">—</span></div><div class="mw-row"><span class="mw-lbl">Semaine</span><span class="mw-val o" id="d-mw-w">—</span></div><div class="mw-row"><span class="mw-lbl">Zone</span><span class="mw-val g" id="d-mw-zone">Libreville</span></div></div>
         <div class="mw-leg"><div class="leg-i"><div class="leg-d" style="background:#E03E3E"></div>Agression</div><div class="leg-i"><div class="leg-d" style="background:#F0960A"></div>Vol / Braquage</div><div class="leg-i"><div class="leg-d" style="background:#1B6FC8"></div>Harcèlement</div><div class="leg-i"><div class="leg-d" style="background:#1B6FC8;opacity:.5"></div>Votre position</div></div>
       </div>
       <div class="panel" id="panel-stats">
@@ -445,35 +443,46 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
       </div>
       <div class="panel" id="panel-auth">
         <div class="aw"><div class="al"><div class="al-ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><div class="al-n">Ville<span>Sûre</span></div><div class="al-s">Libreville, Gabon</div></div>
-          <div class="auth-card"><div class="at"><button class="atb active" id="d-tab-l" onclick="switchTab('l')">Connexion</button><button class="atb" id="d-tab-s" onclick="switchTab('s')">Inscription</button></div><div class="aerr" id="d-aerr"></div><div class="af"><div class="afl">Email</div><input class="ai" type="email" id="d-email" placeholder="votre@email.com"></div><div class="af"><div class="afl">Mot de passe</div><input class="ai" type="password" id="d-pwd" placeholder="••••••••"></div><div class="af" id="d-age-f" style="display:none"><div class="afl">Âge</div><input class="ai" type="number" id="d-age" placeholder="Ex: 28"></div><button class="abtn" id="d-auth-btn" onclick="doAuth()">Se connecter</button><div class="adiv"><div class="adiv-l"></div><div class="adiv-t">ou</div><div class="adiv-l"></div></div><button class="aanon" onclick="signInAnon()">🕵️ Continuer en anonyme</button></div>
+          <div class="auth-card"><div class="at"><button class="atb active" id="d-tab-l" onclick="switchTab('l')">Connexion</button><button class="atb" id="d-tab-s" onclick="switchTab('s')">Inscription</button></div><div class="aerr" id="d-aerr"></div><div class="af"><div class="afl">Email</div><input class="ai" type="email" id="d-email" placeholder="votre@email.com"></div><div class="af"><div class="afl">Mot de passe</div><input class="ai" type="password" id="d-pwd" placeholder="••••••••"></div><div class="af" id="d-age-f" style="display:none"><div class="afl">Âge</div><input class="ai" type="number" id="d-age" placeholder="Ex: 28"></div><button class="abtn" id="d-auth-btn" onclick="doAuth('d')">Se connecter</button><div class="adiv"><div class="adiv-l"></div><div class="adiv-t">ou</div><div class="adiv-l"></div></div><button class="aanon" onclick="signInAnon()">🕵️ Continuer en anonyme</button></div>
         </div>
       </div>
       <div class="panel" id="panel-signaler">
-        <div class="sw"><div><div class="s-title">Signaler un incident</div><div class="s-sub">Enregistré en temps réel.</div></div>
+        <div class="sw"><div><div class="s-title">Signaler un incident</div><div class="s-sub">Enregistré en temps réel dans la base de données.</div></div>
           <div class="fc">
-            <div class="fg"><div class="fl">Localisation</div><div class="ld"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--grn)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span id="d-loc-txt">Libreville, Gabon</span></div></div>
+            <div class="fg"><div class="fl">Localisation détectée</div><div class="ld"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--grn)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span id="d-loc-txt">Détection GPS...</span></div></div>
             <div class="fg"><div class="fl">Type d'incident</div><div class="type-grid"><div class="tc sel" onclick="selTypeF(this)" data-type="Agression physique"><span class="te">⚠️</span>Agression physique</div><div class="tc" onclick="selTypeF(this)" data-type="Harcèlement verbal"><span class="te">💬</span>Harcèlement verbal</div><div class="tc" onclick="selTypeF(this)" data-type="Vol / tentative"><span class="te">🏃</span>Vol / tentative</div><div class="tc" onclick="selTypeF(this)" data-type="Braquage"><span class="te">🔫</span>Braquage</div><div class="tc" onclick="selTypeF(this)" data-type="Agression avec véhicule"><span class="te">🚗</span>Avec véhicule</div><div class="tc" onclick="selTypeF(this)" data-type="Situation suspecte"><span class="te">❗</span>Situation suspecte</div></div></div>
-            <div class="fg"><div class="fl">Description</div><textarea class="fi" id="d-desc" rows="3" placeholder="Décrivez brièvement..."></textarea></div>
+            <div class="fg"><div class="fl">Description</div><textarea class="fi" id="d-desc" rows="3" placeholder="Décrivez brièvement ce qui se passe..."></textarea></div>
             <div class="form-row">
               <div class="fg"><div class="fl">Photo (optionnel)</div><div class="pz" id="d-pz" onclick="document.getElementById('d-photo').click()"><div style="font-size:26px;margin-bottom:4px">📷</div><div class="pz-tx" id="d-pz-tx"><strong>Cliquez</strong> pour ajouter</div></div><input type="file" id="d-photo" accept="image/*" style="display:none" onchange="handlePhotoD(this)"></div>
-              <div class="fg"><div class="fl">Âge (optionnel)</div><input type="number" class="fi" id="d-rep-age" placeholder="Ex: 28" style="height:48px"><div class="anon-row"><span class="anon-lbl">Mode anonyme</span><div class="tog" id="d-anon" onclick="this.classList.toggle('off')"></div></div></div>
+              <div class="fg"><div class="fl">Votre âge (optionnel)</div><input type="number" class="fi" id="d-rep-age" placeholder="Ex: 28" style="height:48px"><div class="anon-row"><span class="anon-lbl">Mode anonyme</span><div class="tog" id="d-anon" onclick="this.classList.toggle('off')"></div></div></div>
             </div>
             <button class="sbtn" id="d-submit" onclick="submitD()"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>SIGNALER MAINTENANT</button>
           </div>
         </div>
       </div>
       <div class="panel" id="panel-profil">
-        <div class="pw"><div class="prof-card"><div class="ph"><div class="pav">👤</div><div><div class="pn" id="d-pname">...</div><div class="ps" id="d-psub">Libreville</div></div></div><div class="pr"><div class="pr-ic" style="background:var(--blu-l)">🎂</div><div class="pr-info"><div class="pr-lbl">Âge</div><div class="pr-val" id="d-page">Non renseigné</div></div></div><div class="pr"><div class="pr-ic" style="background:var(--grn-l)">📍</div><div class="pr-info"><div class="pr-lbl">Ville</div><div class="pr-val">Libreville, Gabon</div></div></div><div class="pr"><div class="pr-ic" style="background:var(--red-l)">🔔</div><div class="pr-info"><div class="pr-lbl">Alertes proximité</div><div class="pr-val">Activées · 500m</div></div><div class="tog" onclick="this.classList.toggle('off')"></div></div><div class="pr"><div class="pr-ic" style="background:var(--ora-l)">📊</div><div class="pr-info"><div class="pr-lbl">Mes signalements</div></div><span class="pr-stat" id="d-my-rep">—</span></div></div><div class="prof-card" style="padding:16px"><button class="lo-btn" onclick="doLogout()">🚪 Se déconnecter</button></div></div>
+        <div class="pw">
+          <div class="prof-card">
+            <div class="ph"><div class="pav">👤</div><div><div class="pn" id="d-pname">—</div><div class="ps" id="d-psub">—</div></div></div>
+            <div class="pr"><div class="pr-ic" style="background:var(--blu-l)">🎂</div><div class="pr-info"><div class="pr-lbl">Âge</div><div class="pr-val" id="d-page">Non renseigné</div></div></div>
+            <div class="pr"><div class="pr-ic" style="background:var(--grn-l)">📍</div><div class="pr-info"><div class="pr-lbl">Position actuelle</div><div class="pr-val" id="d-ploc">Libreville, Gabon</div></div></div>
+            <div class="pr"><div class="pr-ic" style="background:var(--red-l)">🔔</div><div class="pr-info"><div class="pr-lbl">Alertes proximité</div><div class="pr-val">Activées · 500m</div></div><div class="tog" onclick="this.classList.toggle('off')"></div></div>
+            <div class="pr"><div class="pr-ic" style="background:var(--ora-l)">📊</div><div class="pr-info"><div class="pr-lbl">Mes signalements</div><div class="pr-val">Historique personnel</div></div><span class="pr-stat" id="d-my-rep">—</span></div>
+          </div>
+          <div class="prof-card" style="padding:16px">
+            <button class="lo-btn" id="d-logout-btn" onclick="doLogout()">🚪 Se déconnecter</button>
+          </div>
+        </div>
       </div>
     </div>
   </main>
 </div>
 
-<!-- MOBILE -->
+<!-- ══ MOBILE ══ -->
 <div class="mobile">
   <div class="m-header">
     <div class="m-logo"><div class="m-logo-ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><span class="m-logo-tx">Ville<span>Sûre</span></span></div>
-    <div class="m-header-right">
+    <div class="m-hdr-r">
       <button class="m-icon-btn" id="m-dark-btn" onclick="toggleDark()">🌙</button>
       <div class="m-conn"><div class="m-cd cn" id="m-cd"></div><span id="m-cl">...</span></div>
     </div>
@@ -487,36 +496,50 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
       <button class="m-map-fab" onclick="mShow('signaler',2)"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></button>
     </div>
     <div class="m-panel" id="m-panel-list">
-      <div class="m-list-header"><div class="m-list-title">Incidents récents</div><div class="m-list-sub" id="m-inc-cnt">Chargement...</div></div>
-      <div class="m-pills"><div class="m-pill active" onclick="setPeriodM(this,1)">24h</div><div class="m-pill" onclick="setPeriodM(this,7)">7 jours</div><div class="m-pill" onclick="setPeriodM(this,30)">1 mois</div><div class="m-pill" onclick="setPeriodM(this,365)">1 an</div><div class="m-pill" onclick="setPeriodM(this,9999)">Tout</div></div>
+      <div class="m-list-hdr">
+        <div class="m-list-hdr-row"><div class="m-list-title">Incidents récents</div><button class="ref-btn" onclick="refreshData()">🔄</button></div>
+        <div class="m-list-sub" id="m-inc-cnt">Chargement...</div>
+      </div>
+      <div class="m-pills"><div class="m-pill active" onclick="setPeriod2(this,1)">24h</div><div class="m-pill" onclick="setPeriod2(this,7)">7 jours</div><div class="m-pill" onclick="setPeriod2(this,30)">1 mois</div><div class="m-pill" onclick="setPeriod2(this,365)">1 an</div><div class="m-pill" onclick="setPeriod2(this,9999)">Tout</div></div>
       <div class="m-inc-list" id="m-inc-list"><div class="empty-state">🔄 Chargement...</div></div>
     </div>
     <div class="m-panel" id="m-panel-signaler">
-      <div class="m-form-wrap"><div class="m-form-title">Signaler</div><div style="font-size:13px;color:var(--g400)">Enregistré en temps réel.</div>
+      <div class="m-form-wrap"><div class="m-form-title">Signaler un incident</div><div style="font-size:13px;color:var(--g400)">Enregistré en temps réel.</div>
         <div class="m-fc">
-          <div><div class="m-fl">Localisation</div><div class="m-ld"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--grn)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span id="m-loc-txt">Libreville, Gabon</span></div></div>
-          <div><div class="m-fl">Type</div><div class="m-type-grid"><div class="m-tc sel" onclick="mSelType(this)" data-type="Agression physique"><span class="m-te">⚠️</span>Agression physique</div><div class="m-tc" onclick="mSelType(this)" data-type="Harcèlement verbal"><span class="m-te">💬</span>Harcèlement</div><div class="m-tc" onclick="mSelType(this)" data-type="Vol / tentative"><span class="m-te">🏃</span>Vol</div><div class="m-tc" onclick="mSelType(this)" data-type="Braquage"><span class="m-te">🔫</span>Braquage</div><div class="m-tc" onclick="mSelType(this)" data-type="Agression avec véhicule"><span class="m-te">🚗</span>Véhicule</div><div class="m-tc" onclick="mSelType(this)" data-type="Situation suspecte"><span class="m-te">❗</span>Suspect</div></div></div>
+          <div><div class="m-fl">Localisation</div><div class="m-ld"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--grn)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span id="m-loc-txt">Détection GPS...</span></div></div>
+          <div><div class="m-fl">Type d'incident</div><div class="m-type-grid"><div class="m-tc sel" onclick="mSelType(this)" data-type="Agression physique"><span class="m-te">⚠️</span>Agression physique</div><div class="m-tc" onclick="mSelType(this)" data-type="Harcèlement verbal"><span class="m-te">💬</span>Harcèlement</div><div class="m-tc" onclick="mSelType(this)" data-type="Vol / tentative"><span class="m-te">🏃</span>Vol</div><div class="m-tc" onclick="mSelType(this)" data-type="Braquage"><span class="m-te">🔫</span>Braquage</div><div class="m-tc" onclick="mSelType(this)" data-type="Agression avec véhicule"><span class="m-te">🚗</span>Véhicule</div><div class="m-tc" onclick="mSelType(this)" data-type="Situation suspecte"><span class="m-te">❗</span>Suspect</div></div></div>
           <div><div class="m-fl">Description</div><textarea class="m-fi" id="m-desc" rows="3" placeholder="Décrivez brièvement..."></textarea></div>
-          <div><div class="m-fl">Photo</div><div class="m-pz" id="m-pz" onclick="document.getElementById('m-photo').click()"><div style="font-size:24px;margin-bottom:4px">📷</div><div style="font-size:12px;color:var(--g400)" id="m-pz-tx"><strong>Touchez</strong> pour ajouter</div></div><input type="file" id="m-photo" accept="image/*" style="display:none" onchange="handlePhotoM(this)"></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><div class="m-fl">Âge</div><input type="number" class="m-fi" id="m-age" placeholder="Ex: 28"></div><div><div class="m-fl">Mode</div><div class="m-anon-row"><span style="font-size:12px;font-family:var(--fd);color:var(--g900)">Anonyme</span><div class="tog" id="m-anon" onclick="this.classList.toggle('off')"></div></div></div></div>
+          <div><div class="m-fl">Photo (optionnel)</div><div class="m-pz" id="m-pz" onclick="document.getElementById('m-photo').click()"><div style="font-size:24px;margin-bottom:4px">📷</div><div style="font-size:12px;color:var(--g400)" id="m-pz-tx"><strong>Touchez</strong> pour ajouter</div></div><input type="file" id="m-photo" accept="image/*" style="display:none" onchange="handlePhotoM(this)"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><div class="m-fl">Âge (optionnel)</div><input type="number" class="m-fi" id="m-age" placeholder="Ex: 28"></div><div><div class="m-fl">Mode</div><div class="m-anon-row"><span style="font-size:12px;font-family:var(--fd);color:var(--g900)">Anonyme</span><div class="tog" id="m-anon" onclick="this.classList.toggle('off')"></div></div></div></div>
           <button class="m-sbtn" id="m-submit" onclick="submitM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>SIGNALER MAINTENANT</button>
         </div>
       </div>
     </div>
     <div class="m-panel" id="m-panel-stats">
-      <div class="m-stats-wrap"><div class="m-stats-grid"><div class="m-sc acc"><div class="m-sn" id="m-sn1">—</div><div class="m-sl">Total</div></div><div class="m-sc"><div class="m-sn" id="m-sn2">—</div><div class="m-sl">Cette semaine</div></div><div class="m-sc"><div class="m-sn" id="m-sn3">—</div><div class="m-sl">Ce mois</div></div><div class="m-sc"><div class="m-sn" id="m-sn4">—</div><div class="m-sl">Anonymes</div></div></div><div class="m-cc"><div class="m-ct">Par jour</div><div class="m-bc" id="m-bc"></div></div><div class="m-cc"><div class="m-ct">Par type</div><div class="tr" id="m-tc" style="margin-top:8px"></div></div></div>
+      <div class="m-stats-wrap"><div class="m-stats-grid"><div class="m-sc acc"><div class="m-sn" id="m-sn1">—</div><div class="m-sl">Total</div></div><div class="m-sc"><div class="m-sn" id="m-sn2">—</div><div class="m-sl">Semaine</div></div><div class="m-sc"><div class="m-sn" id="m-sn3">—</div><div class="m-sl">Ce mois</div></div><div class="m-sc"><div class="m-sn" id="m-sn4">—</div><div class="m-sl">Anonymes</div></div></div><div class="m-cc"><div class="m-ct">Incidents par jour</div><div class="m-bc" id="m-bc"></div></div><div class="m-cc"><div class="m-ct">Par type</div><div class="tr" id="m-tc" style="margin-top:8px"></div></div></div>
     </div>
     <div class="m-panel" id="m-panel-auth">
       <div class="m-auth-wrap"><div class="al"><div class="al-ic"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><div class="al-n">Ville<span>Sûre</span></div><div class="al-s">Libreville, Gabon</div></div>
-        <div class="auth-card"><div class="at"><button class="atb active" id="m-tab-l" onclick="mSwitchTab('l')">Connexion</button><button class="atb" id="m-tab-s" onclick="mSwitchTab('s')">Inscription</button></div><div class="aerr" id="m-aerr"></div><div class="af"><div class="afl">Email</div><input class="ai" type="email" id="m-email" placeholder="votre@email.com"></div><div class="af"><div class="afl">Mot de passe</div><input class="ai" type="password" id="m-pwd" placeholder="••••••••"></div><button class="abtn" id="m-auth-btn" onclick="mDoAuth()">Se connecter</button><div class="adiv"><div class="adiv-l"></div><div class="adiv-t">ou</div><div class="adiv-l"></div></div><button class="aanon" onclick="signInAnon()">🕵️ Continuer en anonyme</button></div>
+        <div class="auth-card"><div class="at"><button class="atb active" id="m-tab-l" onclick="mSwitchTab('l')">Connexion</button><button class="atb" id="m-tab-s" onclick="mSwitchTab('s')">Inscription</button></div><div class="aerr" id="m-aerr"></div><div class="af"><div class="afl">Email</div><input class="ai" type="email" id="m-email" placeholder="votre@email.com" autocomplete="email"></div><div class="af"><div class="afl">Mot de passe</div><input class="ai" type="password" id="m-pwd" placeholder="••••••••"></div><button class="abtn" id="m-auth-btn" onclick="doAuth('m')">Se connecter</button><div class="adiv"><div class="adiv-l"></div><div class="adiv-t">ou</div><div class="adiv-l"></div></div><button class="aanon" onclick="signInAnon()">🕵️ Continuer en anonyme</button></div>
       </div>
     </div>
     <div class="m-panel" id="m-panel-profil">
-      <div class="m-prof-wrap"><div class="prof-card"><div class="ph"><div class="pav">👤</div><div><div class="pn" id="m-pname">...</div><div class="ps" id="m-psub">Libreville</div></div></div><div class="pr"><div class="pr-ic" style="background:var(--blu-l)">🎂</div><div class="pr-info"><div class="pr-lbl">Âge</div><div class="pr-val" id="m-page">Non renseigné</div></div></div><div class="pr"><div class="pr-ic" style="background:var(--grn-l)">📍</div><div class="pr-info"><div class="pr-lbl">Ville</div><div class="pr-val">Libreville, Gabon</div></div></div><div class="pr"><div class="pr-ic" style="background:var(--red-l)">🔔</div><div class="pr-info"><div class="pr-lbl">Alertes</div><div class="pr-val">Activées · 500m</div></div><div class="tog" onclick="this.classList.toggle('off')"></div></div><div class="pr"><div class="pr-ic" style="background:var(--ora-l)">📊</div><div class="pr-info"><div class="pr-lbl">Mes signalements</div></div><span class="pr-stat" id="m-my-rep">—</span></div></div><div class="prof-card" style="padding:16px"><button style="width:100%;height:42px;border-radius:var(--r);background:var(--bg2);border:1px solid var(--red-m);cursor:pointer;font-family:var(--fd);font-size:13px;font-weight:500;color:var(--red-d)" onclick="doLogout()">🚪 Se déconnecter</button></div></div>
+      <div class="m-prof-wrap">
+        <div class="prof-card">
+          <div class="ph"><div class="pav">👤</div><div><div class="pn" id="m-pname">—</div><div class="ps" id="m-psub">—</div></div></div>
+          <div class="pr"><div class="pr-ic" style="background:var(--blu-l)">🎂</div><div class="pr-info"><div class="pr-lbl">Âge</div><div class="pr-val" id="m-page">Non renseigné</div></div></div>
+          <div class="pr"><div class="pr-ic" style="background:var(--grn-l)">📍</div><div class="pr-info"><div class="pr-lbl">Position actuelle</div><div class="pr-val" id="m-ploc">Libreville, Gabon</div></div></div>
+          <div class="pr"><div class="pr-ic" style="background:var(--red-l)">🔔</div><div class="pr-info"><div class="pr-lbl">Alertes</div><div class="pr-val">Activées · 500m</div></div><div class="tog" onclick="this.classList.toggle('off')"></div></div>
+          <div class="pr"><div class="pr-ic" style="background:var(--ora-l)">📊</div><div class="pr-info"><div class="pr-lbl">Mes signalements</div></div><span class="pr-stat" id="m-my-rep">—</span></div>
+        </div>
+        <div class="prof-card" style="padding:16px">
+          <button class="lo-btn" id="m-logout-btn" onclick="doLogout()">🚪 Se déconnecter</button>
+        </div>
+      </div>
     </div>
   </div>
   <nav class="m-nav">
-    <button class="m-nav-btn active" id="m-nav-0" onclick="mShow('map',0)"><div class="m-nav-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg><div class="m-nav-dot" id="m-nav-dot"></div></div><span class="m-nav-lbl">Carte</span></button>
+    <button class="m-nav-btn active" id="m-nav-0" onclick="mShow('map',0)"><div class="m-nav-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg><div class="m-nav-dot" id="m-nav-dot" style="display:none"></div></div><span class="m-nav-lbl">Carte</span></button>
     <button class="m-nav-btn" id="m-nav-1" onclick="mShow('list',1)"><div class="m-nav-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div><span class="m-nav-lbl">Incidents</span></button>
     <button class="m-nav-btn" id="m-nav-2" onclick="mShow('signaler',2)"><div class="m-nav-ic" style="position:relative;top:-14px"><div class="m-fab-center"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></div></div><span class="m-nav-lbl" style="margin-top:4px">Signaler</span></button>
     <button class="m-nav-btn" id="m-nav-3" onclick="mShow('stats',3)"><div class="m-nav-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><span class="m-nav-lbl">Stats</span></button>
@@ -527,13 +550,17 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
+// ── CONFIG ──
 const SURL='https://dzmgqcpxcdaloguuuhgp.supabase.co';
 const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6bWdxY3B4Y2RhbG9ndXV1aGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjYyNzQsImV4cCI6MjA4OTEwMjI3NH0.a00OQPcrEC52NB-klE_UeX-SitgnAdrfkVRRaZ2Joio';
 const db=window.supabase.createClient(SURL,SKEY);
 
-let user=null,mD={},mM={},incidents=[],days=1;
-let lat=0.3962,lng=9.4558,currentType='Agression physique',photoD=null,photoM=null;
-let accCircleD=null,accCircleM=null;
+// ── STATE ──
+let user=null, incidents=[], days=1;
+let lat=0.3962, lng=9.4558, cityName='Libreville, Gabon';
+let currentType='Agression physique', photoD=null, photoM=null;
+let mD={}, mM={}, accCircleD=null, accCircleM=null;
+let gpsWatchId=null, refreshTimer=null;
 const isMob=()=>window.innerWidth<=768;
 
 // ── MAPS ──
@@ -549,31 +576,76 @@ const uMkD=L.marker([lat,lng],{icon:uIco,zIndexOffset:1000}).addTo(mapD);
 const uMkM=L.marker([lat,lng],{icon:uIco,zIndexOffset:1000}).addTo(mapM);
 
 // ── GPS ──
-if(navigator.geolocation){
-  navigator.geolocation.getCurrentPosition(gpsOk,gpsErr,{timeout:8000,enableHighAccuracy:true});
-  navigator.geolocation.watchPosition(gpsOk,gpsErr,{enableHighAccuracy:true,maximumAge:5000,timeout:15000});
+async function reverseGeocode(la,ln){
+  try{
+    const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${la}&lon=${ln}&format=json&accept-language=fr`,{headers:{'Accept-Language':'fr'}});
+    const d=await r.json();
+    const city=d.address?.city||d.address?.town||d.address?.village||d.address?.suburb||d.address?.county||'';
+    const country=d.address?.country||'';
+    return city?`${city}, ${country}`:'Libreville, Gabon';
+  }catch(e){return 'Libreville, Gabon';}
 }
-function gpsOk(p){
-  lat=p.coords.latitude;lng=p.coords.longitude;
-  uMkD.setLatLng([lat,lng]);uMkM.setLatLng([lat,lng]);
-  const r=p.coords.accuracy;
-  if(accCircleD)mapD.removeLayer(accCircleD);
-  if(accCircleM)mapM.removeLayer(accCircleM);
-  accCircleD=L.circle([lat,lng],{radius:r,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1}).addTo(mapD);
-  accCircleM=L.circle([lat,lng],{radius:r,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1}).addTo(mapM);
-  const txt=`📍 GPS actif — ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-  document.getElementById('d-loc-txt').textContent=txt;
-  document.getElementById('m-loc-txt').textContent=txt;
+
+function startGPS(){
+  if(!navigator.geolocation){setGPSChip('error');return;}
+  setGPSChip('loading');
+  navigator.geolocation.getCurrentPosition(onGPS,onGPSErr,{timeout:10000,enableHighAccuracy:true,maximumAge:0});
+  if(gpsWatchId!==null)navigator.geolocation.clearWatch(gpsWatchId);
+  gpsWatchId=navigator.geolocation.watchPosition(onGPS,onGPSErr,{enableHighAccuracy:true,maximumAge:15000,timeout:20000});
+}
+
+async function onGPS(p){
+  lat=p.coords.latitude; lng=p.coords.longitude;
+  const acc=p.coords.accuracy;
+  // Update markers
+  uMkD.setLatLng([lat,lng]);
+  uMkM.setLatLng([lat,lng]);
+  // Accuracy circle
+  if(accCircleD){mapD.removeLayer(accCircleD);}
+  if(accCircleM){mapM.removeLayer(accCircleM);}
+  accCircleD=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapD);
+  accCircleM=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapM);
+  setGPSChip('active');
+  // Get real city name
+  const city=await reverseGeocode(lat,lng);
+  cityName=city;
+  // Update all location displays
+  const locTxt=`📍 ${city}`;
+  setText('d-loc-txt',locTxt);
+  setText('m-loc-txt',locTxt);
+  setText('d-ploc',city);
+  setText('m-ploc',city);
+  setText('d-city-search',city);
+  setText('d-mw-zone',city.split(',')[0]);
+  // Update city badge in sidebar
+  const cl=document.getElementById('d-city-lbl');
+  if(cl)cl.textContent=city.split(',')[0];
+}
+
+function onGPSErr(e){
+  console.warn('GPS:',e?.code,e?.message);
+  setGPSChip('error');
+  setText('d-loc-txt','📍 Libreville, Gabon (par défaut)');
+  setText('m-loc-txt','📍 Libreville, Gabon (par défaut)');
+  // Retry once after 8s
+  setTimeout(startGPS,8000);
+}
+
+function setGPSChip(state){
   const chip=document.getElementById('d-gps-chip');
-  if(chip){chip.textContent='📍 GPS actif';chip.style.background='#dcfce7';chip.style.color='#16a34a';}
+  if(!chip)return;
+  const states={
+    loading:{txt:'📍 Détection...',bg:'#FEF5E7',color:'#8B5A00'},
+    active:{txt:'📍 GPS actif',bg:'#dcfce7',color:'#16a34a'},
+    error:{txt:'📍 Position approx.',bg:'#FEF5E7',color:'#8B5A00'}
+  };
+  const s=states[state]||states.error;
+  chip.textContent=s.txt;chip.style.background=s.bg;chip.style.color=s.color;
 }
-function gpsErr(){
-  const chip=document.getElementById('d-gps-chip');
-  if(chip){chip.textContent='📍 Position par défaut';chip.style.background='#FEF5E7';chip.style.color='#8B5A00';}
-}
+
 function centerOnMe(){
-  mapD.flyTo([lat,lng],16,{duration:1});
-  mapM.flyTo([lat,lng],16,{duration:1});
+  if(isMob())mapM.flyTo([lat,lng],16,{duration:1});
+  else mapD.flyTo([lat,lng],16,{duration:1});
   toast('📍 Centré','Carte centrée sur votre position','success');
 }
 
@@ -581,23 +653,19 @@ function centerOnMe(){
 function initDark(){
   const saved=localStorage.getItem('vs-theme');
   const dark=saved?saved==='dark':window.matchMedia('(prefers-color-scheme:dark)').matches;
-  applyDark(dark);
+  applyDark(dark,false);
 }
-function applyDark(dark){
+function applyDark(dark,save=true){
   document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-  localStorage.setItem('vs-theme',dark?'dark':'light');
+  if(save)localStorage.setItem('vs-theme',dark?'dark':'light');
   const e=dark?'☀️':'🌙';
-  const db=document.getElementById('d-dark-btn');
-  const mb=document.getElementById('m-dark-btn');
-  if(db)db.textContent=e;
-  if(mb)mb.textContent=e;
+  setText('d-dark-btn',e);
+  setText('m-dark-btn',e);
 }
-function toggleDark(){
-  applyDark(document.documentElement.getAttribute('data-theme')!=='dark');
-}
-initDark();
+function toggleDark(){applyDark(document.documentElement.getAttribute('data-theme')!=='dark');}
 
 // ── HELPERS ──
+function setText(id,txt){const el=document.getElementById(id);if(el)el.textContent=txt;}
 function tStyle(t){
   const m={
     'Agression physique':{cls:'urg',e:'⚠️',c:'#E03E3E',tc:'r',tt:'Urgent'},
@@ -623,32 +691,30 @@ function toast(title,sub,type){
   t.innerHTML=`<div class="t-ic">${title.split(' ')[0]}</div><div><div class="t-title">${title.replace(/^\S+\s/,'')}</div><div class="t-sub">${sub}</div></div>`;
   c.appendChild(t);
   requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));
-  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400)},4000);
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},4000);
 }
 
 // ── SHARE ──
 async function shareInc(id,type){
   const url=`${location.origin}${location.pathname}?incident=${id}`;
   if(navigator.share){
-    try{await navigator.share({title:'VilleSûre',text:`🚨 ${type} signalé à Libreville`,url});return;}
+    try{await navigator.share({title:'VilleSûre',text:`🚨 ${type} signalé`,url});return;}
     catch(e){if(e.name==='AbortError')return;}
   }
-  try{await navigator.clipboard.writeText(url);toast('🔗 Lien copié','Lien de l\'incident copié','success');}
+  try{await navigator.clipboard.writeText(url);toast('🔗 Lien copié','Lien copié dans le presse-papier','success');}
   catch(e){prompt('Copiez ce lien :',url);}
 }
 
 // ── MARKERS ──
 function addMkBoth(inc){
-  ['D','M'].forEach(sfx=>{
-    const mp=sfx==='D'?mapD:mapM;
-    const mrks=sfx==='D'?mD:mM;
+  [{sfx:'D',mp:mapD,mrks:mD},{sfx:'M',mp:mapM,mrks:mM}].forEach(({mp,mrks})=>{
     if(mrks[inc.id])mp.removeLayer(mrks[inc.id]);
     const s=tStyle(inc.type);
     const ico=L.divIcon({className:'',html:`<div class="vs-marker ${s.cls}">${s.e} ${inc.type}</div>`,iconSize:null,iconAnchor:[70,36]});
     const bg=s.tc==='r'?'#FEF0F0':s.tc==='o'?'#FEF5E7':'#EBF3FC';
     const tx=s.tc==='r'?'#B52E2E':s.tc==='o'?'#8B5A00':'#1B4A8A';
     mrks[inc.id]=L.marker([inc.latitude,inc.longitude],{icon:ico}).addTo(mp)
-      .bindPopup(`<div class="pu"><div class="pu-type" style="color:${s.c}">${s.e} ${s.tt}</div><div class="pu-title">${inc.type}</div><div class="pu-loc">📍 ${inc.zone||'Libreville'}</div>${inc.description?`<div class="pu-desc">"${inc.description}"</div>`:''}<div class="pu-ft"><span class="pu-time">${ago(inc.created_at)}</span><span class="pu-tag" style="background:${bg};color:${tx}">${s.tt}</span></div></div>`,{maxWidth:260,minWidth:220,closeButton:false,offset:[0,-8]});
+      .bindPopup(`<div class="pu"><div class="pu-type" style="color:${s.c}">${s.e} ${s.tt.toUpperCase()}</div><div class="pu-title">${inc.type}</div><div class="pu-loc">📍 ${inc.zone||'Libreville'}</div>${inc.description?`<div class="pu-desc">"${inc.description}"</div>`:''}<div class="pu-ft"><span class="pu-time">${ago(inc.created_at)}</span><span class="pu-tag" style="background:${bg};color:${tx}">${s.tt}</span></div></div>`,{maxWidth:260,minWidth:220,closeButton:false,offset:[0,-8]});
   });
 }
 
@@ -668,55 +734,76 @@ function cardM(inc){
   const s=tStyle(inc.type);
   return`<div class="m-icard${s.cls==='urg'?' urg':''}" onclick="flyM(${inc.latitude},${inc.longitude},'${inc.id}')">
     <div class="m-ic-row"><div class="m-ic-icon ${s.tc}">${s.e}</div><div style="flex:1"><div class="m-ic-title">${inc.type}</div><div class="m-ic-loc">📍 ${inc.zone||'Libreville'}</div></div><div class="m-ic-time">${ago(inc.created_at)}</div></div>
-    <div style="display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
       <div class="tags"><span class="tag ${s.tc}">${s.tt}</span>${inc.is_anonymous?'<span class="tag g">Anonyme</span>':''}</div>
       <button onclick="event.stopPropagation();shareInc('${inc.id}','${inc.type.replace(/'/g,"\\'")}');" style="height:24px;padding:0 8px;border-radius:6px;border:1px solid var(--border);background:transparent;font-size:11px;cursor:pointer;color:var(--g400);font-family:var(--fd)">🔗</button>
     </div>
-    ${inc.description?`<div class="m-ic-desc" style="margin-top:4px">"${inc.description}"</div>`:''}
+    ${inc.description?`<div style="font-size:12px;color:var(--g600);font-style:italic;margin-top:4px">"${inc.description}"</div>`:''}
   </div>`;
 }
 
-// ── DATA ──
+// ── LOAD DATA ──
 async function loadData(){
-  let q=db.from('incidents').select('*').order('created_at',{ascending:false});
-  if(days<9999){const d=new Date();days===1?d.setHours(d.getHours()-24):d.setDate(d.getDate()-days);q=q.gte('created_at',d.toISOString());}
-  const{data,error}=await q;
-  if(error){console.error(error);return;}
-  incidents=data||[];
-  renderAll();
+  try{
+    let q=db.from('incidents').select('*').order('created_at',{ascending:false});
+    if(days<9999){
+      const cutoff=new Date(Date.now()-days*24*60*60*1000);
+      q=q.gte('created_at',cutoff.toISOString());
+    }
+    const{data,error}=await q;
+    if(error)throw error;
+    incidents=data||[];
+    renderAll();
+  }catch(e){
+    console.error('loadData:',e);
+    toast('❌ Erreur de chargement',e.message||'Vérifiez votre connexion','alert');
+  }
 }
+
+function refreshData(){
+  const btn=document.getElementById('d-ref-btn');
+  if(btn){btn.classList.add('spin');setTimeout(()=>btn.classList.remove('spin'),600);}
+  loadData();
+  toast('🔄 Actualisation','Données mises à jour','success');
+}
+
 function renderAll(){
   const n=incidents.length;
-  ['d-badge','d-alert-cnt','m-alert-cnt'].forEach(id=>document.getElementById(id).textContent=n);
-  ['d-inc-cnt'].forEach(id=>document.getElementById(id).textContent=`${n} incident${n>1?'s':''}`);
-  document.getElementById('m-inc-cnt').textContent=`${n} incident${n>1?'s':''}`;
-  document.getElementById('d-mw-t').textContent=n;
-  document.getElementById('d-sn1').textContent=n;
-  document.getElementById('m-sn1').textContent=n;
-  document.getElementById('d-inc-list').innerHTML=n?incidents.map(cardD).join(''):'<div class="empty-state">✅ Aucun incident</div>';
-  document.getElementById('m-inc-list').innerHTML=n?incidents.map(cardM).join(''):'<div class="empty-state">✅ Aucun incident</div>';
+  setText('d-badge',n); setText('d-alert-cnt',n); setText('m-alert-cnt',n);
+  setText('d-inc-cnt',`${n} incident${n>1?'s':''}`);
+  setText('m-inc-cnt',`${n} incident${n>1?'s':''}`);
+  setText('d-mw-t',n); setText('d-sn1',n); setText('m-sn1',n);
+  // Nav dot
+  const dot=document.getElementById('m-nav-dot');
+  if(dot)dot.style.display=n>0?'block':'none';
+  // Lists
+  document.getElementById('d-inc-list').innerHTML=n?incidents.map(cardD).join(''):'<div class="empty-state">✅ Aucun incident sur cette période</div>';
+  document.getElementById('m-inc-list').innerHTML=n?incidents.map(cardM).join(''):'<div class="empty-state">✅ Aucun incident sur cette période</div>';
+  // Clear + re-add markers
   Object.values(mD).forEach(m=>mapD.removeLayer(m));
   Object.values(mM).forEach(m=>mapM.removeLayer(m));
   mD={};mM={};
   incidents.forEach(addMkBoth);
   renderStats();
 }
+
 function renderStats(){
   const now=Date.now();
   const w=incidents.filter(i=>now-new Date(i.created_at)<7*864e5).length;
   const mo=incidents.filter(i=>now-new Date(i.created_at)<30*864e5).length;
   const an=incidents.filter(i=>i.is_anonymous).length;
-  ['d-sn2','m-sn2'].forEach(id=>document.getElementById(id).textContent=w);
-  ['d-sn3','m-sn3'].forEach(id=>document.getElementById(id).textContent=mo);
-  ['d-sn4','m-sn4'].forEach(id=>document.getElementById(id).textContent=an);
-  document.getElementById('d-mw-w').textContent=w;
+  ['d-sn2','m-sn2'].forEach(id=>setText(id,w));
+  ['d-sn3','m-sn3'].forEach(id=>setText(id,mo));
+  ['d-sn4','m-sn4'].forEach(id=>setText(id,an));
+  setText('d-mw-w',w);
+  // Bar chart
   const dy=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],cs=Array(7).fill(0);
   incidents.filter(i=>now-new Date(i.created_at)<7*864e5).forEach(i=>{cs[new Date(i.created_at).getDay()]++;});
   const mx=Math.max(...cs,1);
   const bH=cs.map((c,i)=>`<div class="bc-c"><div class="bc-b${c===mx&&c>0?' pk':''}" style="height:${Math.max(c/mx*100,4)}%"></div><div class="bc-l">${dy[i]}</div></div>`).join('');
-  const mbH=cs.map((c,i)=>`<div class="m-bc-c"><div class="m-bc-b${c===mx&&c>0?' pk':''}" style="height:${Math.max(c/mx*100,4)}%"></div><div class="m-bc-l">${dy[i]}</div></div>`).join('');
   document.getElementById('d-bc').innerHTML=bH;
-  document.getElementById('m-bc').innerHTML=mbH;
+  document.getElementById('m-bc').innerHTML=bH.replace(/bc-c/g,'m-bc-c').replace(/bc-b/g,'m-bc-b').replace(/bc-l/g,'m-bc-l');
+  // Type chart
   const tc={};incidents.forEach(i=>{tc[i.type]=(tc[i.type]||0)+1;});
   const tcol={'Agression physique':'#E03E3E','Vol / tentative':'#F0960A','Harcèlement verbal':'#1B6FC8','Braquage':'#888','Agression avec véhicule':'#B52E2E','Situation suspecte':'#9C9790'};
   const te={'Agression physique':'⚠️','Vol / tentative':'🏃','Harcèlement verbal':'💬','Braquage':'🔫','Agression avec véhicule':'🚗','Situation suspecte':'❗'};
@@ -724,11 +811,13 @@ function renderStats(){
   const tH=Object.entries(tc).sort((a,b)=>b[1]-a[1]).map(([t,c])=>`<div class="tr-r"><div class="tr-e">${te[t]||'❗'}</div><div class="tr-n">${t}</div><div class="tr-bg"><div class="tr-f" style="width:${c/mtc*100}%;background:${tcol[t]||'#888'}"></div></div><div class="tr-c">${c}</div></div>`).join('')||'<div style="color:var(--g400);font-size:12px;text-align:center;padding:16px">Aucune donnée</div>';
   document.getElementById('d-tc').innerHTML=tH;
   document.getElementById('m-tc').innerHTML=tH;
+  // Zones
   const zc={};incidents.forEach(i=>{const z=i.zone||'Libreville';zc[z]=(zc[z]||0)+1;});
   const zs=Object.entries(zc).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const mz=zs[0]?.[1]||1;
   document.getElementById('d-zc').innerHTML=zs.map(([z,c],i)=>`<div class="zr"><div class="zrk${i===0?' top':''}">${String(i+1).padStart(2,'0')}</div><div class="zi"><div class="zn">${z}</div><div class="zd">${c} incident${c>1?'s':''}</div></div><div class="zb"><div class="zbg"><div class="zbf" style="width:${c/mz*100}%"></div></div></div><div class="zct">${c}</div></div>`).join('')||'<div style="color:var(--g400);font-size:12px;text-align:center;padding:16px">Aucune donnée</div>';
 }
+
 function flyD(la,ln,id){dShow('map',document.getElementById('d-nav-map'));setTimeout(()=>{mapD.flyTo([la,ln],16,{duration:1.2});if(mD[id])setTimeout(()=>mD[id].openPopup(),1300);},100);}
 function flyM(la,ln,id){mShow('map',0);setTimeout(()=>{mapM.flyTo([la,ln],16,{duration:1.2});if(mM[id])setTimeout(()=>mM[id].openPopup(),1300);},100);}
 
@@ -736,88 +825,118 @@ function flyM(la,ln,id){mShow('map',0);setTimeout(()=>{mapM.flyTo([la,ln],16,{du
 function setConn(s){
   const st={on:{c:'on',l:'En direct'},off:{c:'off',l:'Hors ligne'},cn:{c:'cn',l:'Connexion...'}};
   const v=st[s]||st.cn;
-  document.getElementById('d-cd').className='cd '+v.c;
-  document.getElementById('d-cl').textContent=v.l;
-  document.getElementById('m-cd').className='m-cd '+v.c;
-  document.getElementById('m-cl').textContent=v.l;
+  setText('d-cl',v.l); setText('m-cl',v.l);
+  const dcd=document.getElementById('d-cd'); if(dcd)dcd.className='cd '+v.c;
+  const mcd=document.getElementById('m-cd'); if(mcd)mcd.className='m-cd '+v.c;
 }
 setConn('cn');
-db.channel('vs-rt').on('postgres_changes',{event:'INSERT',schema:'public',table:'incidents'},p=>{
-  incidents.unshift(p.new);renderAll();addMkBoth(p.new);
-  toast(`🔔 Nouvel incident`,`${p.new.type} — ${p.new.zone||'Libreville'}`,'alert');
-  (isMob()?mapM:mapD).flyTo([p.new.latitude,p.new.longitude],15,{duration:1.5});
-}).subscribe(s=>{
-  if(s==='SUBSCRIBED')setConn('on');
-  else if(s==='CLOSED')setConn('off');
-  else setConn('cn');
-});
+db.channel('vs-rt')
+  .on('postgres_changes',{event:'INSERT',schema:'public',table:'incidents'},p=>{
+    incidents.unshift(p.new);
+    renderAll();
+    toast('🔔 Nouvel incident',`${p.new.type} — ${p.new.zone||'Libreville'}`,'alert');
+    (isMob()?mapM:mapD).flyTo([p.new.latitude,p.new.longitude],15,{duration:1.5});
+  })
+  .subscribe(s=>{
+    if(s==='SUBSCRIBED')setConn('on');
+    else if(s==='CLOSED'||s==='CHANNEL_ERROR')setConn('off');
+    else setConn('cn');
+  });
 
 // ── AUTH ──
-db.auth.onAuthStateChange(async(e,ses)=>{
+db.auth.onAuthStateChange(async(event,ses)=>{
   user=ses?.user||null;
-  const name=user?.email||(user?.is_anonymous?'Anonyme':'Non connecté');
-  const sub=user?.is_anonymous?'Mode anonyme':'Membre · Libreville';
-  ['d-pname','m-pname'].forEach(id=>document.getElementById(id).textContent=name);
-  ['d-psub','m-psub'].forEach(id=>document.getElementById(id).textContent=sub);
-  ['d-auth-lbl','m-auth-lbl'].forEach(id=>document.getElementById(id).textContent=user?'Mon profil':'Connexion');
-  if(user){const{count}=await db.from('incidents').select('*',{count:'exact',head:true}).eq('user_id',user.id);['d-my-rep','m-my-rep'].forEach(id=>document.getElementById(id).textContent=count||0);}
+  updateAuthUI();
+  if(user && !user.is_anonymous){
+    const{count}=await db.from('incidents').select('*',{count:'exact',head:true}).eq('user_id',user.id);
+    setText('d-my-rep',count||0);
+    setText('m-my-rep',count||0);
+  }
+  // If signed out, redirect to map
+  if(event==='SIGNED_OUT'){
+    isMob()?mShow('map',0):dShow('map',document.getElementById('d-nav-map'));
+  }
 });
+
+function updateAuthUI(){
+  const isLoggedIn=!!user;
+  const isAnon=user?.is_anonymous;
+  const name=user?.email||(isAnon?'Utilisateur anonyme':'Non connecté');
+  const sub=isAnon?'Mode anonyme · Libreville':(isLoggedIn?`Membre · ${cityName.split(',')[0]}`:'Connectez-vous pour plus de fonctionnalités');
+  setText('d-pname',name); setText('m-pname',name);
+  setText('d-psub',sub); setText('m-psub',sub);
+  setText('d-auth-lbl',isLoggedIn?'Mon profil':'Connexion');
+  setText('m-auth-lbl',isLoggedIn?'Profil':'Connexion');
+}
+
 function handleAuthD(){dShow(user?'profil':'auth',document.getElementById('d-nav-auth'));}
 function handleAuthM(){mShow(user?'profil':'auth',4);}
+
 function switchTab(t){
   document.getElementById('d-tab-l').classList.toggle('active',t==='l');
   document.getElementById('d-tab-s').classList.toggle('active',t==='s');
-  document.getElementById('d-auth-btn').textContent=t==='l'?'Se connecter':"S'inscrire";
+  setText('d-auth-btn',t==='l'?'Se connecter':"S'inscrire");
   document.getElementById('d-age-f').style.display=t==='s'?'flex':'none';
+  document.getElementById('d-aerr').classList.remove('show');
 }
 function mSwitchTab(t){
   document.getElementById('m-tab-l').classList.toggle('active',t==='l');
   document.getElementById('m-tab-s').classList.toggle('active',t==='s');
-  document.getElementById('m-auth-btn').textContent=t==='l'?'Se connecter':"S'inscrire";
+  setText('m-auth-btn',t==='l'?'Se connecter':"S'inscrire");
+  document.getElementById('m-aerr').classList.remove('show');
 }
-async function doAuth(){
-  const em=document.getElementById('d-email').value.trim();
-  const pw=document.getElementById('d-pwd').value;
-  const isL=document.getElementById('d-tab-l').classList.contains('active');
-  const btn=document.getElementById('d-auth-btn');
-  const err=document.getElementById('d-aerr');
+
+async function doAuth(prefix){
+  const em=document.getElementById(prefix+'-email').value.trim();
+  const pw=document.getElementById(prefix+'-pwd').value;
+  const isL=document.getElementById(prefix+'-tab-l').classList.contains('active');
+  const btn=document.getElementById(prefix+'-auth-btn');
+  const err=document.getElementById(prefix+'-aerr');
   if(!em||!pw){err.textContent='Remplissez tous les champs.';err.classList.add('show');return;}
-  btn.disabled=true;btn.textContent='...';err.classList.remove('show');
+  btn.disabled=true; btn.textContent='Chargement...'; err.classList.remove('show');
   try{
-    const r=isL?await db.auth.signInWithPassword({email:em,password:pw}):await db.auth.signUp({email:em,password:pw});
+    const r=isL
+      ?await db.auth.signInWithPassword({email:em,password:pw})
+      :await db.auth.signUp({email:em,password:pw});
     if(r.error)throw r.error;
-    toast('✅ Connecté','Bienvenue !','success');dShow('map',document.getElementById('d-nav-map'));
+    toast('✅ Connecté !','Bienvenue sur VilleSûre','success');
+    isMob()?mShow('map',0):dShow('map',document.getElementById('d-nav-map'));
   }catch(e){err.textContent=e.message;err.classList.add('show');}
-  btn.disabled=false;btn.textContent=isL?'Se connecter':"S'inscrire";
+  btn.disabled=false; btn.textContent=isL?'Se connecter':"S'inscrire";
 }
-async function mDoAuth(){
-  const em=document.getElementById('m-email').value.trim();
-  const pw=document.getElementById('m-pwd').value;
-  const isL=document.getElementById('m-tab-l').classList.contains('active');
-  const btn=document.getElementById('m-auth-btn');
-  const err=document.getElementById('m-aerr');
-  if(!em||!pw){err.textContent='Remplissez tous les champs.';err.classList.add('show');return;}
-  btn.disabled=true;btn.textContent='...';
-  try{
-    const r=isL?await db.auth.signInWithPassword({email:em,password:pw}):await db.auth.signUp({email:em,password:pw});
-    if(r.error)throw r.error;
-    toast('✅ Connecté','Bienvenue !','success');mShow('map',0);
-  }catch(e){err.textContent=e.message;err.classList.add('show');}
-  btn.disabled=false;btn.textContent=isL?'Se connecter':"S'inscrire";
-}
+
 async function signInAnon(){
-  const{error}=await db.auth.signInAnonymously();
+  const{data,error}=await db.auth.signInAnonymously();
   if(error){toast('❌ Erreur',error.message,'alert');return;}
-  toast('🕵️ Mode anonyme','Vous pouvez signaler','success');
-  isMob()?mShow('map',0):dShow('map',document.getElementById('d-nav-map'));
-}
-async function doLogout(){
-  await db.auth.signOut();
-  toast('👋 Déconnexion','À bientôt !','');
+  toast('🕵️ Mode anonyme','Vous pouvez signaler des incidents','success');
   isMob()?mShow('map',0):dShow('map',document.getElementById('d-nav-map'));
 }
 
-// ── TYPE SELECT ──
+// ── LOGOUT — CORRIGÉ ──
+async function doLogout(){
+  // Disable buttons to prevent double click
+  const dBtn=document.getElementById('d-logout-btn');
+  const mBtn=document.getElementById('m-logout-btn');
+  if(dBtn){dBtn.disabled=true;dBtn.textContent='Déconnexion...';}
+  if(mBtn){mBtn.disabled=true;mBtn.textContent='Déconnexion...';}
+  try{
+    const{error}=await db.auth.signOut();
+    if(error)throw error;
+    user=null;
+    updateAuthUI();
+    setText('d-my-rep','—'); setText('m-my-rep','—');
+    toast('👋 Déconnecté','À bientôt sur VilleSûre !','success');
+    // Navigate away from profil
+    isMob()?mShow('map',0):dShow('map',document.getElementById('d-nav-map'));
+  }catch(e){
+    toast('❌ Erreur déconnexion',e.message,'alert');
+  }
+  // Re-enable buttons
+  if(dBtn){dBtn.disabled=false;dBtn.innerHTML='🚪 Se déconnecter';}
+  if(mBtn){mBtn.disabled=false;mBtn.innerHTML='🚪 Se déconnecter';}
+}
+
+// ── TYPE SELECTION ──
 function selTypeF(el){document.querySelectorAll('.tc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');currentType=el.dataset.type;}
 function mSelType(el){document.querySelectorAll('.m-tc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');currentType=el.dataset.type;}
 
@@ -826,52 +945,81 @@ function handlePhotoD(inp){if(inp.files[0]){photoD=inp.files[0];document.getElem
 function handlePhotoM(inp){if(inp.files[0]){photoM=inp.files[0];document.getElementById('m-pz').classList.add('has');document.getElementById('m-pz-tx').innerHTML=`✅ <strong>${photoM.name}</strong>`;}}
 
 // ── SUBMIT ──
-async function doSubmit(desc,age,isAnon,photo,btn){
+async function doSubmit(desc,age,isAnon,photo,btnEl){
   if(!lat||!lng){lat=0.3962;lng=9.4558;}
-  const orig=btn.innerHTML;
-  btn.disabled=true;btn.innerHTML='⏳ Envoi...';
+  const origHTML=btnEl.innerHTML;
+  btnEl.disabled=true; btnEl.innerHTML='⏳ Envoi en cours...';
   try{
     let photoUrl=null;
     if(photo){
-      const fn=`${Date.now()}_${photo.name}`;
+      const fn=`${Date.now()}_${photo.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;
       const{error:ue}=await db.storage.from('photos').upload(fn,photo);
       if(!ue){const{data:ud}=db.storage.from('photos').getPublicUrl(fn);photoUrl=ud.publicUrl;}
     }
-    const{error}=await db.from('incidents').insert({type:currentType,description:desc||null,latitude:lat,longitude:lng,zone:'Libreville',photo_url:photoUrl,user_age:age?parseInt(age):null,is_anonymous:isAnon,user_id:user?.id||null});
+    const{error}=await db.from('incidents').insert({
+      type:currentType, description:desc||null,
+      latitude:lat, longitude:lng,
+      zone:cityName||'Libreville, Gabon',
+      photo_url:photoUrl,
+      user_age:age?parseInt(age):null,
+      is_anonymous:isAnon,
+      user_id:user?.id||null
+    });
     if(error)throw error;
     document.getElementById('ov').classList.add('show');
-  }catch(e){toast('❌ Erreur',e.message,'alert');}
-  btn.disabled=false;btn.innerHTML=orig;
+    // Reset form
+    document.getElementById('d-desc').value='';
+    document.getElementById('m-desc').value='';
+    photoD=null; photoM=null;
+    document.getElementById('d-pz').classList.remove('has');
+    document.getElementById('m-pz').classList.remove('has');
+    document.getElementById('d-pz-tx').innerHTML='<strong>Cliquez</strong> pour ajouter';
+    document.getElementById('m-pz-tx').innerHTML='<strong>Touchez</strong> pour ajouter';
+  }catch(e){
+    toast('❌ Erreur',e.message||'Impossible d\'envoyer le signalement','alert');
+    console.error('Submit error:',e);
+  }
+  btnEl.disabled=false; btnEl.innerHTML=origHTML;
 }
 function submitD(){doSubmit(document.getElementById('d-desc').value.trim(),document.getElementById('d-rep-age').value,!document.getElementById('d-anon').classList.contains('off'),photoD,document.getElementById('d-submit'));}
 function submitM(){doSubmit(document.getElementById('m-desc').value.trim(),document.getElementById('m-age').value,!document.getElementById('m-anon').classList.contains('off'),photoM,document.getElementById('m-submit'));}
 function closeConfirm(){document.getElementById('ov').classList.remove('show');isMob()?mShow('map',0):dShow('map',document.getElementById('d-nav-map'));}
 
 // ── NAV ──
-const dTitles={map:['Carte en direct','Libreville, Gabon'],stats:['Statistiques','Données réelles'],signaler:['Signaler','Formulaire'],auth:['Connexion','Votre compte'],profil:['Mon profil','Vos informations']};
+const dTitles={map:['Carte en direct','Libreville, Gabon'],stats:['Statistiques','Données réelles'],signaler:['Signaler un incident','Remplissez le formulaire'],auth:['Connexion / Inscription','Accédez à votre compte'],profil:['Mon profil','Vos informations']};
 function dShow(n,btn){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+n).classList.add('active');
   document.querySelectorAll('.ni').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   const t=dTitles[n]||['VilleSûre',''];
-  document.getElementById('d-tb-title').textContent=t[0];
-  document.getElementById('d-tb-sub').textContent=t[1];
+  setText('d-tb-title',t[0]); setText('d-tb-sub',t[1]);
   if(n==='map')setTimeout(()=>mapD.invalidateSize(),50);
 }
 function mShow(n,idx){
-  const target=n==='auth'&&user?'profil':n;
+  const target=(n==='auth'&&user)?'profil':n;
   document.querySelectorAll('.m-panel').forEach(p=>p.classList.remove('active'));
   const el=document.getElementById('m-panel-'+target);
   if(el)el.classList.add('active');
   document.querySelectorAll('.m-nav-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
   if(n==='map')setTimeout(()=>mapM.invalidateSize(),50);
 }
-function setPeriod(el,d){document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');days=d;loadData();}
-function setPeriodM(el,d){document.querySelectorAll('.m-pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');days=d;loadData();}
+function setPeriod(el,d){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active'); days=d; loadData();
+}
+function setPeriod2(el,d){
+  document.querySelectorAll('.m-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active'); days=d; loadData();
+}
 
-// ── START ──
+// ── INIT ──
+initDark();
+startGPS();
 loadData();
+// Auto-refresh every 60s
+refreshTimer=setInterval(loadData,60000);
+// PWA service worker
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
