@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VilleSûre — Newsletter</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#E03E3E;--red-d:#B52E2E;--red-l:#FEF0F0;--g200:#E2DED7;--g400:#9C9790;--g900:#1A1917;--fd:'Sora',sans-serif;--fb:'DM Sans',sans-serif}
+html,body{min-height:100%;background:#F8F7F5;font-family:var(--fb);color:var(--g900);display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.card{background:white;border:1px solid var(--g200);border-radius:20px;padding:40px 32px;max-width:440px;width:100%;text-align:center}
+.logo-ic{width:56px;height:56px;background:var(--red);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px}
+.title{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--g900);margin-bottom:6px}
+.title span{color:var(--red)}
+.sub{font-size:14px;color:var(--g400);line-height:1.6;margin-bottom:28px}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px;text-align:left}
+.feat{background:#F8F7F5;border-radius:10px;padding:12px;font-size:12px;color:var(--g900)}
+.feat-ic{font-size:20px;margin-bottom:4px}
+.feat-tx{font-weight:500;font-family:var(--fd)}
+.feat-sub{color:var(--g400);font-size:11px;margin-top:2px}
+.field{display:flex;flex-direction:column;gap:6px;text-align:left;margin-bottom:14px}
+.label{font-size:11px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;font-family:var(--fd)}
+input{border:1px solid var(--g200);border-radius:10px;padding:12px 14px;font-size:14px;font-family:var(--fb);color:var(--g900);background:white;outline:none;width:100%;transition:border-color .15s}
+input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(224,62,62,.08)}
+input::placeholder{color:#C8C3BA}
+.btn{height:50px;border-radius:12px;background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:15px;font-weight:600;color:white;width:100%;transition:all .15s;box-shadow:0 4px 14px rgba(224,62,62,.3);margin-top:4px}
+.btn:hover{background:var(--red-d);transform:translateY(-1px)}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.err{font-size:12px;color:var(--red-d);background:var(--red-l);border:1px solid #F7C1C1;border-radius:8px;padding:8px 12px;display:none;margin-bottom:10px}
+.err.show{display:block}
+.success{display:none;flex-direction:column;align-items:center;gap:16px}
+.success.show{display:flex}
+.success-ic{font-size:48px}
+.success-title{font-family:var(--fd);font-size:20px;font-weight:700;color:var(--g900)}
+.success-sub{font-size:14px;color:var(--g400);line-height:1.6}
+.form-inner{display:flex;flex-direction:column}
+.back{margin-top:20px;font-size:13px;color:var(--g400)}
+.back a{color:var(--red);text-decoration:none;font-weight:500}
+.privacy{font-size:11px;color:var(--g400);margin-top:16px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo-ic">📍</div>
+
+  <div id="formSection">
+    <div class="title">Ville<span>Sûre</span> Newsletter</div>
+    <p class="sub">Recevez chaque lundi matin un résumé des incidents de la semaine à Libreville. Gratuit, hebdomadaire, désabonnement en un clic.</p>
+
+    <div class="features">
+      <div class="feat"><div class="feat-ic">📊</div><div class="feat-tx">Stats hebdo</div><div class="feat-sub">Incidents par zone et type</div></div>
+      <div class="feat"><div class="feat-ic">🗺️</div><div class="feat-tx">Zones à risque</div><div class="feat-sub">Classement des quartiers</div></div>
+      <div class="feat"><div class="feat-ic">🔔</div><div class="feat-tx">Alertes clés</div><div class="feat-sub">Incidents importants de la semaine</div></div>
+      <div class="feat"><div class="feat-ic">🕵️</div><div class="feat-tx">100% privé</div><div class="feat-sub">Aucune donnée vendue</div></div>
+    </div>
+
+    <div class="form-inner">
+      <div class="err" id="errMsg"></div>
+      <div class="field">
+        <div class="label">Prénom (optionnel)</div>
+        <input type="text" id="nameInput" placeholder="Ex: Marie">
+      </div>
+      <div class="field">
+        <div class="label">Votre email *</div>
+        <input type="email" id="emailInput" placeholder="votre@email.com" required>
+      </div>
+      <button class="btn" id="subBtn" onclick="subscribe()">📬 S'abonner gratuitement</button>
+      <p class="privacy">🔒 Votre email ne sera jamais partagé. Vous pouvez vous désabonner à tout moment depuis chaque email reçu.</p>
+    </div>
+  </div>
+
+  <div class="success" id="successSection">
+    <div class="success-ic">🎉</div>
+    <div class="success-title">Vous êtes abonné !</div>
+    <p class="success-sub">Chaque lundi matin, vous recevrez le résumé hebdomadaire des incidents à Libreville. Vérifiez vos spams si vous ne recevez rien.</p>
+    <a href="/" style="display:inline-block;background:var(--red);color:white;font-size:14px;font-weight:600;padding:12px 24px;border-radius:10px;text-decoration:none;font-family:var(--fd)">🗺️ Voir la carte</a>
+  </div>
+
+  <div class="back"><a href="/">← Retour à VilleSûre</a></div>
+</div>
+
+<script>
+const SURL='https://dzmgqcpxcdaloguuuhgp.supabase.co';
+const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6bWdxY3B4Y2RhbG9ndXV1aGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjYyNzQsImV4cCI6MjA4OTEwMjI3NH0.a00OQPcrEC52NB-klE_UeX-SitgnAdrfkVRRaZ2Joio';
+const db=window.supabase.createClient(SURL,SKEY);
+
+async function subscribe(){
+  const email=document.getElementById('emailInput').value.trim();
+  const name=document.getElementById('nameInput').value.trim();
+  const btn=document.getElementById('subBtn');
+  const err=document.getElementById('errMsg');
+
+  if(!email||!email.includes('@')){
+    err.textContent='Veuillez entrer une adresse email valide.';
+    err.classList.add('show');return;
+  }
+  btn.disabled=true;btn.textContent='Enregistrement...';err.classList.remove('show');
+
+  try{
+    const{error}=await db.from('newsletter_subscribers').insert({
+      email,name:name||null
+    });
+    if(error){
+      if(error.code==='23505'){
+        err.textContent='Cet email est déjà abonné à la newsletter.';
+        err.classList.add('show');
+      }else{throw error;}
+    }else{
+      document.getElementById('formSection').style.display='none';
+      document.getElementById('successSection').classList.add('show');
+    }
+  }catch(e){
+    err.textContent=e.message||'Une erreur est survenue. Réessayez.';
+    err.classList.add('show');
+  }
+  btn.disabled=false;btn.textContent='📬 S\'abonner gratuitement';
+}
+
+document.getElementById('emailInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter')subscribe();
+});
+</script>
+</body>
+</html>
