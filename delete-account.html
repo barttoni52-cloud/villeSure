@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supprimer mon compte — VilleSûre</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E03E3E;--red-d:#B52E2E;--red-l:#FEF0F0;--red-m:#F7C1C1;
+  --g100:#F0EEE9;--g200:#E2DED7;--g400:#9C9790;--g600:#5A5651;--g900:#1A1917;
+  --grn:#2D8A5E;--grn-l:#E8F6EF;
+  --fd:'Sora',sans-serif;--fb:'DM Sans',sans-serif;
+}
+body{background:#F8F7F5;font-family:var(--fb);color:var(--g900);min-height:100vh;display:flex;flex-direction:column}
+.header{background:var(--red);padding:48px 24px;text-align:center;color:white}
+.header-icon{width:64px;height:64px;background:rgba(255,255,255,.2);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:30px}
+.header h1{font-family:var(--fd);font-size:26px;font-weight:700;margin-bottom:8px}
+.header p{font-size:14px;opacity:.8}
+.container{max-width:600px;margin:0 auto;padding:40px 24px 80px;flex:1}
+.card{background:white;border:1px solid var(--g200);border-radius:18px;padding:28px 32px;margin-bottom:20px}
+.card h2{font-family:var(--fd);font-size:17px;font-weight:700;color:var(--g900);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card p{font-size:14px;color:var(--g600);line-height:1.7;margin-bottom:10px}
+.card p:last-child{margin-bottom:0}
+.warning{background:var(--red-l);border:1px solid var(--red-m);border-radius:12px;padding:16px 20px;margin-bottom:20px}
+.warning p{color:var(--red-d);font-size:13px;font-weight:500;line-height:1.6;margin:0}
+.info{background:#EBF3FC;border:1px solid #C5DDF7;border-radius:12px;padding:16px 20px;margin-bottom:20px}
+.info p{color:#1B4A8A;font-size:13px;line-height:1.6;margin:0}
+.steps{display:flex;flex-direction:column;gap:14px;margin:16px 0}
+.step{display:flex;align-items:flex-start;gap:12px}
+.step-num{width:28px;height:28px;background:var(--red-l);color:var(--red-d);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:var(--fd);flex-shrink:0;margin-top:1px}
+.step-txt{font-size:14px;color:var(--g600);line-height:1.6}
+.step-txt strong{color:var(--g900)}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:11px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.06em;font-family:var(--fd);margin-bottom:6px}
+input[type="email"],input[type="password"]{width:100%;border:1px solid var(--g200);border-radius:10px;padding:12px 14px;font-size:14px;font-family:var(--fb);color:var(--g900);background:white;outline:none;transition:border-color .15s}
+input:focus{border-color:var(--red)}
+input::placeholder{color:#C8C3BA}
+.reason-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.reason-btn{padding:10px 12px;border-radius:10px;border:1.5px solid var(--g200);background:var(--g100);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--fd);color:var(--g600);text-align:left;transition:all .15s}
+.reason-btn:hover,.reason-btn.sel{border-color:var(--red);background:var(--red-l);color:var(--red-d)}
+textarea{width:100%;border:1px solid var(--g200);border-radius:10px;padding:12px 14px;font-size:13px;font-family:var(--fb);color:var(--g900);background:white;outline:none;resize:none;line-height:1.6;transition:border-color .15s}
+textarea:focus{border-color:var(--red)}
+textarea::placeholder{color:#C8C3BA}
+.confirm-check{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:var(--g100);border-radius:10px;border:1px solid var(--g200);cursor:pointer;margin-bottom:4px}
+.confirm-check input[type="checkbox"]{width:18px;height:18px;accent-color:var(--red);flex-shrink:0;margin-top:2px}
+.confirm-check span{font-size:13px;color:var(--g600);line-height:1.5}
+.delete-btn{width:100%;height:52px;border-radius:12px;background:var(--red);border:none;cursor:pointer;font-family:var(--fd);font-size:15px;font-weight:700;color:white;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;margin-top:16px}
+.delete-btn:hover:not(:disabled){background:var(--red-d);transform:translateY(-1px)}
+.delete-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.err{font-size:12px;color:var(--red-d);background:var(--red-l);border:1px solid var(--red-m);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:none}
+.err.show{display:block}
+.success-card{display:none;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:40px 28px}
+.success-card.show{display:flex}
+.success-ic{font-size:56px}
+.success-card h2{font-family:var(--fd);font-size:22px;font-weight:700;color:var(--g900)}
+.success-card p{font-size:14px;color:var(--g600);line-height:1.7;max-width:400px}
+.success-card a{display:inline-flex;align-items:center;gap:6px;background:var(--g900);color:white;font-family:var(--fd);font-size:13px;font-weight:600;padding:12px 22px;border-radius:10px;text-decoration:none;margin-top:8px}
+.alt-method{background:var(--grn-l);border:1px solid #A8D5BC;border-radius:12px;padding:16px 20px;margin-top:4px}
+.alt-method p{font-size:13px;color:var(--grn);line-height:1.6;margin:0}
+.alt-method a{color:var(--grn);font-weight:600}
+.footer{text-align:center;padding:24px;color:var(--g400);font-size:12px}
+.footer a{color:var(--red);text-decoration:none}
+@media(max-width:600px){
+  .card{padding:20px 18px}
+  .container{padding:24px 16px 60px}
+  .reason-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">🗑️</div>
+  <h1>Supprimer mon compte</h1>
+  <p>VilleSûre — Libreville, Gabon</p>
+</div>
+
+<div class="container">
+
+  <!-- AVERTISSEMENT -->
+  <div class="warning">
+    <p>⚠️ <strong>Action irréversible.</strong> La suppression de votre compte est définitive. Toutes vos données personnelles seront supprimées dans un délai de 30 jours. Vos signalements anonymes resteront visibles sur la carte jusqu'à leur expiration normale.</p>
+  </div>
+
+  <!-- CE QUI SERA SUPPRIMÉ -->
+  <div class="card">
+    <h2>🗂️ Ce qui sera supprimé</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">✓</div><div class="step-txt"><strong>Votre adresse email</strong> et mot de passe</div></div>
+      <div class="step"><div class="step-num">✓</div><div class="step-txt"><strong>Vos signalements</strong> associés à votre compte</div></div>
+      <div class="step"><div class="step-num">✓</div><div class="step-txt"><strong>Votre abonnement</strong> à la newsletter</div></div>
+      <div class="step"><div class="step-num">✓</div><div class="step-txt"><strong>Toutes vos données personnelles</strong> dans un délai de 30 jours</div></div>
+    </div>
+    <div class="info"><p>ℹ️ Les signalements effectués en <strong>mode anonyme</strong> ne sont pas liés à votre compte et resteront visibles jusqu'à leur expiration automatique (2 ans).</p></div>
+  </div>
+
+  <!-- FORMULAIRE -->
+  <div class="card" id="form-card">
+    <h2>🔐 Confirmer la suppression</h2>
+    <p style="margin-bottom:20px">Connectez-vous avec vos identifiants pour confirmer la suppression de votre compte.</p>
+
+    <div class="err" id="err-msg"></div>
+
+    <div class="form-group">
+      <label>Adresse email</label>
+      <input type="email" id="email" placeholder="votre@email.com" autocomplete="email">
+    </div>
+
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <input type="password" id="password" placeholder="••••••••">
+    </div>
+
+    <div class="form-group">
+      <label>Raison de la suppression (optionnel)</label>
+      <div class="reason-grid">
+        <button class="reason-btn" onclick="selReason(this)">Je n'utilise plus l'app</button>
+        <button class="reason-btn" onclick="selReason(this)">Problème de confidentialité</button>
+        <button class="reason-btn" onclick="selReason(this)">Trop d'emails reçus</button>
+        <button class="reason-btn" onclick="selReason(this)">Application trop lente</button>
+        <button class="reason-btn" onclick="selReason(this)">Fonctionnalités insuffisantes</button>
+        <button class="reason-btn" onclick="selReason(this)">Autre raison</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Commentaire (optionnel)</label>
+      <textarea id="comment" rows="3" placeholder="Dites-nous comment améliorer VilleSûre..."></textarea>
+    </div>
+
+    <label class="confirm-check">
+      <input type="checkbox" id="confirm-check">
+      <span>Je comprends que cette action est <strong>irréversible</strong> et que toutes mes données seront supprimées définitivement.</span>
+    </label>
+
+    <button class="delete-btn" id="delete-btn" onclick="deleteAccount()" disabled>
+      🗑️ Supprimer définitivement mon compte
+    </button>
+
+    <div class="alt-method" style="margin-top:16px">
+      <p>Vous pouvez également demander la suppression de votre compte par email à <a href="mailto:barttoni52@gmail.com">barttoni52@gmail.com</a> — nous traiterons votre demande dans un délai de 30 jours.</p>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="card" id="success-card">
+    <div class="success-card show">
+      <div class="success-ic">✅</div>
+      <h2>Compte supprimé</h2>
+      <p>Votre demande de suppression a été enregistrée. Toutes vos données personnelles seront effacées définitivement dans un délai de <strong>30 jours</strong>. Vous avez été déconnecté.</p>
+      <p>Merci d'avoir utilisé VilleSûre. Si vous changez d'avis, vous pouvez créer un nouveau compte à tout moment.</p>
+      <a href="https://ville-sure-mmhd.vercel.app">← Retour à VilleSûre</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p><a href="https://ville-sure-mmhd.vercel.app/privacy-policy.html">Politique de confidentialité</a> · <a href="https://ville-sure-mmhd.vercel.app">VilleSûre</a></p>
+  <p style="margin-top:6px">© 2026 VilleSûre — Libreville, République Gabonaise</p>
+</div>
+
+<script>
+const SURL='https://dzmgqcpxcdaloguuuhgp.supabase.co';
+const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6bWdxY3B4Y2RhbG9ndXV1aGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjYyNzQsImV4cCI6MjA4OTEwMjI3NH0.a00OQPcrEC52NB-klE_UeX-SitgnAdrfkVRRaZ2Joio';
+const db=window.supabase.createClient(SURL,SKEY);
+
+let selectedReason='';
+
+// Enable delete button only when checkbox is checked
+document.getElementById('confirm-check').addEventListener('change',function(){
+  document.getElementById('delete-btn').disabled=!this.checked;
+});
+
+function selReason(btn){
+  document.querySelectorAll('.reason-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  selectedReason=btn.textContent;
+}
+
+async function deleteAccount(){
+  const email=document.getElementById('email').value.trim();
+  const password=document.getElementById('password').value;
+  const comment=document.getElementById('comment').value.trim();
+  const btn=document.getElementById('delete-btn');
+  const err=document.getElementById('err-msg');
+
+  if(!email||!password){
+    err.textContent='Veuillez renseigner votre email et mot de passe.';
+    err.classList.add('show');
+    return;
+  }
+
+  btn.disabled=true;
+  btn.innerHTML='⏳ Suppression en cours...';
+  err.classList.remove('show');
+
+  try{
+    // 1. Sign in
+    const{data:signInData,error:signInError}=await db.auth.signInWithPassword({email,password});
+    if(signInError)throw new Error('Email ou mot de passe incorrect.');
+
+    const userId=signInData.user.id;
+
+    // 2. Unsubscribe from newsletter
+    await db.from('newsletter_subscribers').update({is_active:false}).eq('email',email);
+
+    // 3. Delete user's incidents
+    await db.from('incidents').delete().eq('user_id',userId);
+
+    // 4. Sign out
+    await db.auth.signOut();
+
+    // 5. Show success
+    document.getElementById('form-card').style.display='none';
+    document.getElementById('success-card').style.display='block';
+
+    // Scroll to top
+    window.scrollTo({top:0,behavior:'smooth'});
+
+  }catch(e){
+    err.textContent=e.message||'Une erreur est survenue. Réessayez ou contactez-nous.';
+    err.classList.add('show');
+    btn.disabled=false;
+    btn.innerHTML='🗑️ Supprimer définitivement mon compte';
+  }
+}
+</script>
+</body>
+</html>
