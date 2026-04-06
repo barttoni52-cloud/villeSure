@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Politique de Confidentialité — VilleSûre</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E03E3E;--red-d:#B52E2E;--red-l:#FEF0F0;
+  --g100:#F0EEE9;--g200:#E2DED7;--g400:#9C9790;--g600:#5A5651;--g900:#1A1917;
+  --fd:'Sora',sans-serif;--fb:'DM Sans',sans-serif;
+}
+body{background:#F8F7F5;font-family:var(--fb);color:var(--g900);line-height:1.7;font-size:15px}
+.header{background:var(--red);padding:48px 24px;text-align:center;color:white}
+.header-icon{width:64px;height:64px;background:rgba(255,255,255,.2);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:30px}
+.header h1{font-family:var(--fd);font-size:28px;font-weight:700;margin-bottom:8px}
+.header p{font-size:14px;opacity:.8}
+.header .date{margin-top:12px;font-size:12px;opacity:.65;font-family:var(--fd)}
+.container{max-width:860px;margin:0 auto;padding:40px 24px 80px}
+.toc{background:white;border:1px solid var(--g200);border-radius:16px;padding:24px 28px;margin-bottom:36px}
+.toc h2{font-family:var(--fd);font-size:14px;font-weight:700;color:var(--g900);margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em}
+.toc ol{padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.toc li{font-size:13px}
+.toc a{color:var(--red);text-decoration:none;font-weight:500}
+.toc a:hover{text-decoration:underline}
+.section{background:white;border:1px solid var(--g200);border-radius:16px;padding:28px 32px;margin-bottom:20px}
+.section h2{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--g900);margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section-num{width:28px;height:28px;background:var(--red-l);color:var(--red-d);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:var(--fd);flex-shrink:0}
+.section h3{font-family:var(--fd);font-size:15px;font-weight:600;color:var(--g900);margin:20px 0 8px}
+.section p{color:var(--g600);margin-bottom:12px;font-size:14px;line-height:1.75}
+.section p:last-child{margin-bottom:0}
+.section ul,.section ol{padding-left:20px;color:var(--g600);font-size:14px;display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.section li{line-height:1.6}
+.divider{height:1px;background:var(--g100);margin:18px 0}
+.highlight{background:var(--red-l);border:1px solid #F7C1C1;border-radius:10px;padding:14px 18px;margin:14px 0}
+.highlight p{color:var(--red-d);font-size:13px;font-weight:500;margin:0}
+.info-box{background:#EBF3FC;border:1px solid #C5DDF7;border-radius:10px;padding:14px 18px;margin:14px 0}
+.info-box p{color:#1B4A8A;font-size:13px;margin:0}
+.contact-box{background:var(--g100);border-radius:12px;padding:20px 24px;margin-top:16px}
+.contact-box p{font-size:14px;color:var(--g600);margin-bottom:4px}
+.contact-box strong{color:var(--g900)}
+.footer{text-align:center;padding:32px 24px;color:var(--g400);font-size:12px}
+.footer a{color:var(--red);text-decoration:none}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:white;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:var(--fd);margin-top:8px}
+@media(max-width:600px){
+  .section{padding:20px 18px}
+  .container{padding:24px 16px 60px}
+  .header{padding:36px 20px}
+  .header h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">📍</div>
+  <h1>Politique de Confidentialité</h1>
+  <p>VilleSûre — Application de sécurité citoyenne</p>
+  <p>Libreville, République Gabonaise</p>
+  <div class="date">Dernière mise à jour : 7 avril 2026 · Version 1.0</div>
+  <div class="badge">🇬🇦 Conforme au droit gabonais</div>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="section">
+    <p>La présente Politique de Confidentialité décrit comment <strong>VilleSûre</strong> (ci-après « l'Application », « nous » ou « notre service ») collecte, utilise, stocke et protège les informations personnelles de ses utilisateurs dans le cadre de son fonctionnement en République Gabonaise et dans tout autre pays où l'application est utilisée.</p>
+    <p>En utilisant VilleSûre, vous acceptez les pratiques décrites dans la présente politique. Si vous n'acceptez pas ces conditions, nous vous invitons à ne pas utiliser l'application.</p>
+    <div class="info-box"><p>ℹ️ Cette politique est rédigée conformément aux dispositions de la <strong>loi gabonaise n°001/2011 du 25 septembre 2011</strong> relative à la protection des données à caractère personnel en République Gabonaise, ainsi qu'aux meilleures pratiques internationales en matière de protection de la vie privée.</p></div>
+  </div>
+
+  <!-- TABLE DES MATIÈRES -->
+  <div class="toc">
+    <h2>Table des matières</h2>
+    <ol>
+      <li><a href="#s1">Identité du responsable de traitement</a></li>
+      <li><a href="#s2">Données collectées</a></li>
+      <li><a href="#s3">Finalités du traitement des données</a></li>
+      <li><a href="#s4">Base légale du traitement</a></li>
+      <li><a href="#s5">Données de géolocalisation</a></li>
+      <li><a href="#s6">Signalements d'incidents</a></li>
+      <li><a href="#s7">Authentification et comptes utilisateurs</a></li>
+      <li><a href="#s8">Newsletter et communications</a></li>
+      <li><a href="#s9">Partage et transfert des données</a></li>
+      <li><a href="#s10">Conservation des données</a></li>
+      <li><a href="#s11">Sécurité des données</a></li>
+      <li><a href="#s12">Droits des utilisateurs</a></li>
+      <li><a href="#s13">Cookies et technologies similaires</a></li>
+      <li><a href="#s14">Mineurs</a></li>
+      <li><a href="#s15">Cadre juridique applicable</a></li>
+      <li><a href="#s16">Modifications de la politique</a></li>
+      <li><a href="#s17">Contact et réclamations</a></li>
+    </ol>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section" id="s1">
+    <h2><div class="section-num">1</div>Identité du responsable de traitement</h2>
+    <p>Le responsable du traitement des données personnelles collectées par l'application VilleSûre est :</p>
+    <div class="contact-box">
+      <p><strong>Dénomination :</strong> VilleSûre</p>
+      <p><strong>Activité :</strong> Application de sécurité citoyenne et de signalement d'incidents</p>
+      <p><strong>Pays d'établissement :</strong> République Gabonaise</p>
+      <p><strong>Email de contact :</strong> barttoni52@gmail.com</p>
+      <p><strong>Site web :</strong> https://ville-sure-mmhd.vercel.app</p>
+    </div>
+    <p style="margin-top:14px">Le responsable de traitement est la personne physique ou morale qui détermine les finalités et les moyens du traitement des données à caractère personnel. À ce titre, VilleSûre s'engage à respecter l'ensemble des obligations légales applicables en matière de protection des données personnelles.</p>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section" id="s2">
+    <h2><div class="section-num">2</div>Données collectées</h2>
+    <p>Dans le cadre de l'utilisation de VilleSûre, nous collectons différentes catégories de données selon les fonctionnalités utilisées :</p>
+
+    <h3>2.1 Données collectées automatiquement</h3>
+    <ul>
+      <li>Données de connexion (adresse IP, horodatage des connexions)</li>
+      <li>Type de navigateur et système d'exploitation</li>
+      <li>Pages consultées et durée de visite</li>
+      <li>Données techniques liées au fonctionnement de l'application</li>
+    </ul>
+
+    <h3>2.2 Données fournies volontairement</h3>
+    <ul>
+      <li><strong>Lors de l'inscription :</strong> adresse email, mot de passe (chiffré), âge (optionnel)</li>
+      <li><strong>Lors d'un signalement :</strong> type d'incident, description textuelle, photographie (optionnelle), coordonnées GPS de l'incident, zone géographique</li>
+      <li><strong>Lors de l'abonnement à la newsletter :</strong> adresse email, prénom (optionnel)</li>
+    </ul>
+
+    <h3>2.3 Données de géolocalisation</h3>
+    <ul>
+      <li>Coordonnées GPS en temps réel (latitude, longitude) avec votre consentement explicite</li>
+      <li>Précision de la localisation (rayon en mètres)</li>
+      <li>Ville et quartier détectés via le service Nominatim (OpenStreetMap)</li>
+    </ul>
+
+    <h3>2.4 Données non collectées</h3>
+    <div class="highlight"><p>⚠️ VilleSûre ne collecte pas et ne collectera jamais : numéros de téléphone, données bancaires, numéros de carte d'identité nationale, passeports, données biométriques, ni aucune donnée sensible au sens de la loi gabonaise.</p></div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section" id="s3">
+    <h2><div class="section-num">3</div>Finalités du traitement des données</h2>
+    <p>Les données collectées sont utilisées exclusivement aux fins suivantes :</p>
+    <ul>
+      <li><strong>Fonctionnement du service :</strong> afficher les incidents sur la carte, permettre le signalement en temps réel, gérer les comptes utilisateurs</li>
+      <li><strong>Amélioration de la sécurité citoyenne :</strong> produire des statistiques anonymisées sur les incidents par quartier, type et période</li>
+      <li><strong>Communication :</strong> envoyer la newsletter hebdomadaire aux abonnés ayant donné leur consentement</li>
+      <li><strong>Modération :</strong> permettre aux administrateurs de l'application de supprimer les signalements abusifs ou incorrects</li>
+      <li><strong>Amélioration technique :</strong> analyser les performances de l'application et corriger les dysfonctionnements</li>
+      <li><strong>Obligations légales :</strong> répondre aux demandes des autorités compétentes gabonaises dans le cadre strict de la loi</li>
+    </ul>
+    <div class="info-box"><p>ℹ️ Vos données ne sont jamais utilisées à des fins commerciales, publicitaires ou marketing sans votre consentement explicite.</p></div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section" id="s4">
+    <h2><div class="section-num">4</div>Base légale du traitement</h2>
+    <p>Conformément à la législation gabonaise et aux principes généraux du droit à la vie privée, le traitement de vos données repose sur les bases légales suivantes :</p>
+    <ul>
+      <li><strong>Consentement :</strong> pour la géolocalisation en temps réel, l'envoi de la newsletter, et tout traitement pour lequel nous vous demandons votre accord explicite</li>
+      <li><strong>Exécution d'un contrat :</strong> pour le fonctionnement des comptes utilisateurs et la fourniture du service de signalement</li>
+      <li><strong>Intérêt légitime :</strong> pour l'amélioration de la sécurité publique à Libreville, dans le respect de vos droits fondamentaux</li>
+      <li><strong>Obligation légale :</strong> pour répondre aux demandes des autorités judiciaires ou administratives gabonaises compétentes</li>
+    </ul>
+    <p>Vous pouvez retirer votre consentement à tout moment, sans que cela n'affecte la licéité du traitement effectué avant ce retrait.</p>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section" id="s5">
+    <h2><div class="section-num">5</div>Données de géolocalisation</h2>
+    <p>La géolocalisation est au cœur du fonctionnement de VilleSûre. Voici comment nous traitons ces données sensibles :</p>
+
+    <h3>5.1 Collecte et utilisation</h3>
+    <ul>
+      <li>La géolocalisation n'est activée <strong>qu'avec votre consentement explicite</strong>, demandé au premier lancement de l'application</li>
+      <li>Vos coordonnées GPS en temps réel sont utilisées uniquement pour : centrer la carte sur votre position, pré-remplir la localisation lors d'un signalement, et afficher les incidents à proximité</li>
+      <li>La position de votre appareil <strong>n'est pas enregistrée en continu</strong> sur nos serveurs</li>
+    </ul>
+
+    <h3>5.2 Coordonnées des signalements</h3>
+    <ul>
+      <li>Lors d'un signalement, les coordonnées GPS de l'<strong>incident</strong> (et non de l'utilisateur à d'autres moments) sont enregistrées dans notre base de données</li>
+      <li>Ces coordonnées sont visibles publiquement sur la carte par tous les utilisateurs de l'application</li>
+      <li>En mode anonyme, aucun lien entre les coordonnées de l'incident et votre identité n'est conservé</li>
+    </ul>
+
+    <h3>5.3 Reverse geocoding</h3>
+    <p>Nous utilisons le service Nominatim d'OpenStreetMap pour convertir vos coordonnées GPS en nom de ville ou de quartier. Cette opération est effectuée via une requête à des serveurs tiers. Nous vous invitons à consulter la politique de confidentialité de Nominatim/OpenStreetMap pour plus d'informations.</p>
+
+    <div class="highlight"><p>⚠️ Vous pouvez désactiver la géolocalisation à tout moment dans les paramètres de votre navigateur ou appareil. Dans ce cas, certaines fonctionnalités de l'application seront limitées.</p></div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section" id="s6">
+    <h2><div class="section-num">6</div>Signalements d'incidents</h2>
+    <p>Les signalements constituent la fonctionnalité principale de VilleSûre. Voici les règles applicables :</p>
+
+    <h3>6.1 Visibilité des signalements</h3>
+    <ul>
+      <li>Les signalements sont <strong>publics par défaut</strong> et visibles sur la carte par tous les utilisateurs</li>
+      <li>Les informations affichées publiquement sont : type d'incident, description, zone géographique, date et heure, photo (si fournie)</li>
+      <li>En mode <strong>anonyme</strong>, aucun lien avec votre compte ou votre identité n'est affiché</li>
+    </ul>
+
+    <h3>6.2 Photos jointes aux signalements</h3>
+    <ul>
+      <li>Les photos sont stockées sur les serveurs Supabase Storage situés dans des centres de données sécurisés</li>
+      <li>Avant de publier une photo, assurez-vous qu'elle ne contient pas d'informations personnelles identifiables (visages, plaques d'immatriculation, etc.) que vous ne souhaitez pas rendre publiques</li>
+      <li>VilleSûre décline toute responsabilité pour les informations que vous choisissez volontairement de rendre publiques via l'application</li>
+    </ul>
+
+    <h3>6.3 Conservation et suppression</h3>
+    <ul>
+      <li>Les signalements sont conservés sur nos serveurs pendant une durée maximale de <strong>2 ans</strong></li>
+      <li>Les administrateurs de l'application peuvent supprimer tout signalement abusif, diffamatoire ou contraire aux lois gabonaises</li>
+      <li>Vous pouvez demander la suppression de vos propres signalements en nous contactant</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section" id="s7">
+    <h2><div class="section-num">7</div>Authentification et comptes utilisateurs</h2>
+
+    <h3>7.1 Inscription</h3>
+    <p>L'inscription n'est pas obligatoire. Vous pouvez utiliser VilleSûre en mode anonyme sans créer de compte. Si vous choisissez de vous inscrire :</p>
+    <ul>
+      <li>Votre adresse email est collectée et stockée de manière sécurisée</li>
+      <li>Votre mot de passe est chiffré (hashé) et n'est jamais accessible en clair, même par nos administrateurs</li>
+      <li>L'authentification est gérée par <strong>Supabase Auth</strong>, un service tiers conforme aux standards de sécurité internationaux</li>
+    </ul>
+
+    <h3>7.2 Mode anonyme</h3>
+    <ul>
+      <li>En mode anonyme, un identifiant technique temporaire est créé sans lien avec votre identité réelle</li>
+      <li>Vos signalements en mode anonyme ne contiennent aucune information permettant de vous identifier</li>
+    </ul>
+
+    <h3>7.3 Suppression de compte</h3>
+    <p>Vous pouvez demander la suppression de votre compte à tout moment en nous contactant à barttoni52@gmail.com. La suppression entraîne l'effacement de vos données personnelles dans un délai de 30 jours, à l'exception des données pour lesquelles nous sommes tenus par une obligation légale de conservation.</p>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="section" id="s8">
+    <h2><div class="section-num">8</div>Newsletter et communications</h2>
+    <p>VilleSûre propose un service de newsletter hebdomadaire envoyé chaque lundi matin, résumant les incidents de la semaine écoulée à Libreville.</p>
+
+    <h3>8.1 Abonnement</h3>
+    <ul>
+      <li>L'abonnement à la newsletter est <strong>entièrement volontaire</strong></li>
+      <li>Seule votre adresse email (et votre prénom si vous le fournissez) est collectée</li>
+      <li>Votre consentement est recueilli explicitement lors de l'abonnement</li>
+    </ul>
+
+    <h3>8.2 Désinscription</h3>
+    <ul>
+      <li>Chaque email contient un lien de désinscription en bas de page</li>
+      <li>La désinscription est effective immédiatement</li>
+      <li>Vous pouvez également demander votre désinscription en nous contactant directement</li>
+    </ul>
+
+    <h3>8.3 Service d'envoi</h3>
+    <p>Les emails sont envoyés via <strong>Resend</strong>, un service tiers spécialisé dans la délivrabilité des emails. Vos données sont transmises à Resend dans le seul but d'envoyer la newsletter. Resend ne peut pas utiliser vos données à d'autres fins.</p>
+  </div>
+
+  <!-- SECTION 9 -->
+  <div class="section" id="s9">
+    <h2><div class="section-num">9</div>Partage et transfert des données</h2>
+
+    <h3>9.1 Sous-traitants techniques</h3>
+    <p>VilleSûre fait appel aux sous-traitants techniques suivants, qui traitent des données en notre nom :</p>
+    <ul>
+      <li><strong>Supabase</strong> (base de données, authentification, stockage) — serveurs hébergés en Europe</li>
+      <li><strong>Vercel</strong> (hébergement de l'application) — infrastructure cloud mondiale</li>
+      <li><strong>Resend</strong> (envoi d'emails) — service de messagerie sécurisé</li>
+      <li><strong>OpenStreetMap/Nominatim</strong> (géocodage inverse) — service cartographique open source</li>
+    </ul>
+    <p>Ces sous-traitants sont soumis à des obligations contractuelles strictes de confidentialité et ne peuvent utiliser vos données qu'aux fins pour lesquelles ils ont été mandatés.</p>
+
+    <h3>9.2 Absence de vente de données</h3>
+    <div class="highlight"><p>⚠️ VilleSûre ne vend, ne loue et ne cède jamais vos données personnelles à des tiers à des fins commerciales. Vos données ne sont pas utilisées à des fins publicitaires.</p></div>
+
+    <h3>9.3 Autorités compétentes</h3>
+    <p>Nous pouvons être amenés à communiquer vos données aux autorités judiciaires, administratives ou de sécurité gabonaises lorsque la loi nous y oblige ou lorsque cela est nécessaire pour protéger nos droits légaux, la sécurité des utilisateurs ou celle du public.</p>
+
+    <h3>9.4 Transferts internationaux</h3>
+    <p>Certains de nos prestataires techniques (Supabase, Vercel) sont basés en dehors du Gabon. Ces transferts sont encadrés par des garanties contractuelles appropriées. Nous veillons à ce que vos données bénéficient d'une protection adéquate quel que soit le pays de traitement.</p>
+  </div>
+
+  <!-- SECTION 10 -->
+  <div class="section" id="s10">
+    <h2><div class="section-num">10</div>Conservation des données</h2>
+    <p>Nous conservons vos données personnelles pour la durée strictement nécessaire aux finalités pour lesquelles elles ont été collectées :</p>
+    <ul>
+      <li><strong>Données de compte (email, mot de passe) :</strong> jusqu'à la suppression du compte + 30 jours</li>
+      <li><strong>Signalements d'incidents :</strong> 2 ans à compter de la date de signalement</li>
+      <li><strong>Données de newsletter :</strong> jusqu'à la désinscription + 30 jours</li>
+      <li><strong>Logs techniques :</strong> 90 jours</li>
+      <li><strong>Données de géolocalisation en temps réel :</strong> non conservées sur nos serveurs (traitées uniquement en mémoire vive)</li>
+      <li><strong>Coordonnées GPS des incidents :</strong> conservées avec le signalement (2 ans)</li>
+    </ul>
+    <p>À l'expiration de ces délais, vos données sont supprimées de manière sécurisée ou anonymisées irréversiblement.</p>
+  </div>
+
+  <!-- SECTION 11 -->
+  <div class="section" id="s11">
+    <h2><div class="section-num">11</div>Sécurité des données</h2>
+    <p>VilleSûre met en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, divulgation, altération ou destruction :</p>
+    <ul>
+      <li><strong>Chiffrement :</strong> toutes les communications entre votre appareil et nos serveurs sont chiffrées via le protocole HTTPS/TLS</li>
+      <li><strong>Mots de passe :</strong> les mots de passe sont hachés avec des algorithmes sécurisés (bcrypt) et ne sont jamais stockés en clair</li>
+      <li><strong>Contrôle d'accès :</strong> des politiques de sécurité au niveau des lignes (Row Level Security) sont implémentées dans notre base de données Supabase</li>
+      <li><strong>Infrastructure sécurisée :</strong> nos données sont hébergées sur des infrastructures certifiées SOC 2 Type II</li>
+      <li><strong>Accès administrateur limité :</strong> seuls les administrateurs autorisés ont accès aux données personnelles, dans le cadre strict de leurs fonctions</li>
+    </ul>
+    <p>En cas de violation de données susceptible de porter atteinte à vos droits et libertés, nous nous engageons à vous en informer dans les meilleurs délais et à prendre toutes les mesures correctives nécessaires.</p>
+  </div>
+
+  <!-- SECTION 12 -->
+  <div class="section" id="s12">
+    <h2><div class="section-num">12</div>Droits des utilisateurs</h2>
+    <p>Conformément à la loi gabonaise n°001/2011 et aux principes généraux du droit à la vie privée, vous disposez des droits suivants concernant vos données personnelles :</p>
+
+    <h3>12.1 Droit d'accès</h3>
+    <p>Vous avez le droit d'obtenir la confirmation que des données vous concernant sont traitées, ainsi qu'une copie de ces données dans un format lisible.</p>
+
+    <h3>12.2 Droit de rectification</h3>
+    <p>Vous avez le droit de faire corriger toute donnée inexacte ou incomplète vous concernant.</p>
+
+    <h3>12.3 Droit à l'effacement</h3>
+    <p>Vous pouvez demander la suppression de vos données personnelles dans les cas prévus par la loi, notamment lorsque les données ne sont plus nécessaires aux finalités pour lesquelles elles ont été collectées.</p>
+
+    <h3>12.4 Droit d'opposition</h3>
+    <p>Vous pouvez vous opposer à tout moment au traitement de vos données à des fins de prospection ou lorsque le traitement est fondé sur notre intérêt légitime.</p>
+
+    <h3>12.5 Droit à la portabilité</h3>
+    <p>Vous pouvez demander à recevoir vos données dans un format structuré, couramment utilisé et lisible par machine, afin de les transmettre à un autre responsable de traitement.</p>
+
+    <h3>12.6 Droit de retrait du consentement</h3>
+    <p>Lorsque le traitement est fondé sur votre consentement (notamment pour la géolocalisation et la newsletter), vous pouvez le retirer à tout moment sans que cela n'affecte la licéité des traitements antérieurs.</p>
+
+    <div class="info-box"><p>ℹ️ Pour exercer l'un de ces droits, contactez-nous à <strong>barttoni52@gmail.com</strong>. Nous nous engageons à répondre dans un délai de <strong>30 jours</strong> à compter de la réception de votre demande. Une pièce d'identité pourra vous être demandée pour vérifier votre identité.</p></div>
+  </div>
+
+  <!-- SECTION 13 -->
+  <div class="section" id="s13">
+    <h2><div class="section-num">13</div>Cookies et technologies similaires</h2>
+    <p>VilleSûre utilise des technologies de stockage local (localStorage) dans votre navigateur pour assurer le fonctionnement de l'application :</p>
+    <ul>
+      <li><strong>Préférences de thème</strong> (mode sombre/clair) : stockées localement sur votre appareil</li>
+      <li><strong>Session d'authentification</strong> : token sécurisé stocké localement pour maintenir votre connexion</li>
+      <li><strong>Aucun cookie publicitaire</strong> ou de suivi tiers n'est utilisé sur VilleSûre</li>
+    </ul>
+    <p>Ces données de stockage local restent sur votre appareil et ne sont pas transmises à des tiers sauf pour les besoins d'authentification auprès de Supabase.</p>
+  </div>
+
+  <!-- SECTION 14 -->
+  <div class="section" id="s14">
+    <h2><div class="section-num">14</div>Mineurs</h2>
+    <p>VilleSûre est destinée à un public adulte (18 ans et plus) ou à des mineurs sous la supervision de leurs parents ou tuteurs légaux.</p>
+    <p>Nous ne collectons pas sciemment des données personnelles auprès d'enfants de moins de 15 ans sans le consentement de leurs parents ou tuteurs légaux. Si vous constatez qu'un enfant de moins de 15 ans a fourni des données personnelles sans consentement parental, veuillez nous contacter immédiatement afin que nous puissions supprimer ces informations.</p>
+    <div class="highlight"><p>⚠️ Conformément aux politiques de Google Play, VilleSûre n'est pas destinée aux enfants de moins de 13 ans.</p></div>
+  </div>
+
+  <!-- SECTION 15 -->
+  <div class="section" id="s15">
+    <h2><div class="section-num">15</div>Cadre juridique applicable</h2>
+    <p>La présente politique de confidentialité est régie par le droit gabonais, notamment :</p>
+    <ul>
+      <li><strong>Loi n°001/2011 du 25 septembre 2011</strong> relative à la protection des données à caractère personnel en République Gabonaise</li>
+      <li><strong>Loi n°0025/2018</strong> relative à la cybersécurité et à la lutte contre la cybercriminalité en République Gabonaise</li>
+      <li><strong>La Constitution de la République Gabonaise</strong> garantissant le droit à la vie privée</li>
+      <li>Les conventions et recommandations internationales ratifiées par le Gabon en matière de protection des données personnelles</li>
+    </ul>
+    <p>L'autorité de contrôle compétente en matière de protection des données au Gabon est la <strong>Commission Nationale de Protection des Données Personnelles (CNPDP)</strong>.</p>
+    <p>Tout litige relatif à l'application de la présente politique sera soumis à la compétence des juridictions compétentes de Libreville, République Gabonaise.</p>
+  </div>
+
+  <!-- SECTION 16 -->
+  <div class="section" id="s16">
+    <h2><div class="section-num">16</div>Modifications de la politique</h2>
+    <p>VilleSûre se réserve le droit de modifier la présente politique de confidentialité à tout moment, notamment pour s'adapter à l'évolution de la législation gabonaise, aux nouvelles fonctionnalités de l'application ou aux recommandations des autorités compétentes.</p>
+    <p>En cas de modification substantielle, nous vous informerons :</p>
+    <ul>
+      <li>Par une notification visible dans l'application</li>
+      <li>Par email si vous êtes abonné à la newsletter</li>
+      <li>Par la mise à jour de la date en haut de cette page</li>
+    </ul>
+    <p>Votre utilisation continue de l'application après la notification des modifications vaut acceptation de la nouvelle politique. Si vous n'acceptez pas les modifications, vous devez cesser d'utiliser l'application et demander la suppression de votre compte.</p>
+  </div>
+
+  <!-- SECTION 17 -->
+  <div class="section" id="s17">
+    <h2><div class="section-num">17</div>Contact et réclamations</h2>
+    <p>Pour toute question relative à la présente politique de confidentialité, pour exercer vos droits ou pour signaler une violation de données, vous pouvez nous contacter :</p>
+    <div class="contact-box">
+      <p><strong>Par email :</strong> barttoni52@gmail.com</p>
+      <p><strong>Via l'application :</strong> https://ville-sure-mmhd.vercel.app</p>
+      <p><strong>Délai de réponse :</strong> 30 jours maximum</p>
+    </div>
+    <p style="margin-top:14px">Si vous estimez que vos droits ne sont pas respectés, vous avez le droit de déposer une réclamation auprès de la <strong>Commission Nationale de Protection des Données Personnelles (CNPDP)</strong> de la République Gabonaise.</p>
+    <div class="info-box"><p>ℹ️ Nous nous engageons à traiter toute réclamation avec sérieux et à y apporter une réponse dans les meilleurs délais. La protection de vos données personnelles est une priorité absolue pour VilleSûre.</p></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>© 2026 VilleSûre — Libreville, République Gabonaise</p>
+  <p style="margin-top:6px"><a href="https://ville-sure-mmhd.vercel.app">Retour à l'application</a></p>
+</div>
+
+</body>
+</html>
