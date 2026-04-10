@@ -11,6 +11,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<!-- OneSignal SDK -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -466,7 +468,7 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
             <div class="ph"><div class="pav">👤</div><div><div class="pn" id="d-pname">—</div><div class="ps" id="d-psub">—</div></div></div>
             <div class="pr"><div class="pr-ic" style="background:var(--blu-l)">🎂</div><div class="pr-info"><div class="pr-lbl">Âge</div><div class="pr-val" id="d-page">Non renseigné</div></div></div>
             <div class="pr"><div class="pr-ic" style="background:var(--grn-l)">📍</div><div class="pr-info"><div class="pr-lbl">Position actuelle</div><div class="pr-val" id="d-ploc">Libreville, Gabon</div></div></div>
-            <div class="pr"><div class="pr-ic" style="background:var(--red-l)">🔔</div><div class="pr-info"><div class="pr-lbl">Alertes proximité</div><div class="pr-val">Activées · 500m</div></div><div class="tog" onclick="this.classList.toggle('off')"></div></div>
+            <div class="pr"><div class="pr-ic" style="background:var(--red-l)">🔔</div><div class="pr-info"><div class="pr-lbl">Alertes proximité</div><div class="pr-val" id="d-notif-status">Activées · 500m</div></div></div>
             <div class="pr"><div class="pr-ic" style="background:var(--ora-l)">📊</div><div class="pr-info"><div class="pr-lbl">Mes signalements</div><div class="pr-val">Historique personnel</div></div><span class="pr-stat" id="d-my-rep">—</span></div>
           </div>
           <div class="prof-card" style="padding:16px">
@@ -529,7 +531,7 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
           <div class="ph"><div class="pav">👤</div><div><div class="pn" id="m-pname">—</div><div class="ps" id="m-psub">—</div></div></div>
           <div class="pr"><div class="pr-ic" style="background:var(--blu-l)">🎂</div><div class="pr-info"><div class="pr-lbl">Âge</div><div class="pr-val" id="m-page">Non renseigné</div></div></div>
           <div class="pr"><div class="pr-ic" style="background:var(--grn-l)">📍</div><div class="pr-info"><div class="pr-lbl">Position actuelle</div><div class="pr-val" id="m-ploc">Libreville, Gabon</div></div></div>
-          <div class="pr"><div class="pr-ic" style="background:var(--red-l)">🔔</div><div class="pr-info"><div class="pr-lbl">Alertes</div><div class="pr-val">Activées · 500m</div></div><div class="tog" onclick="this.classList.toggle('off')"></div></div>
+          <div class="pr"><div class="pr-ic" style="background:var(--red-l)">🔔</div><div class="pr-info"><div class="pr-lbl">Alertes proximité</div><div class="pr-val" id="m-notif-status">Activées · 500m</div></div></div>
           <div class="pr"><div class="pr-ic" style="background:var(--ora-l)">📊</div><div class="pr-info"><div class="pr-lbl">Mes signalements</div></div><span class="pr-stat" id="m-my-rep">—</span></div>
         </div>
         <div class="prof-card" style="padding:16px">
@@ -553,6 +555,8 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
 // ── CONFIG ──
 const SURL='https://dzmgqcpxcdaloguuuhgp.supabase.co';
 const SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6bWdxY3B4Y2RhbG9ndXV1aGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjYyNzQsImV4cCI6MjA4OTEwMjI3NH0.a00OQPcrEC52NB-klE_UeX-SitgnAdrfkVRRaZ2Joio';
+// ⚠️ REMPLACER par votre App ID OneSignal après création du compte
+const ONESIGNAL_APP_ID = 'cf7e8d18-aea2-40c8-995d-be42f1953ae8';
 const db=window.supabase.createClient(SURL,SKEY);
 
 // ── STATE ──
@@ -597,19 +601,15 @@ function startGPS(){
 async function onGPS(p){
   lat=p.coords.latitude; lng=p.coords.longitude;
   const acc=p.coords.accuracy;
-  // Update markers
   uMkD.setLatLng([lat,lng]);
   uMkM.setLatLng([lat,lng]);
-  // Accuracy circle
   if(accCircleD){mapD.removeLayer(accCircleD);}
   if(accCircleM){mapM.removeLayer(accCircleM);}
   accCircleD=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapD);
   accCircleM=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapM);
   setGPSChip('active');
-  // Get real city name
   const city=await reverseGeocode(lat,lng);
   cityName=city;
-  // Update all location displays
   const locTxt=`📍 ${city}`;
   setText('d-loc-txt',locTxt);
   setText('m-loc-txt',locTxt);
@@ -617,9 +617,10 @@ async function onGPS(p){
   setText('m-ploc',city);
   setText('d-city-search',city);
   setText('d-mw-zone',city.split(',')[0]);
-  // Update city badge in sidebar
   const cl=document.getElementById('d-city-lbl');
   if(cl)cl.textContent=city.split(',')[0];
+  // Mettre à jour la position dans Supabase si connecté et notif activées
+  updateSubscriptionPosition();
 }
 
 function onGPSErr(e){
@@ -627,7 +628,6 @@ function onGPSErr(e){
   setGPSChip('error');
   setText('d-loc-txt','📍 Libreville, Gabon (par défaut)');
   setText('m-loc-txt','📍 Libreville, Gabon (par défaut)');
-  // Retry once after 8s
   setTimeout(startGPS,8000);
 }
 
@@ -648,6 +648,83 @@ function centerOnMe(){
   else mapD.flyTo([lat,lng],16,{duration:1});
   toast('📍 Centré','Carte centrée sur votre position','success');
 }
+
+// ── ONESIGNAL NOTIFICATIONS ──
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+
+async function initOneSignal(){
+  // N'activer que pour les utilisateurs connectés (non anonymes)
+  if(!user || user.is_anonymous) return;
+  // Éviter double initialisation
+  if(window._osInitialized) return;
+  window._osInitialized = true;
+
+  OneSignalDeferred.push(async function(OneSignal){
+    try{
+      await OneSignal.init({
+        appId: ONESIGNAL_APP_ID,
+        notifyButton: { enable: false },
+        allowLocalhostAsSecureOrigin: false,
+      });
+
+      // Demander la permission automatiquement
+      const permission = await OneSignal.Notifications.permission;
+      if(!permission){
+        // Petit délai pour ne pas bloquer le chargement
+        setTimeout(async()=>{
+          try{
+            await OneSignal.Notifications.requestPermission();
+            const granted = await OneSignal.Notifications.permission;
+            if(granted){
+              await saveSubscription();
+              updateNotifStatus(true);
+              toast('🔔 Notifications activées','Vous serez alerté des incidents à 500m','success');
+            }
+          }catch(e){ console.warn('Notif permission:', e); }
+        }, 2000);
+      } else {
+        // Permission déjà accordée : mettre à jour la subscription
+        await saveSubscription();
+        updateNotifStatus(true);
+      }
+    }catch(e){ console.warn('OneSignal init:', e); }
+  });
+}
+
+async function saveSubscription(){
+  if(!user || user.is_anonymous) return;
+  try{
+    OneSignalDeferred.push(async function(OneSignal){
+      const playerId = await OneSignal.User.PushSubscription.id;
+      if(!playerId) return;
+      await db.from('push_subscriptions').upsert({
+        user_id: user.id,
+        onesignal_player_id: playerId,
+        latitude: lat,
+        longitude: lng,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'user_id' });
+    });
+  }catch(e){ console.warn('saveSubscription:', e); }
+}
+
+async function updateSubscriptionPosition(){
+  if(!user || user.is_anonymous || !lat || !lng) return;
+  try{
+    await db.from('push_subscriptions')
+      .update({ latitude: lat, longitude: lng, updated_at: new Date().toISOString() })
+      .eq('user_id', user.id);
+  }catch(e){ /* silencieux */ }
+}
+
+function updateNotifStatus(active){
+  const val = active ? '🔔 Activées · 500m' : '🔕 Désactivées';
+  setText('d-notif-status', val);
+  setText('m-notif-status', val);
+}
+
+// Mettre à jour la position toutes les 5 minutes si connecté
+setInterval(()=>{ if(user && !user.is_anonymous) updateSubscriptionPosition(); }, 5*60*1000);
 
 // ── DARK MODE ──
 function initDark(){
@@ -773,13 +850,10 @@ function renderAll(){
   setText('d-inc-cnt',`${n} incident${n>1?'s':''}`);
   setText('m-inc-cnt',`${n} incident${n>1?'s':''}`);
   setText('d-mw-t',n); setText('d-sn1',n); setText('m-sn1',n);
-  // Nav dot
   const dot=document.getElementById('m-nav-dot');
   if(dot)dot.style.display=n>0?'block':'none';
-  // Lists
   document.getElementById('d-inc-list').innerHTML=n?incidents.map(cardD).join(''):'<div class="empty-state">✅ Aucun incident sur cette période</div>';
   document.getElementById('m-inc-list').innerHTML=n?incidents.map(cardM).join(''):'<div class="empty-state">✅ Aucun incident sur cette période</div>';
-  // Clear + re-add markers
   Object.values(mD).forEach(m=>mapD.removeLayer(m));
   Object.values(mM).forEach(m=>mapM.removeLayer(m));
   mD={};mM={};
@@ -796,14 +870,12 @@ function renderStats(){
   ['d-sn3','m-sn3'].forEach(id=>setText(id,mo));
   ['d-sn4','m-sn4'].forEach(id=>setText(id,an));
   setText('d-mw-w',w);
-  // Bar chart
   const dy=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],cs=Array(7).fill(0);
   incidents.filter(i=>now-new Date(i.created_at)<7*864e5).forEach(i=>{cs[new Date(i.created_at).getDay()]++;});
   const mx=Math.max(...cs,1);
   const bH=cs.map((c,i)=>`<div class="bc-c"><div class="bc-b${c===mx&&c>0?' pk':''}" style="height:${Math.max(c/mx*100,4)}%"></div><div class="bc-l">${dy[i]}</div></div>`).join('');
   document.getElementById('d-bc').innerHTML=bH;
   document.getElementById('m-bc').innerHTML=bH.replace(/bc-c/g,'m-bc-c').replace(/bc-b/g,'m-bc-b').replace(/bc-l/g,'m-bc-l');
-  // Type chart
   const tc={};incidents.forEach(i=>{tc[i.type]=(tc[i.type]||0)+1;});
   const tcol={'Agression physique':'#E03E3E','Vol / tentative':'#F0960A','Harcèlement verbal':'#1B6FC8','Braquage':'#888','Agression avec véhicule':'#B52E2E','Situation suspecte':'#9C9790'};
   const te={'Agression physique':'⚠️','Vol / tentative':'🏃','Harcèlement verbal':'💬','Braquage':'🔫','Agression avec véhicule':'🚗','Situation suspecte':'❗'};
@@ -811,7 +883,6 @@ function renderStats(){
   const tH=Object.entries(tc).sort((a,b)=>b[1]-a[1]).map(([t,c])=>`<div class="tr-r"><div class="tr-e">${te[t]||'❗'}</div><div class="tr-n">${t}</div><div class="tr-bg"><div class="tr-f" style="width:${c/mtc*100}%;background:${tcol[t]||'#888'}"></div></div><div class="tr-c">${c}</div></div>`).join('')||'<div style="color:var(--g400);font-size:12px;text-align:center;padding:16px">Aucune donnée</div>';
   document.getElementById('d-tc').innerHTML=tH;
   document.getElementById('m-tc').innerHTML=tH;
-  // Zones
   const zc={};incidents.forEach(i=>{const z=i.zone||'Libreville';zc[z]=(zc[z]||0)+1;});
   const zs=Object.entries(zc).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const mz=zs[0]?.[1]||1;
@@ -848,12 +919,16 @@ db.auth.onAuthStateChange(async(event,ses)=>{
   user=ses?.user||null;
   updateAuthUI();
   if(user && !user.is_anonymous){
+    // Récupérer le nb de signalements
     const{count}=await db.from('incidents').select('*',{count:'exact',head:true}).eq('user_id',user.id);
     setText('d-my-rep',count||0);
     setText('m-my-rep',count||0);
+    // Initialiser OneSignal pour cet utilisateur
+    initOneSignal();
   }
-  // If signed out, redirect to map
   if(event==='SIGNED_OUT'){
+    window._osInitialized = false;
+    updateNotifStatus(false);
     isMob()?mShow('map',0):dShow('map',document.getElementById('d-nav-map'));
   }
 });
@@ -912,26 +987,28 @@ async function signInAnon(){
   isMob()?mShow('map',0):dShow('map',document.getElementById('d-nav-map'));
 }
 
-// ── LOGOUT — CORRIGÉ ──
 async function doLogout(){
-  // Disable buttons to prevent double click
   const dBtn=document.getElementById('d-logout-btn');
   const mBtn=document.getElementById('m-logout-btn');
   if(dBtn){dBtn.disabled=true;dBtn.textContent='Déconnexion...';}
   if(mBtn){mBtn.disabled=true;mBtn.textContent='Déconnexion...';}
   try{
+    // Supprimer la subscription push avant déconnexion
+    if(user && !user.is_anonymous){
+      await db.from('push_subscriptions').delete().eq('user_id', user.id);
+    }
     const{error}=await db.auth.signOut();
     if(error)throw error;
     user=null;
+    window._osInitialized = false;
     updateAuthUI();
+    updateNotifStatus(false);
     setText('d-my-rep','—'); setText('m-my-rep','—');
     toast('👋 Déconnecté','À bientôt sur VilleSûre !','success');
-    // Navigate away from profil
     isMob()?mShow('map',0):dShow('map',document.getElementById('d-nav-map'));
   }catch(e){
     toast('❌ Erreur déconnexion',e.message,'alert');
   }
-  // Re-enable buttons
   if(dBtn){dBtn.disabled=false;dBtn.innerHTML='🚪 Se déconnecter';}
   if(mBtn){mBtn.disabled=false;mBtn.innerHTML='🚪 Se déconnecter';}
 }
@@ -967,7 +1044,6 @@ async function doSubmit(desc,age,isAnon,photo,btnEl){
     });
     if(error)throw error;
     document.getElementById('ov').classList.add('show');
-    // Reset form
     document.getElementById('d-desc').value='';
     document.getElementById('m-desc').value='';
     photoD=null; photoM=null;
@@ -1017,9 +1093,7 @@ function setPeriod2(el,d){
 initDark();
 startGPS();
 loadData();
-// Auto-refresh every 60s
 refreshTimer=setInterval(loadData,60000);
-// PWA service worker
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
