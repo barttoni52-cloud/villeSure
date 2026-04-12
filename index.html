@@ -402,8 +402,8 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
     <div class="period-sec">
       <div class="period-lbl">Période</div>
       <div class="pills">
-        <div class="pill active" onclick="setPeriod(this,1)">24h</div>
-        <div class="pill" onclick="setPeriod(this,7)">7 jours</div>
+        <div class="pill" onclick="setPeriod(this,1)">24h</div>
+        <div class="pill active" onclick="setPeriod(this,7)">7 jours</div>
         <div class="pill" onclick="setPeriod(this,30)">1 mois</div>
         <div class="pill" onclick="setPeriod(this,365)">1 an</div>
         <div class="pill" onclick="setPeriod(this,9999)">Tout</div>
@@ -502,7 +502,7 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
         <div class="m-list-hdr-row"><div class="m-list-title">Incidents récents</div><button class="ref-btn" onclick="refreshData()">🔄</button></div>
         <div class="m-list-sub" id="m-inc-cnt">Chargement...</div>
       </div>
-      <div class="m-pills"><div class="m-pill active" onclick="setPeriod2(this,1)">24h</div><div class="m-pill" onclick="setPeriod2(this,7)">7 jours</div><div class="m-pill" onclick="setPeriod2(this,30)">1 mois</div><div class="m-pill" onclick="setPeriod2(this,365)">1 an</div><div class="m-pill" onclick="setPeriod2(this,9999)">Tout</div></div>
+      <div class="m-pills"><div class="m-pill" onclick="setPeriod2(this,1)">24h</div><div class="m-pill active" onclick="setPeriod2(this,7)">7 jours</div><div class="m-pill" onclick="setPeriod2(this,30)">1 mois</div><div class="m-pill" onclick="setPeriod2(this,365)">1 an</div><div class="m-pill" onclick="setPeriod2(this,9999)">Tout</div></div>
       <div class="m-inc-list" id="m-inc-list"><div class="empty-state">🔄 Chargement...</div></div>
     </div>
     <div class="m-panel" id="m-panel-signaler">
@@ -560,7 +560,7 @@ const ONESIGNAL_APP_ID = 'cf7e8d18-aea2-40c8-995d-be42f1953ae8';
 const db=window.supabase.createClient(SURL,SKEY);
 
 // ── STATE ──
-let user=null, incidents=[], days=1;
+let user=null, incidents=[], allIncidents=[], days=7;
 let lat=0.3962, lng=9.4558, cityName='Libreville, Gabon';
 let currentType='Agression physique', photoD=null, photoM=null;
 let mD={}, mM={}, accCircleD=null, accCircleM=null;
@@ -822,6 +822,7 @@ function cardM(inc){
 // ── LOAD DATA ──
 async function loadData(){
   try{
+    // Charger les incidents filtrés par période (pour la liste et la carte)
     let q=db.from('incidents').select('*').order('created_at',{ascending:false});
     if(days<9999){
       const cutoff=new Date(Date.now()-days*24*60*60*1000);
@@ -830,6 +831,11 @@ async function loadData(){
     const{data,error}=await q;
     if(error)throw error;
     incidents=data||[];
+
+    // Charger TOUS les incidents pour les stats (indépendant de la période)
+    const{data:allData}=await db.from('incidents').select('*').order('created_at',{ascending:false});
+    allIncidents=allData||[];
+
     renderAll();
   }catch(e){
     console.error('loadData:',e);
@@ -849,7 +855,7 @@ function renderAll(){
   setText('d-badge',n); setText('d-alert-cnt',n); setText('m-alert-cnt',n);
   setText('d-inc-cnt',`${n} incident${n>1?'s':''}`);
   setText('m-inc-cnt',`${n} incident${n>1?'s':''}`);
-  setText('d-mw-t',n); setText('d-sn1',n); setText('m-sn1',n);
+  setText('d-mw-t',n);
   const dot=document.getElementById('m-nav-dot');
   if(dot)dot.style.display=n>0?'block':'none';
   document.getElementById('d-inc-list').innerHTML=n?incidents.map(cardD).join(''):'<div class="empty-state">✅ Aucun incident sur cette période</div>';
@@ -863,27 +869,34 @@ function renderAll(){
 
 function renderStats(){
   const now=Date.now();
-  const w=incidents.filter(i=>now-new Date(i.created_at)<7*864e5).length;
-  const mo=incidents.filter(i=>now-new Date(i.created_at)<30*864e5).length;
-  const an=incidents.filter(i=>i.is_anonymous).length;
+  // Stats globales basées sur TOUS les incidents (pas filtrés par période)
+  const total=allIncidents.length;
+  const w=allIncidents.filter(i=>now-new Date(i.created_at)<7*864e5).length;
+  const mo=allIncidents.filter(i=>now-new Date(i.created_at)<30*864e5).length;
+  const an=allIncidents.filter(i=>i.is_anonymous).length;
+  ['d-sn1','m-sn1'].forEach(id=>setText(id,total));
   ['d-sn2','m-sn2'].forEach(id=>setText(id,w));
   ['d-sn3','m-sn3'].forEach(id=>setText(id,mo));
   ['d-sn4','m-sn4'].forEach(id=>setText(id,an));
+  setText('d-mw-t',incidents.length);
   setText('d-mw-w',w);
+  // Graphique barres - 7 derniers jours (tous incidents)
   const dy=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],cs=Array(7).fill(0);
-  incidents.filter(i=>now-new Date(i.created_at)<7*864e5).forEach(i=>{cs[new Date(i.created_at).getDay()]++;});
+  allIncidents.filter(i=>now-new Date(i.created_at)<7*864e5).forEach(i=>{cs[new Date(i.created_at).getDay()]++;});
   const mx=Math.max(...cs,1);
   const bH=cs.map((c,i)=>`<div class="bc-c"><div class="bc-b${c===mx&&c>0?' pk':''}" style="height:${Math.max(c/mx*100,4)}%"></div><div class="bc-l">${dy[i]}</div></div>`).join('');
   document.getElementById('d-bc').innerHTML=bH;
   document.getElementById('m-bc').innerHTML=bH.replace(/bc-c/g,'m-bc-c').replace(/bc-b/g,'m-bc-b').replace(/bc-l/g,'m-bc-l');
-  const tc={};incidents.forEach(i=>{tc[i.type]=(tc[i.type]||0)+1;});
+  // Graphique par type (tous incidents)
+  const tc={};allIncidents.forEach(i=>{tc[i.type]=(tc[i.type]||0)+1;});
   const tcol={'Agression physique':'#E03E3E','Vol / tentative':'#F0960A','Harcèlement verbal':'#1B6FC8','Braquage':'#888','Agression avec véhicule':'#B52E2E','Situation suspecte':'#9C9790'};
   const te={'Agression physique':'⚠️','Vol / tentative':'🏃','Harcèlement verbal':'💬','Braquage':'🔫','Agression avec véhicule':'🚗','Situation suspecte':'❗'};
   const mtc=Math.max(...Object.values(tc),1);
   const tH=Object.entries(tc).sort((a,b)=>b[1]-a[1]).map(([t,c])=>`<div class="tr-r"><div class="tr-e">${te[t]||'❗'}</div><div class="tr-n">${t}</div><div class="tr-bg"><div class="tr-f" style="width:${c/mtc*100}%;background:${tcol[t]||'#888'}"></div></div><div class="tr-c">${c}</div></div>`).join('')||'<div style="color:var(--g400);font-size:12px;text-align:center;padding:16px">Aucune donnée</div>';
   document.getElementById('d-tc').innerHTML=tH;
   document.getElementById('m-tc').innerHTML=tH;
-  const zc={};incidents.forEach(i=>{const z=i.zone||'Libreville';zc[z]=(zc[z]||0)+1;});
+  // Zones (tous incidents)
+  const zc={};allIncidents.forEach(i=>{const z=i.zone||'Libreville';zc[z]=(zc[z]||0)+1;});
   const zs=Object.entries(zc).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const mz=zs[0]?.[1]||1;
   document.getElementById('d-zc').innerHTML=zs.map(([z,c],i)=>`<div class="zr"><div class="zrk${i===0?' top':''}">${String(i+1).padStart(2,'0')}</div><div class="zi"><div class="zn">${z}</div><div class="zd">${c} incident${c>1?'s':''}</div></div><div class="zb"><div class="zbg"><div class="zbf" style="width:${c/mz*100}%"></div></div></div><div class="zct">${c}</div></div>`).join('')||'<div style="color:var(--g400);font-size:12px;text-align:center;padding:16px">Aucune donnée</div>';
@@ -904,6 +917,7 @@ setConn('cn');
 db.channel('vs-rt')
   .on('postgres_changes',{event:'INSERT',schema:'public',table:'incidents'},p=>{
     incidents.unshift(p.new);
+    allIncidents.unshift(p.new);
     renderAll();
     toast('🔔 Nouvel incident',`${p.new.type} — ${p.new.zone||'Libreville'}`,'alert');
     (isMob()?mapM:mapD).flyTo([p.new.latitude,p.new.longitude],15,{duration:1.5});
