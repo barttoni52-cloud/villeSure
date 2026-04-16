@@ -858,25 +858,51 @@ function cardM(inc){
 
 // ── LOAD DATA ──
 async function loadData(){
-  try{
-    // Charger les incidents filtrés par période (pour la liste et la carte)
-    let q=db.from('incidents').select('*').order('created_at',{ascending:false});
-    if(days<9999){
-      const cutoff=new Date(Date.now()-days*24*60*60*1000);
-      q=q.gte('created_at',cutoff.toISOString());
-    }
-    const{data,error}=await q;
-    if(error)throw error;
-    incidents=data||[];
+  // Afficher un état de chargement visuel
+  setText('d-inc-cnt','...');
+  setText('m-inc-cnt','Chargement...');
 
-    // Charger TOUS les incidents pour les stats (indépendant de la période)
-    const{data:allData}=await db.from('incidents').select('*').order('created_at',{ascending:false});
-    allIncidents=allData||[];
+  try{
+    // Les deux requêtes en parallèle pour être plus rapide
+    const cutoff=days<9999?new Date(Date.now()-days*24*60*60*1000):null;
+
+    const [res1, res2] = await Promise.all([
+      // Requête 1 : incidents filtrés par période
+      cutoff
+        ? db.from('incidents').select('*').order('created_at',{ascending:false}).gte('created_at',cutoff.toISOString())
+        : db.from('incidents').select('*').order('created_at',{ascending:false}),
+      // Requête 2 : tous les incidents pour les stats
+      db.from('incidents').select('*').order('created_at',{ascending:false})
+    ]);
+
+    // Vérifier les erreurs des deux requêtes
+    if(res1.error){console.error('incidents error:',res1.error);throw res1.error;}
+    if(res2.error){console.error('allIncidents error:',res2.error);}
+
+    incidents = res1.data || [];
+    allIncidents = res2.error ? (res1.data||[]) : (res2.data||[]);
 
     renderAll();
+
   }catch(e){
     console.error('loadData:',e);
-    toast('❌ Erreur de chargement',e.message||'Vérifiez votre connexion','alert');
+    // Afficher un état d'erreur avec bouton retry
+    const errHtml=`<div class="empty-state" style="padding:20px">
+      <div style="font-size:28px;margin-bottom:8px">⚠️</div>
+      <div style="font-weight:600;color:var(--g900);margin-bottom:4px">Erreur de chargement</div>
+      <div style="font-size:12px;color:var(--g400);margin-bottom:12px">${e.message||'Vérifiez votre connexion internet'}</div>
+      <button onclick="loadData()" style="padding:8px 20px;background:var(--red);color:white;border:none;border-radius:8px;font-family:var(--fd);font-size:12px;font-weight:600;cursor:pointer">🔄 Réessayer</button>
+    </div>`;
+    const dl=document.getElementById('d-inc-list');
+    const ml=document.getElementById('m-inc-list');
+    if(dl)dl.innerHTML=errHtml;
+    if(ml)ml.innerHTML=errHtml;
+    setText('d-inc-cnt','Erreur');
+    setText('m-inc-cnt','Erreur de chargement — appuyez sur 🔄');
+    toast('❌ Erreur de chargement',e.message||'Vérifiez votre connexion internet','alert');
+
+    // Retry automatique après 10 secondes
+    setTimeout(loadData, 10000);
   }
 }
 
