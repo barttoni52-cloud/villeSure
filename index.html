@@ -451,7 +451,7 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
       <div class="panel" id="panel-signaler">
         <div class="sw"><div><div class="s-title">Signaler un incident</div><div class="s-sub">Enregistré en temps réel dans la base de données.</div></div>
           <div class="fc">
-            <div class="fg"><div class="fl">Localisation détectée</div><div class="ld"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--grn)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span id="d-loc-txt">Détection GPS...</span></div></div>
+            <div class="fg"><div class="fl">Localisation détectée</div><div class="ld" style="justify-content:space-between"><div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--grn)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span id="d-loc-txt">Détection GPS...</span></div><button onclick="startGPS();toast('🎯 GPS','Recalcul en cours...','success')" style="padding:4px 10px;border-radius:8px;border:1px solid #A8D5BC;background:white;font-size:11px;font-weight:600;cursor:pointer;color:var(--grn);font-family:var(--fd);flex-shrink:0">🔄 Actualiser</button></div></div>
             <div class="fg"><div class="fl">Type d'incident</div><div class="type-grid"><div class="tc sel" onclick="selTypeF(this)" data-type="Agression physique"><span class="te">⚠️</span>Agression physique</div><div class="tc" onclick="selTypeF(this)" data-type="Harcèlement verbal"><span class="te">💬</span>Harcèlement verbal</div><div class="tc" onclick="selTypeF(this)" data-type="Vol / tentative"><span class="te">🏃</span>Vol / tentative</div><div class="tc" onclick="selTypeF(this)" data-type="Braquage"><span class="te">🔫</span>Braquage</div><div class="tc" onclick="selTypeF(this)" data-type="Agression avec véhicule"><span class="te">🚗</span>Avec véhicule</div><div class="tc" onclick="selTypeF(this)" data-type="Situation suspecte"><span class="te">❗</span>Situation suspecte</div></div></div>
             <div class="fg"><div class="fl">Description</div><textarea class="fi" id="d-desc" rows="3" placeholder="Décrivez brièvement ce qui se passe..."></textarea></div>
             <div class="form-row">
@@ -508,7 +508,7 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--g300)}
     <div class="m-panel" id="m-panel-signaler">
       <div class="m-form-wrap"><div class="m-form-title">Signaler un incident</div><div style="font-size:13px;color:var(--g400)">Enregistré en temps réel.</div>
         <div class="m-fc">
-          <div><div class="m-fl">Localisation</div><div class="m-ld"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--grn)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span id="m-loc-txt">Détection GPS...</span></div></div>
+          <div><div class="m-fl">Localisation</div><div class="m-ld" style="justify-content:space-between"><div style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--grn)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span id="m-loc-txt">Détection GPS...</span></div><button onclick="startGPS();toast('🎯 GPS','Recalcul en cours...','success')" style="padding:4px 10px;border-radius:8px;border:1px solid #A8D5BC;background:white;font-size:11px;font-weight:600;cursor:pointer;color:var(--grn);font-family:var(--fd);flex-shrink:0">🔄 Actualiser</button></div></div>
           <div><div class="m-fl">Type d'incident</div><div class="m-type-grid"><div class="m-tc sel" onclick="mSelType(this)" data-type="Agression physique"><span class="m-te">⚠️</span>Agression physique</div><div class="m-tc" onclick="mSelType(this)" data-type="Harcèlement verbal"><span class="m-te">💬</span>Harcèlement</div><div class="m-tc" onclick="mSelType(this)" data-type="Vol / tentative"><span class="m-te">🏃</span>Vol</div><div class="m-tc" onclick="mSelType(this)" data-type="Braquage"><span class="m-te">🔫</span>Braquage</div><div class="m-tc" onclick="mSelType(this)" data-type="Agression avec véhicule"><span class="m-te">🚗</span>Véhicule</div><div class="m-tc" onclick="mSelType(this)" data-type="Situation suspecte"><span class="m-te">❗</span>Suspect</div></div></div>
           <div><div class="m-fl">Description</div><textarea class="m-fi" id="m-desc" rows="3" placeholder="Décrivez brièvement..."></textarea></div>
           <div><div class="m-fl">Photo (optionnel)</div><div class="m-pz" id="m-pz" onclick="document.getElementById('m-photo').click()"><div style="font-size:24px;margin-bottom:4px">📷</div><div style="font-size:12px;color:var(--g400)" id="m-pz-tx"><strong>Touchez</strong> pour ajouter</div></div><input type="file" id="m-photo" accept="image/*" style="display:none" onchange="handlePhotoM(this)"></div>
@@ -580,73 +580,110 @@ const uMkD=L.marker([lat,lng],{icon:uIco,zIndexOffset:1000}).addTo(mapD);
 const uMkM=L.marker([lat,lng],{icon:uIco,zIndexOffset:1000}).addTo(mapM);
 
 // ── GPS ──
+let _lastGeocodeCoords=null,_geocodeTimer=null,_gpsRetryTimer=null,_bestAccuracy=Infinity;
+
 async function reverseGeocode(la,ln){
+  if(_lastGeocodeCoords){
+    const dlat=Math.abs(la-_lastGeocodeCoords[0]),dlng=Math.abs(ln-_lastGeocodeCoords[1]);
+    if(dlat<0.0005&&dlng<0.0005)return cityName;
+  }
+  _lastGeocodeCoords=[la,ln];
   try{
-    const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${la}&lon=${ln}&format=json&accept-language=fr`,{headers:{'Accept-Language':'fr'}});
+    const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${la}&lon=${ln}&format=json&accept-language=fr`,{headers:{'Accept-Language':'fr','User-Agent':'VilleSure/1.0'}});
+    if(!r.ok)throw new Error('err');
     const d=await r.json();
     const city=d.address?.city||d.address?.town||d.address?.village||d.address?.suburb||d.address?.county||'';
     const country=d.address?.country||'';
     return city?`${city}, ${country}`:'Libreville, Gabon';
-  }catch(e){return 'Libreville, Gabon';}
+  }catch(e){return cityName||'Libreville, Gabon';}
 }
 
-function startGPS(){
+async function startGPS(){
   if(!navigator.geolocation){setGPSChip('error');return;}
+  if(navigator.permissions){
+    try{
+      const perm=await navigator.permissions.query({name:'geolocation'});
+      if(perm.state==='denied'){
+        setGPSChip('denied');
+        setText('d-loc-txt','\u26a0\ufe0f GPS refus\u00e9 \u2014 activez dans les param\u00e8tres');
+        setText('m-loc-txt','\u26a0\ufe0f GPS refus\u00e9 \u2014 activez dans les param\u00e8tres');
+        return;
+      }
+    }catch(e){}
+  }
   setGPSChip('loading');
-  navigator.geolocation.getCurrentPosition(onGPS,onGPSErr,{timeout:10000,enableHighAccuracy:true,maximumAge:0});
-  if(gpsWatchId!==null)navigator.geolocation.clearWatch(gpsWatchId);
-  gpsWatchId=navigator.geolocation.watchPosition(onGPS,onGPSErr,{enableHighAccuracy:true,maximumAge:15000,timeout:20000});
+  _bestAccuracy=Infinity;
+  if(gpsWatchId!==null){navigator.geolocation.clearWatch(gpsWatchId);gpsWatchId=null;}
+  if(_gpsRetryTimer){clearTimeout(_gpsRetryTimer);_gpsRetryTimer=null;}
+  navigator.geolocation.getCurrentPosition(onGPS,onGPSErr,{timeout:15000,enableHighAccuracy:true,maximumAge:0});
+  gpsWatchId=navigator.geolocation.watchPosition(onGPS,onGPSErr,{enableHighAccuracy:true,maximumAge:0,timeout:30000});
 }
 
 async function onGPS(p){
-  lat=p.coords.latitude; lng=p.coords.longitude;
-  const acc=p.coords.accuracy;
-  uMkD.setLatLng([lat,lng]);
-  uMkM.setLatLng([lat,lng]);
-  if(accCircleD){mapD.removeLayer(accCircleD);}
-  if(accCircleM){mapM.removeLayer(accCircleM);}
-  accCircleD=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapD);
-  accCircleM=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapM);
-  setGPSChip('active');
-  const city=await reverseGeocode(lat,lng);
-  cityName=city;
-  const locTxt=`📍 ${city}`;
-  setText('d-loc-txt',locTxt);
-  setText('m-loc-txt',locTxt);
-  setText('d-ploc',city);
-  setText('m-ploc',city);
-  setText('d-city-search',city);
-  setText('d-mw-zone',city.split(',')[0]);
-  const cl=document.getElementById('d-city-lbl');
-  if(cl)cl.textContent=city.split(',')[0];
-  // Mettre à jour la position dans Supabase si connecté et notif activées
-  updateSubscriptionPosition();
+  const newLat=p.coords.latitude,newLng=p.coords.longitude,acc=p.coords.accuracy;
+  const isFirstFix=(lat===0.3962&&lng===9.4558);
+  const maxAcc=isFirstFix?2000:800;
+  if(acc>maxAcc){console.warn('GPS: precision',Math.round(acc)+'m, max='+maxAcc);return;}
+  if(acc<_bestAccuracy||isFirstFix){
+    _bestAccuracy=acc;lat=newLat;lng=newLng;
+    uMkD.setLatLng([lat,lng]);uMkM.setLatLng([lat,lng]);
+    if(accCircleD){mapD.removeLayer(accCircleD);}
+    if(accCircleM){mapM.removeLayer(accCircleM);}
+    if(acc<300){
+      accCircleD=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapD);
+      accCircleM=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapM);
+    }
+    if(acc<=50)setGPSChip('active');
+    else if(acc<=150)setGPSChip('approx');
+    else setGPSChip('weak');
+  }
+  clearTimeout(_geocodeTimer);
+  _geocodeTimer=setTimeout(async()=>{
+    const city=await reverseGeocode(lat,lng);
+    cityName=city;
+    const locTxt=`\ud83d\udccd ${city}`;
+    setText('d-loc-txt',locTxt);setText('m-loc-txt',locTxt);
+    setText('d-ploc',city);setText('m-ploc',city);
+    setText('d-city-search',city);
+    setText('d-mw-zone',city.split(',')[0]);
+    const cl=document.getElementById('d-city-lbl');
+    if(cl)cl.textContent=city.split(',')[0];
+    updateSubscriptionPosition();
+  },800);
 }
 
 function onGPSErr(e){
-  console.warn('GPS:',e?.code,e?.message);
+  console.warn('GPS error:',e?.code,e?.message);
+  const msgs={1:'\u26a0\ufe0f GPS refus\u00e9 \u2014 activez dans les param\u00e8tres',2:'\ud83d\udccd Signal GPS faible \u2014 position approx.',3:'\ud83d\udccd GPS lent \u2014 nouvelle tentative...'};
+  const msg=msgs[e?.code]||'\ud83d\udccd Position approx.';
+  setText('d-loc-txt',msg);setText('m-loc-txt',msg);
+  if(e?.code===1){setGPSChip('denied');toast('📍 GPS désactivé','Activez la localisation dans Paramètres → Applications → VilleSûre','alert');return;}
   setGPSChip('error');
-  setText('d-loc-txt','📍 Libreville, Gabon (par défaut)');
-  setText('m-loc-txt','📍 Libreville, Gabon (par défaut)');
-  setTimeout(startGPS,8000);
+  const delay=e?.code===3?8000:15000;
+  _gpsRetryTimer=setTimeout(startGPS,delay);
 }
 
 function setGPSChip(state){
   const chip=document.getElementById('d-gps-chip');
   if(!chip)return;
   const states={
-    loading:{txt:'📍 Détection...',bg:'#FEF5E7',color:'#8B5A00'},
-    active:{txt:'📍 GPS actif',bg:'#dcfce7',color:'#16a34a'},
-    error:{txt:'📍 Position approx.',bg:'#FEF5E7',color:'#8B5A00'}
+    loading:{txt:'\ud83d\udccd D\u00e9tection GPS...',bg:'#FEF5E7',color:'#8B5A00'},
+    active:{txt:'\ud83d\udccd GPS pr\u00e9cis',bg:'#dcfce7',color:'#16a34a'},
+    approx:{txt:'\ud83d\udccd GPS actif',bg:'#dcfce7',color:'#16a34a'},
+    weak:{txt:'\ud83d\udccd Signal faible...',bg:'#FEF5E7',color:'#8B5A00'},
+    error:{txt:'\ud83d\udccd Position approx.',bg:'#FEF5E7',color:'#8B5A00'},
+    denied:{txt:'\ud83d\udccd GPS d\u00e9sactiv\u00e9',bg:'#FEF0F0',color:'#B52E2E'},
   };
   const s=states[state]||states.error;
   chip.textContent=s.txt;chip.style.background=s.bg;chip.style.color=s.color;
 }
 
 function centerOnMe(){
+  // Force GPS recalcul
+  startGPS();
   if(isMob())mapM.flyTo([lat,lng],16,{duration:1});
   else mapD.flyTo([lat,lng],16,{duration:1});
-  toast('📍 Centré','Carte centrée sur votre position','success');
+  toast('📍 GPS','Recalcul de votre position...','success');
 }
 
 // ── ONESIGNAL NOTIFICATIONS ──
@@ -914,19 +951,42 @@ function setConn(s){
   const mcd=document.getElementById('m-cd'); if(mcd)mcd.className='m-cd '+v.c;
 }
 setConn('cn');
-db.channel('vs-rt')
-  .on('postgres_changes',{event:'INSERT',schema:'public',table:'incidents'},p=>{
-    incidents.unshift(p.new);
-    allIncidents.unshift(p.new);
-    renderAll();
-    toast('🔔 Nouvel incident',`${p.new.type} — ${p.new.zone||'Libreville'}`,'alert');
-    (isMob()?mapM:mapD).flyTo([p.new.latitude,p.new.longitude],15,{duration:1.5});
-  })
-  .subscribe(s=>{
-    if(s==='SUBSCRIBED')setConn('on');
-    else if(s==='CLOSED'||s==='CHANNEL_ERROR')setConn('off');
-    else setConn('cn');
-  });
+let _rtChannel=null;
+let _rtRetryTimer=null;
+
+function connectRealtime(){
+  if(_rtChannel){
+    try{db.removeChannel(_rtChannel);}catch(e){}
+    _rtChannel=null;
+  }
+  if(_rtRetryTimer){clearTimeout(_rtRetryTimer);_rtRetryTimer=null;}
+  _rtChannel=db.channel('vs-rt-'+Date.now())
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'incidents'},p=>{
+      // Vérifier que l'incident n'est pas déjà dans la liste (évite doublons au reconnect)
+      if(!incidents.find(i=>i.id===p.new.id)){
+        incidents.unshift(p.new);
+        allIncidents.unshift(p.new);
+        renderAll();
+        toast('🔔 Nouvel incident',`${p.new.type} — ${p.new.zone||'Libreville'}`,'alert');
+        (isMob()?mapM:mapD).flyTo([p.new.latitude,p.new.longitude],15,{duration:1.5});
+      }
+    })
+    .subscribe(s=>{
+      if(s==='SUBSCRIBED'){
+        setConn('on');
+      } else if(s==='CLOSED'||s==='CHANNEL_ERROR'){
+        setConn('off');
+        // Reconnexion automatique après 5 secondes
+        _rtRetryTimer=setTimeout(()=>{
+          connectRealtime();
+          loadData(); // Recharger les données manquées pendant la déconnexion
+        },5000);
+      } else {
+        setConn('cn');
+      }
+    });
+}
+connectRealtime();
 
 // ── AUTH ──
 db.auth.onAuthStateChange(async(event,ses)=>{
@@ -1105,9 +1165,47 @@ function setPeriod2(el,d){
 
 // ── INIT ──
 initDark();
-startGPS();
+// Délai pour Android WebView (Median.co) qui a besoin d'un moment avant GPS
+if(/Android/i.test(navigator.userAgent)){setTimeout(startGPS,800);}else{startGPS();}
 loadData();
 refreshTimer=setInterval(loadData,60000);
+
+// ── GESTION RETOUR AU PREMIER PLAN (iOS PWA & Android) ──
+let _lastActiveTime=Date.now();
+
+// iOS PWA : pageshow se déclenche quand on revient sur l'app
+window.addEventListener('pageshow', e => {
+  // e.persisted = true signifie que la page vient du cache bfcache (retour iOS)
+  if(e.persisted || Date.now()-_lastActiveTime > 30000){
+    loadData();
+    connectRealtime();
+    startGPS();
+  }
+});
+
+// visibilitychange : fonctionne sur iOS Safari et Android
+document.addEventListener('visibilitychange', () => {
+  if(document.visibilityState === 'visible'){
+    const elapsed = Date.now() - _lastActiveTime;
+    // Si l'app était en arrière-plan depuis plus de 30s → rechargement
+    if(elapsed > 30000){
+      loadData();
+      connectRealtime();
+      startGPS();
+    }
+  } else {
+    _lastActiveTime = Date.now();
+  }
+});
+
+// focus : backup supplémentaire pour iOS
+window.addEventListener('focus', () => {
+  if(Date.now()-_lastActiveTime > 30000){
+    loadData();
+    connectRealtime();
+  }
+});
+
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
