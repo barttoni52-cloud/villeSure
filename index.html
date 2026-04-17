@@ -561,7 +561,7 @@ const db=window.supabase.createClient(SURL,SKEY);
 
 // ── STATE ──
 let user=null, incidents=[], allIncidents=[], days=7;
-let lat=0.3962, lng=9.4558, cityName='Libreville, Gabon';
+let lat=0.3962, lng=9.4558, cityName=null, _gpsReady=false;
 let currentType='Agression physique', photoD=null, photoM=null;
 let mD={}, mM={}, accCircleD=null, accCircleM=null;
 let gpsWatchId=null, refreshTimer=null;
@@ -583,19 +583,35 @@ const uMkM=L.marker([lat,lng],{icon:uIco,zIndexOffset:1000}).addTo(mapM);
 let _lastGeocodeCoords=null,_geocodeTimer=null,_gpsRetryTimer=null,_bestAccuracy=Infinity;
 
 async function reverseGeocode(la,ln){
-  if(_lastGeocodeCoords){
+  // Cache : ne re-géocoder que si on a bougé de plus de 200m (~0.002 degrés)
+  if(_lastGeocodeCoords && cityName){
     const dlat=Math.abs(la-_lastGeocodeCoords[0]),dlng=Math.abs(ln-_lastGeocodeCoords[1]);
-    if(dlat<0.0005&&dlng<0.0005)return cityName;
+    if(dlat<0.002&&dlng<0.002)return cityName;
   }
   _lastGeocodeCoords=[la,ln];
   try{
-    const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${la}&lon=${ln}&format=json&accept-language=fr`,{headers:{'Accept-Language':'fr','User-Agent':'VilleSure/1.0'}});
-    if(!r.ok)throw new Error('err');
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),8000);
+    const r=await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${la}&lon=${ln}&format=json&accept-language=fr`,
+      {headers:{'Accept-Language':'fr','User-Agent':'VilleSure/1.0'},signal:controller.signal}
+    );
+    clearTimeout(timeout);
+    if(!r.ok)throw new Error('HTTP '+r.status);
     const d=await r.json();
-    const city=d.address?.city||d.address?.town||d.address?.village||d.address?.suburb||d.address?.county||'';
+    // Priorité : quartier > ville > commune > département
+    const city=d.address?.suburb||d.address?.neighbourhood||d.address?.city||
+               d.address?.town||d.address?.village||d.address?.county||
+               d.address?.state||'';
     const country=d.address?.country||'';
-    return city?`${city}, ${country}`:'Libreville, Gabon';
-  }catch(e){return cityName||'Libreville, Gabon';}
+    if(!city)throw new Error('no city');
+    return `${city}, ${country}`;
+  }catch(e){
+    console.warn('reverseGeocode failed:',e.message);
+    // Ne JAMAIS retourner Libreville par défaut — utiliser les coords brutes
+    if(cityName)return cityName;
+    return `${la.toFixed(4)}, ${ln.toFixed(4)}`;
+  }
 }
 
 async function startGPS(){
@@ -633,6 +649,7 @@ async function onGPS(p){
       accCircleD=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapD);
       accCircleM=L.circle([lat,lng],{radius:acc,color:'#1B6FC8',fillColor:'#1B6FC8',fillOpacity:.08,weight:1,dashArray:'4'}).addTo(mapM);
     }
+    _gpsReady=true;
     if(acc<=50)setGPSChip('active');
     else if(acc<=150)setGPSChip('approx');
     else setGPSChip('weak');
@@ -1037,7 +1054,7 @@ function updateAuthUI(){
   const isLoggedIn=!!user;
   const isAnon=user?.is_anonymous;
   const name=user?.email||(isAnon?'Utilisateur anonyme':'Non connecté');
-  const sub=isAnon?'Mode anonyme · Libreville':(isLoggedIn?`Membre · ${cityName.split(',')[0]}`:'Connectez-vous pour plus de fonctionnalités');
+  const sub=isAnon?'Mode anonyme':(isLoggedIn?`Membre · ${(cityName||'').split(',')[0]||'Libreville'}`:'Connectez-vous pour plus de fonctionnalités');
   setText('d-pname',name); setText('m-pname',name);
   setText('d-psub',sub); setText('m-psub',sub);
   setText('d-auth-lbl',isLoggedIn?'Mon profil':'Connexion');
@@ -1123,10 +1140,21 @@ function handlePhotoM(inp){if(inp.files[0]){photoM=inp.files[0];document.getElem
 
 // ── SUBMIT ──
 async function doSubmit(desc,age,isAnon,photo,btnEl){
-  if(!lat||!lng){lat=0.3962;lng=9.4558;}
+  // Vérifier que le GPS est prêt
+  if(!_gpsReady || (lat===0.3962&&lng===9.4558)){
+    toast('📍 GPS non prêt','Appuyez sur 🎯 et attendez "GPS précis" avant de signaler','alert');
+    return;
+  }
   const origHTML=btnEl.innerHTML;
-  btnEl.disabled=true; btnEl.innerHTML='⏳ Envoi en cours...';
+  btnEl.disabled=true; btnEl.innerHTML='⏳ Localisation...';
   try{
+    // TOUJOURS re-géocoder juste avant l'envoi pour avoir la ville exacte
+    const freshZone=await reverseGeocode(lat,lng);
+    cityName=freshZone;
+    // Mettre à jour l'affichage
+    setText('d-loc-txt','📍 '+freshZone);
+    setText('m-loc-txt','📍 '+freshZone);
+    btnEl.innerHTML='⏳ Envoi en cours...';
     let photoUrl=null;
     if(photo){
       const fn=`${Date.now()}_${photo.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;
@@ -1136,7 +1164,7 @@ async function doSubmit(desc,age,isAnon,photo,btnEl){
     const{error}=await db.from('incidents').insert({
       type:currentType, description:desc||null,
       latitude:lat, longitude:lng,
-      zone:cityName||'Libreville, Gabon',
+      zone:freshZone,
       photo_url:photoUrl,
       user_age:age?parseInt(age):null,
       is_anonymous:isAnon,
